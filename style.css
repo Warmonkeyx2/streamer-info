@@ -56,8 +56,10 @@ body {
 }
 
 .info-card.show {
+  display: flex;
   opacity: 1;
   transform: translateY(0);
+  pointer-events: auto;  /* ✅ re-enable when visible */
 }
 
 .info-card img {
