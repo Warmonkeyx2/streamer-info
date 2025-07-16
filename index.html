@@ -109,31 +109,28 @@
       </div>
 
       <!-- SETTINGS TAB -->
-      </div>
-
-<!-- SETTINGS TAB -->
 <div class="tab-content" id="settingsTab" style="display: none;">
   <h3>Settings</h3>
   <p>Customize your streamer panel colors below:</p>
-
   <button class="color-button" onclick="toggleColorPicker()">Change Color</button>
   <input type="color" id="colorPicker" style="display: none; margin-top: 10px;" onchange="updateThemeColor(this.value)" />
 
-  <hr style="width: 100%; margin: 16px 0; border-color: #444;" />
+  <hr style="margin: 16px 0; width: 100%;" />
 
-  <label for="streamerNameInput" style="color: #ccc;">Streamer Name:</label>
-  <input type="text" id="streamerNameInput" placeholder="Enter new name..." style="margin-bottom: 8px; padding: 6px; border-radius: 8px; width: 100%;" />
+  <label for="streamerNameInput" style="color: white;">Streamer Name:</label>
+  <input type="text" id="streamerNameInput" placeholder="Enter new name..." style="margin-bottom: 10px; padding: 6px; border-radius: 6px; border: none; width: 100%;" />
 
-  <label for="streamerBioInput" style="color: #ccc;">Streamer Bio:</label>
-  <textarea id="streamerBioInput" placeholder="Enter bio..." style="padding: 6px; border-radius: 8px; width: 100%; height: 80px; resize: vertical;"></textarea>
+  <label for="streamerBioInput" style="color: white;">Streamer Bio:</label>
+  <textarea id="streamerBioInput" rows="4" placeholder="Enter bio..." style="margin-bottom: 10px; padding: 6px; border-radius: 6px; border: none; width: 100%; resize: vertical;"></textarea>
 
   <button class="color-button" onclick="updateStreamerInfo()">Save Changes</button>
 
-  <hr style="width: 100%; margin: 16px 0; border-color: #444;" />
+  <hr style="margin: 16px 0; width: 100%;" />
 
-  <label for="profileImageInput" style="color: #ccc;">Update Profile Image:</label>
-  <input type="file" id="profileImageInput" accept="image/*" style="margin-top: 6px;" onchange="updateProfileImage(event)" />
+  <label for="profileImageInput" style="color: white;">Update Profile Image:</label>
+  <input type="file" id="profileImageInput" accept="image/*" onchange="updateProfileImage(event)" />
 </div>
+
 
 
     </div>
