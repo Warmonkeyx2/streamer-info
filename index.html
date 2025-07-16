@@ -5,42 +5,69 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Streamer Info</title>
   <link rel="stylesheet" href="style.css" />
+  <script defer>
+    function toggleCard() {
+      const card = document.getElementById("infoCard");
+      card.style.display = card.style.display === "flex" ? "none" : "flex";
+    }
+
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.style.display = "none";
+      });
+      document.getElementById(tabId).style.display = "flex";
+    }
+
+    // Default tab on load
+    window.onload = () => {
+      showTab('homeTab');
+    };
+  </script>
 </head>
 <body>
   <div class="info-bubble">
     <div class="info-button" onclick="toggleCard()">i</div>
 
     <div class="info-card" id="infoCard">
-<nav class="top-nav internal-nav">
-  <button onclick="showTab('homeTab')">HOME</button>
-  <button onclick="showTab('serversTab')">SERVERS</button>
-</nav>
+      <nav class="top-nav internal-nav">
+        <button onclick="showTab('homeTab')">HOME</button>
+        <button onclick="showTab('serversTab')">SERVERS</button>
+      </nav>
 
-<div class="tab-content" id="homeTab">
-  <img src="assets/profile.png" alt="Profile" />
-  <h3>WARMONKEYX</h3>
-  <p>
-    Lore-heavy chaos with the Hobogang. Come watch explosions, rituals,
-    and the Church of Dale.
-  </p>
-  <div class="streamer-links">
-    <a href="https://twitch.tv/warmonkeyx" target="_blank">Twitch</a>
-    <a href="https://youtube.com/@warmonkeyx" target="_blank">YouTube</a>
-    <a href="https://kick.com/warmonkeyx" target="_blank">Kick</a>
-    <a href="https://discord.gg/ANvfmFFwUS" target="_blank">Discord</a>
-  </div>
-</div>
+      <!-- HOME TAB -->
+      <div class="tab-content" id="homeTab">
+        <img src="assets/profile.png" alt="Profile" />
+        <h3>WARMONKEYX</h3>
+        <p>
+          Witness the madness unfold under the freeway. From explosive dumpster deals and sketchy science experiments to mysterious rituals beneath the full moon — WarmonkeyX delivers raw, unscripted RP that blends chaos with character-driven lore. Whether it's founding the Church of Dale, decoding secret transmissions, or lighting up the city with pure anarchy, the Hobogang brings fire to every frame.
+If you crave unpredictable storylines, gritty humor, and explosive moments, this is your new religion.
+        </p>
+        <div class="streamer-links">
+          <a href="https://twitch.tv/warmonkeyx" target="_blank">Twitch</a>
+          <a href="https://youtube.com/@warmonkeyx" target="_blank">YouTube</a>
+          <a href="https://kick.com/warmonkeyx" target="_blank">Kick</a>
+          <a href="https://discord.gg/ANvfmFFwUS" target="_blank">Discord</a>
+        </div>
+      </div>
 
-<div class="tab-content" id="serversTab" style="display: none;">
-  <h3>Servers</h3>
-  <p>Check out the servers we love:</p>
-  <div class="server-entry">
-    <img src="assets/serverlogo.png" alt="Server Logo" />
-    <a href="https://example.com" target="_blank">Server Website</a>
-  </div>
-</div>
-  </div>
+      <!-- SERVERS TAB -->
+      <div class="tab-content" id="serversTab" style="display: none;">
+        <h3>Servers</h3>
+        <p>Check out the servers we love:</p>
 
-  <script src="script.js"></script>
+        <!-- PRODIGY RP -->
+        <div class="server-entry">
+          <img src="assets/server1-logo.png" alt="PRODIGY RP Logo" />
+          <a href="https://prodigyrp.net/" target="_blank">PRODIGY RP Website</a>
+        </div>
+
+        <!-- FREE2 RP -->
+        <div class="server-entry">
+          <img src="assets/server2-logo.png" alt="FREE2 RP Logo" />
+          <a href="https://free2rp.com/" target="_blank">FREE2 RP Website</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
