@@ -223,3 +223,17 @@ body {
   transform: scale(1.05);
   color: var(--accent-color, #00f0ff);
 }
+
+.link-setting {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+.link-setting input[type="url"] {
+  margin-top: 4px;
+  padding: 6px;
+  border-radius: 6px;
+  border: none;
+  width: 100%;
+}
