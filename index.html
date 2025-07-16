@@ -129,6 +129,41 @@
 
   <label for="profileImageInput" style="color: white;">Update Profile Image:</label>
   <input type="file" id="profileImageInput" accept="image/*" onchange="updateProfileImage(event)" />
+
+<hr style="margin: 16px 0; width: 100%;" />
+<h4 style="color: white;">Streamer Links</h4>
+<p style="color: #ccc;">Choose which buttons to show and edit their links:</p>
+
+<div id="linkSettings">
+  <div class="link-setting">
+    <input type="checkbox" id="twitchCheck" checked onchange="updateStreamerLinks()" />
+    <label for="twitchCheck">Twitch</label>
+    <input type="url" id="twitchURL" placeholder="https://twitch.tv/yourname" value="https://twitch.tv/warmonkeyx" onchange="updateStreamerLinks()" />
+  </div>
+  <div class="link-setting">
+    <input type="checkbox" id="youtubeCheck" checked onchange="updateStreamerLinks()" />
+    <label for="youtubeCheck">YouTube</label>
+    <input type="url" id="youtubeURL" placeholder="https://youtube.com/@yourname" value="https://youtube.com/@warmonkeyx" onchange="updateStreamerLinks()" />
+  </div>
+  <div class="link-setting">
+    <input type="checkbox" id="kickCheck" checked onchange="updateStreamerLinks()" />
+    <label for="kickCheck">Kick</label>
+    <input type="url" id="kickURL" placeholder="https://kick.com/yourname" value="https://kick.com/warmonkeyx" onchange="updateStreamerLinks()" />
+  </div>
+  <div class="link-setting">
+    <input type="checkbox" id="discordCheck" checked onchange="updateStreamerLinks()" />
+    <label for="discordCheck">Discord</label>
+    <input type="url" id="discordURL" placeholder="https://discord.gg/yourcode" value="https://discord.gg/ANvfmFFwUS" onchange="updateStreamerLinks()" />
+  </div>
+  <div class="link-setting">
+    <input type="checkbox" id="tiktokCheck" checked onchange="updateStreamerLinks()" />
+    <label for="tiktokCheck">TikTok</label>
+    <input type="url" id="tiktokURL" placeholder="https://tiktok.com/@yourname" value="https://tiktok.com/@warmonkeyx" onchange="updateStreamerLinks()" />
+  </div>
+  <div class="link-setting">
+    <input type="checkbox" id="donateCheck" checked onchange="updateStreamerLinks()" />
+    <label for="donateCheck">Donate</label>
+    <input type="url" id="donateURL" placeholder="https://streamelements.com/yourname/tip" value="https://streamelements.com/warmonkeyx/tip" onchange="updateStreamerLinks()" />
 </div>
 
 
