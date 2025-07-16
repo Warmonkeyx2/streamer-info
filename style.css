@@ -42,12 +42,19 @@ body {
   border: 2px solid transparent;
   background-clip: padding-box;
   backdrop-filter: blur(10px); /* Glass effect */
-  transition: all 0.3s ease-in-out;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .info-card:hover {
   transform: scale(1.02); /* Slight pop */
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.75);
   border-image: linear-gradient(145deg, #00f0ff, #ff00d4) 1;
+}
+
+.info-card.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .info-card img {
