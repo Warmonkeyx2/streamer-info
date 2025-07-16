@@ -114,27 +114,27 @@
 <!-- SETTINGS TAB -->
 <div class="tab-content" id="settingsTab" style="display: none;">
   <h3>Settings</h3>
-
   <p>Customize your streamer panel colors below:</p>
+
   <button class="color-button" onclick="toggleColorPicker()">Change Color</button>
   <input type="color" id="colorPicker" style="display: none; margin-top: 10px;" onchange="updateThemeColor(this.value)" />
 
-  <hr style="margin: 20px 0; width: 100%; border: 1px solid #444;" />
+  <hr style="width: 100%; margin: 16px 0; border-color: #444;" />
 
-  <label for="streamerNameInput">Streamer Name:</label>
-  <input type="text" id="streamerNameInput" placeholder="Enter new name..." />
+  <label for="streamerNameInput" style="color: #ccc;">Streamer Name:</label>
+  <input type="text" id="streamerNameInput" placeholder="Enter new name..." style="margin-bottom: 8px; padding: 6px; border-radius: 8px; width: 100%;" />
 
-  <label for="streamerBioInput" style="margin-top: 12px;">Streamer Bio:</label>
-  <textarea id="streamerBioInput" rows="4" placeholder="Enter bio..."></textarea>
+  <label for="streamerBioInput" style="color: #ccc;">Streamer Bio:</label>
+  <textarea id="streamerBioInput" placeholder="Enter bio..." style="padding: 6px; border-radius: 8px; width: 100%; height: 80px; resize: vertical;"></textarea>
 
-  <button class="color-button" style="margin-top: 12px;" onclick="updateStreamerInfo()">Save Changes</button>
+  <button class="color-button" onclick="updateStreamerInfo()">Save Changes</button>
 
-  <hr style="margin: 20px 0; width: 100%; border: 1px solid #444;" />
+  <hr style="width: 100%; margin: 16px 0; border-color: #444;" />
 
-  <label for="profileImageInput">Update Profile Image:</label>
-  <input type="file" id="profileImageInput" accept="image/*" />
-  <img id="previewProfileImage" src="assets/profile.png" alt="Preview" style="width: 100px; margin-top: 10px; border-radius: 10px;" />
+  <label for="profileImageInput" style="color: #ccc;">Update Profile Image:</label>
+  <input type="file" id="profileImageInput" accept="image/*" style="margin-top: 6px;" onchange="updateProfileImage(event)" />
 </div>
+
 
     </div>
   </div>
