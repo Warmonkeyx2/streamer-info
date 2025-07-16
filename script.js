@@ -1,17 +1,8 @@
 function toggleCard() {
   const card = document.getElementById("infoCard");
-
-  if (card.classList.contains("show")) {
-    // Close card
-    card.classList.remove("show");
-    setTimeout(() => {
-      card.style.display = "none";
-    }, 300);
+  if (card.style.display === "flex") {
+    card.style.display = "none";
   } else {
-    // Open card
     card.style.display = "flex";
-    setTimeout(() => {
-      card.classList.add("show");
-    }, 10);
   }
 }
