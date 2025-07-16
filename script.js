@@ -1,5 +1,17 @@
 function toggleCard() {
   const card = document.getElementById("infoCard");
-  card.classList.toggle("show");
-  card.style.display = card.classList.contains("show") ? "flex" : "none";
+
+  if (card.classList.contains("show")) {
+    // Close card
+    card.classList.remove("show");
+    setTimeout(() => {
+      card.style.display = "none";
+    }, 300);
+  } else {
+    // Open card
+    card.style.display = "flex";
+    setTimeout(() => {
+      card.classList.add("show");
+    }, 10);
+  }
 }
