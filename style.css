@@ -6,6 +6,8 @@ body {
 
 :root {
   --accent-color: #00f0ff;
+  --gradient-start: #00f0ff;
+  --gradient-end: #ff00d4;
 }
 
 .info-bubble {
@@ -88,8 +90,8 @@ body {
   color: white;
   font-size: 12px;
   background:
-  linear-gradient(#121212, #121212) padding-box,
-  linear-gradient(to right, var(--accent-color), #ff00d4) border-box;
+    linear-gradient(#121212, #121212) padding-box,
+    linear-gradient(to right, var(--accent-color), var(--gradient-end)) border-box;
   border: 2px solid transparent;
   background-clip: padding-box, border-box;
   transition: transform 0.3s ease;
@@ -99,7 +101,7 @@ body {
 .internal-nav a:hover,
 .internal-nav button:hover {
   transform: scale(1.1);
-  color: var(--gradient-start);
+  color: var(--gradient-start, #00f0ff);
 }
 
 .streamer-links a {
@@ -110,8 +112,8 @@ body {
   color: white;
   border-radius: 999px;
   background:
-  linear-gradient(#121212, #121212) padding-box,
-  linear-gradient(to right, var(--accent-color), #ff00d4) border-box;
+    linear-gradient(#121212, #121212) padding-box,
+    linear-gradient(to right, var(--accent-color), var(--gradient-end)) border-box;
   border: 2px solid transparent;
   background-clip: padding-box, border-box;
   transition: transform 0.3s;
@@ -119,7 +121,7 @@ body {
 
 .streamer-links a:hover {
   transform: scale(1.1);
-  color: var(--gradient-start);
+  color: var(--gradient-start, #00f0ff);
 }
 
 .tab-content {
@@ -149,8 +151,8 @@ body {
   font-weight: bold;
   color: white;
   background:
-  linear-gradient(#121212, #121212) padding-box,
-  linear-gradient(to right, var(--accent-color), #ff00d4) border-box;
+    linear-gradient(#121212, #121212) padding-box,
+    linear-gradient(to right, var(--accent-color), var(--gradient-end)) border-box;
   border: 2px solid transparent;
   background-clip: padding-box, border-box;
   transition: transform 0.3s ease;
@@ -158,10 +160,10 @@ body {
 
 .server-entry a:hover {
   transform: scale(1.05);
-  color: var(--gradient-start);
+  color: var(--gradient-start, #00f0ff);
 }
 
-.settings-gear {
+.settings-icon {
   position: absolute;
   top: -10px;
   right: -10px;
@@ -219,5 +221,5 @@ body {
 
 .color-button:hover {
   transform: scale(1.05);
-  color: var(--accent-color);
+  color: var(--accent-color, #00f0ff);
 }
