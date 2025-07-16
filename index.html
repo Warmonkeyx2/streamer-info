@@ -6,52 +6,44 @@
   <title>Streamer Info</title>
   <link rel="stylesheet" href="style.css" />
   <script defer>
-    function toggleCard() {
-      const card = document.getElementById("infoCard");
-      card.style.display = card.style.display === "flex" ? "none" : "flex";
+  function toggleCard() {
+    const card = document.getElementById("infoCard");
+    card.style.display = card.style.display === "flex" ? "none" : "flex";
+  }
+
+  function showTab(tabId) {
+    const tabs = document.querySelectorAll('.tab-content');
+    tabs.forEach(tab => tab.style.display = 'none');
+    document.getElementById(tabId).style.display = 'flex';
+  }
+
+  function toggleColorPicker() {
+    const picker = document.getElementById("colorPicker");
+    picker.style.display = picker.style.display === "block" ? "none" : "block";
+  }
+
+  function updateThemeColor(hexColor) {
+    document.documentElement.style.setProperty('--accent-color', hexColor);
+  }
+
+  // 🔄 Update streamer name and bio live
+  function updateStreamerInfo() {
+    const name = document.getElementById('streamerNameInput').value;
+    const bio = document.getElementById('streamerBioInput').value;
+
+    if (name) {
+      document.querySelector('#homeTab h3').textContent = name;
     }
 
-    function showTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.style.display = "none";
-      });
-      const target = document.getElementById(tabId);
-      if (target) target.style.display = "flex";
+    if (bio) {
+      document.querySelector('#homeTab p').innerHTML = bio.replace(/\n/g, '<br>');
     }
+  }
 
-    function toggleColorPicker() {
-      const picker = document.getElementById("colorPicker");
-      picker.style.display = picker.style.display === "none" ? "block" : "none";
-    }
-
-    function updateThemeColor(color) {
-      const buttons = document.querySelectorAll(
-        '.streamer-links a, .internal-nav a, .internal-nav button, .server-entry a, .color-button'
-      );
-      buttons.forEach(btn => {
-        btn.style.backgroundImage = `linear-gradient(#121212, #121212), linear-gradient(to right, ${color}, ${color})`;
-      });
-    }
-
-    window.onload = () => {
-      showTab('homeTab');
-    };
-
-    document.getElementById('profileImageInput').addEventListener('change', function (e) {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (event) {
-        const newSrc = event.target.result;
-
-        // Update the preview and the image in HOME tab
-        document.getElementById('previewProfileImage').src = newSrc;
-        document.querySelector('#homeTab img').src = newSrc;
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-  </script>
+  window.onload = () => {
+    showTab('homeTab');
+  };
+</script>
 </head>
 <body>
   <div class="info-bubble">
