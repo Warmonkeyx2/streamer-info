@@ -64,7 +64,10 @@ body {
 }
 
 .info-card h3 {
-  margin: 5px 0;
+  text-align: center;
+  font-weight: bold;
+  margin: 10px 0;
+  font-size: 20px;
 }
 
 .streamer-links a {
