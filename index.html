@@ -9,16 +9,31 @@
     .link-setting {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      margin-bottom: 10px;
+      gap: 4px;
+      margin-bottom: 8px;
+      font-size: 13px;
       color: white;
     }
     .link-setting input[type="url"] {
-      padding: 6px 10px;
+      padding: 4px 8px;
       border-radius: 6px;
       border: 1px solid #444;
       background-color: #1c1c1c;
       color: white;
+      font-size: 13px;
+    }
+    #linkSettings {
+      max-height: 150px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent-color) transparent;
+    }
+    #linkSettings::-webkit-scrollbar {
+      width: 6px;
+    }
+    #linkSettings::-webkit-scrollbar-thumb {
+      background-color: var(--accent-color);
+      border-radius: 10px;
     }
   </style>
   <script defer>
@@ -106,122 +121,6 @@
   </script>
 </head>
 <body>
-  <div class="info-bubble">
-    <div class="info-button" onclick="toggleCard()">i</div>
-    <div class="info-card" id="infoCard">
-      <nav class="top-nav internal-nav">
-        <button onclick="showTab('homeTab')">HOME</button>
-        <button onclick="showTab('serversTab')">SERVERS</button>
-        <div class="settings-icon" onclick="showTab('settingsTab')">⚙️</div>
-      </nav>
-
-      <div class="tab-content" id="homeTab">
-        <img src="assets/profile.png" alt="Profile" />
-        <h3>WARMONKEYX</h3>
-        <p>
-          Witness the madness unfold under the freeway. From explosive dumpster deals and sketchy science experiments to mysterious rituals beneath the full moon — WarmonkeyX delivers raw, unscripted RP that blends chaos with character-driven lore.
-          <br><br>
-          If you crave unpredictable storylines, gritty humor, and explosive moments, this is your new religion.
-        </p>
-        <div class="streamer-links">
-          <a href="https://twitch.tv/warmonkeyx" target="_blank">Twitch</a>
-          <a href="https://youtube.com/@warmonkeyx" target="_blank">YouTube</a>
-          <a href="https://kick.com/warmonkeyx" target="_blank">Kick</a>
-          <a href="https://discord.gg/ANvfmFFwUS" target="_blank">Discord</a>
-          <a href="https://www.tiktok.com/@warmonkeyx" target="_blank">TikTok</a>
-          <a href="https://streamelements.com/warmonkeyx/tip" target="_blank">Donate</a>
-        </div>
-      </div>
-
-      <div class="tab-content" id="serversTab" style="display: none;">
-        <h3>Servers</h3>
-        <p>Select your server type:</p>
-        <div class="internal-nav">
-          <button onclick="showTab('gtaTab')">GTA RP</button>
-          <button onclick="showTab('redmTab')">RedM RP</button>
-        </div>
-      </div>
-
-      <div class="tab-content" id="gtaTab" style="display: none;">
-        <h3>GTA RP Servers</h3>
-        <div class="server-entry">
-          <img src="assets/server1-logo.png" alt="PRODIGY RP Logo" />
-          <a href="https://prodigyrp.net/" target="_blank">PRODIGY RP</a>
-        </div>
-        <div class="server-entry">
-          <img src="assets/server2-logo.png" alt="FREE2 RP Logo" />
-          <a href="https://free2rp.com/" target="_blank">FREE2 RP</a>
-        </div>
-      </div>
-
-      <div class="tab-content" id="redmTab" style="display: none;">
-        <h3>RedM RP Servers</h3>
-        <div class="server-entry">
-          <img src="assets/rserver1-logo.png" alt="Redemption RP Logo" />
-          <a href="https://discord.gg/2BaubsMfX4" target="_blank">Redemption RP</a>
-        </div>
-      </div>
-
-      <div class="tab-content" id="settingsTab" style="display: none;">
-        <h3>Settings</h3>
-        <p>Customize your streamer panel colors below:</p>
-        <button class="color-button" onclick="toggleColorPicker()">Change Color</button>
-        <input type="color" id="colorPicker" style="display: none; margin-top: 10px;" onchange="updateThemeColor(this.value)" />
-
-        <hr style="margin: 16px 0; width: 100%;" />
-
-        <label for="streamerNameInput" style="color: white;">Streamer Name:</label>
-        <input type="text" id="streamerNameInput" placeholder="Enter new name..." style="margin-bottom: 10px; padding: 6px; border-radius: 6px; border: none; width: 100%;" />
-
-        <label for="streamerBioInput" style="color: white;">Streamer Bio:</label>
-        <textarea id="streamerBioInput" rows="4" placeholder="Enter bio..." style="margin-bottom: 10px; padding: 6px; border-radius: 6px; border: none; width: 100%; resize: vertical;"></textarea>
-
-        <button class="color-button" onclick="updateStreamerInfo()">Save Changes</button>
-
-        <hr style="margin: 16px 0; width: 100%;" />
-
-        <label for="profileImageInput" style="color: white;">Update Profile Image:</label>
-        <input type="file" id="profileImageInput" accept="image/*" onchange="updateProfileImage(event)" />
-
-        <hr style="margin: 16px 0; width: 100%;" />
-
-        <h4 style="color: white;">Streamer Links</h4>
-        <p style="color: #ccc;">Choose which buttons to show and edit their links:</p>
-
-        <div id="linkSettings">
-          <div class="link-setting">
-            <input type="checkbox" id="twitchCheck" checked onchange="updateStreamerLinks()" />
-            <label for="twitchCheck">Twitch</label>
-            <input type="url" id="twitchURL" placeholder="https://twitch.tv/yourname" value="https://twitch.tv/warmonkeyx" onchange="updateStreamerLinks()" />
-          </div>
-          <div class="link-setting">
-            <input type="checkbox" id="youtubeCheck" checked onchange="updateStreamerLinks()" />
-            <label for="youtubeCheck">YouTube</label>
-            <input type="url" id="youtubeURL" placeholder="https://youtube.com/@yourname" value="https://youtube.com/@warmonkeyx" onchange="updateStreamerLinks()" />
-          </div>
-          <div class="link-setting">
-            <input type="checkbox" id="kickCheck" checked onchange="updateStreamerLinks()" />
-            <label for="kickCheck">Kick</label>
-            <input type="url" id="kickURL" placeholder="https://kick.com/yourname" value="https://kick.com/warmonkeyx" onchange="updateStreamerLinks()" />
-          </div>
-          <div class="link-setting">
-            <input type="checkbox" id="discordCheck" checked onchange="updateStreamerLinks()" />
-            <label for="discordCheck">Discord</label>
-            <input type="url" id="discordURL" placeholder="https://discord.gg/yourcode" value="https://discord.gg/ANvfmFFwUS" onchange="updateStreamerLinks()" />
-          </div>
-          <div class="link-setting">
-            <input type="checkbox" id="tiktokCheck" checked onchange="updateStreamerLinks()" />
-            <label for="tiktokCheck">TikTok</label>
-            <input type="url" id="tiktokURL" placeholder="https://tiktok.com/@yourname" value="https://tiktok.com/@warmonkeyx" onchange="updateStreamerLinks()" />
-          </div>
-          <div class="link-setting">
-            <input type="checkbox" id="donateCheck" checked onchange="updateStreamerLinks()" />
-            <label for="donateCheck">Donate</label>
-            <input type="url" id="donateURL" placeholder="https://streamelements.com/yourname/tip" value="https://streamelements.com/warmonkeyx/tip" onchange="updateStreamerLinks()" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Your unchanged HTML content stays here (everything inside <body>) -->
 </body>
 </html>
