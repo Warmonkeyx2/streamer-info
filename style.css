@@ -75,7 +75,7 @@ body {
   font-weight: bold;
 
   /* Required for gradient border effect */
-  background: linear-gradient(90deg, yellow,);
+  background: linear-gradient(90deg, yellow);
   position: relative;
   z-index: 1;
 }
