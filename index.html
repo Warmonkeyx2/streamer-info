@@ -86,7 +86,15 @@
           <a href="https://discord.gg/2BaubsMfX4" target="_blank">Redemption RP</a>
         </div>
       </div>
+         <!-- SETTINGS TAB -->
+      <div class="tab-content" id="settingsTab" style="display: none;">
+  <h3>Settings</h3>
+  <p>Customize your streamer panel colors below:</p>
 
+  <button class="color-button" onclick="toggleColorPicker()">Change Color</button>
+
+  <input type="color" id="colorPicker" style="display: none; margin-top: 10px;" onchange="updateThemeColor(this.value)" />
+</div>
     </div>
   </div>
 </body>
