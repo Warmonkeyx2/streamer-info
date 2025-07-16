@@ -44,7 +44,10 @@ body {
   border: 2px solid transparent;
   background-clip: padding-box;
   backdrop-filter: blur(10px);
-  transition: all 0.3s ease-in-out;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
 }
 .info-card:hover {
   transform: scale(1.02); /* Slight pop */
