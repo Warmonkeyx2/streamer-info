@@ -71,10 +71,14 @@ body {
   padding: 8px 16px;
   color: #00f0ff;
   text-decoration: none;
-  border-radius: 999px; /* Rounded pill look */
+  border-radius: 999px;
   border: 2px solid transparent;
-  background:
-    linear-gradient(#121212, #121212) padding-box,
-    linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet) border-box;
+  background-image:
+    linear-gradient(#121212, #121212),
+    linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  box-decoration-break: clone;
   transition: all 0.3s ease;
 }
+
