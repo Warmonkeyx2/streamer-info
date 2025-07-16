@@ -19,6 +19,20 @@
       if (target) target.style.display = "flex";
     }
 
+    function toggleColorPicker() {
+      const picker = document.getElementById("colorPicker");
+      picker.style.display = picker.style.display === "none" ? "block" : "none";
+    }
+
+    function updateThemeColor(color) {
+      const buttons = document.querySelectorAll(
+        '.streamer-links a, .internal-nav a, .internal-nav button, .server-entry a, .color-button'
+      );
+      buttons.forEach(btn => {
+        btn.style.backgroundImage = `linear-gradient(#121212, #121212), linear-gradient(to right, ${color}, ${color})`;
+      });
+    }
+
     window.onload = () => {
       showTab('homeTab');
     };
@@ -46,12 +60,12 @@
           If you crave unpredictable storylines, gritty humor, and explosive moments, this is your new religion.
         </p>
         <div class="streamer-links">
-            <a href="https://twitch.tv/warmonkeyx" target="_blank">Twitch</a>
-            <a href="https://youtube.com/@warmonkeyx" target="_blank">YouTube</a>
-            <a href="https://kick.com/warmonkeyx" target="_blank">Kick</a>
-            <a href="https://discord.gg/ANvfmFFwUS" target="_blank">Discord</a>
-            <a href="https://www.tiktok.com/@warmonkeyx" target="_blank">TikTok</a>
-            <a href="https://streamelements.com/warmonkeyx/tip" target="_blank">Donate</a>
+          <a href="https://twitch.tv/warmonkeyx" target="_blank">Twitch</a>
+          <a href="https://youtube.com/@warmonkeyx" target="_blank">YouTube</a>
+          <a href="https://kick.com/warmonkeyx" target="_blank">Kick</a>
+          <a href="https://discord.gg/ANvfmFFwUS" target="_blank">Discord</a>
+          <a href="https://www.tiktok.com/@warmonkeyx" target="_blank">TikTok</a>
+          <a href="https://streamelements.com/warmonkeyx/tip" target="_blank">Donate</a>
         </div>
       </div>
 
@@ -86,15 +100,14 @@
           <a href="https://discord.gg/2BaubsMfX4" target="_blank">Redemption RP</a>
         </div>
       </div>
-         <!-- SETTINGS TAB -->
+
+      <!-- SETTINGS TAB -->
       <div class="tab-content" id="settingsTab" style="display: none;">
-  <h3>Settings</h3>
-  <p>Customize your streamer panel colors below:</p>
-
-  <button class="color-button" onclick="toggleColorPicker()">Change Color</button>
-
-  <input type="color" id="colorPicker" style="display: none; margin-top: 10px;" onchange="updateThemeColor(this.value)" />
-</div>
+        <h3>Settings</h3>
+        <p>Customize your streamer panel colors below:</p>
+        <button class="color-button" onclick="toggleColorPicker()">Change Color</button>
+        <input type="color" id="colorPicker" style="display: none; margin-top: 10px;" onchange="updateThemeColor(this.value)" />
+      </div>
     </div>
   </div>
 </body>
