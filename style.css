@@ -44,6 +44,7 @@ body {
   border: 2px solid transparent;
   background-clip: padding-box;
   backdrop-filter: blur(10px);
+  opacity: 1;
 }
 
 .info-card:hover {
@@ -65,33 +66,7 @@ body {
   font-size: 20px;
 }
 
-.streamer-links a {
-  display: inline-block;
-  margin: 8px 0;
-  padding: 10px 20px;
-  color: white;
-  text-decoration: none;
-  border-radius: 999px;
-  font-weight: bold;
-
-  /* Required for gradient border effect */
-  background: linear-gradient(90deg, yellow);
-  position: relative;
-  z-index: 1;
-}
-
-.streamer-links a::before {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  right: 2px;
-  bottom: 2px;
-  background-color: #121212;
-  border-radius: 999px;
-  z-index: -1;
-}
-/* 🌈 Inside pop-out nav buttons */
+/* 🎨 Internal Nav */
 .internal-nav {
   width: 100%;
   display: flex;
@@ -120,4 +95,22 @@ body {
   color: #00f0ff;
 }
 
+.streamer-links a {
+  display: inline-block;
+  margin: 6px 6px;
+  padding: 6px 14px;
+  text-decoration: none;
+  color: white;
+  border-radius: 999px;
+  background:
+    linear-gradient(#121212, #121212) padding-box,
+    linear-gradient(to right, #00f0ff, #ff00d4) border-box;
+  border: 2px solid transparent;
+  background-clip: padding-box, border-box;
+  transition: transform 0.3s;
+}
 
+.streamer-links a:hover {
+  transform: scale(1.1);
+  color: #00f0ff;
+}
