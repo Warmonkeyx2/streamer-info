@@ -30,15 +30,24 @@ body {
 .info-card {
   display: none;
   flex-direction: column;
-  width: 320px;
+  width: 340px;
+  background: rgba(18, 18, 18, 0.8); /* Semi-transparent dark glass */
+  color: #eee;
+  border-radius: 20px;
+  padding: 18px;
   position: absolute;
   bottom: 60px;
   right: 0;
-  background-color: #191919;
-  color: #eee;
-  border-radius: 20px;
-  padding: 15px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6); /* Deep shadow */
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  backdrop-filter: blur(10px); /* Glass effect */
+  transition: all 0.3s ease-in-out;
+}
+.info-card:hover {
+  transform: scale(1.02); /* Slight pop */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.75);
+  border-image: linear-gradient(145deg, #00f0ff, #ff00d4) 1;
 }
 
 .info-card img {
