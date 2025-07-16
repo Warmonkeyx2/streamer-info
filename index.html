@@ -36,6 +36,21 @@
     window.onload = () => {
       showTab('homeTab');
     };
+
+    document.getElementById('profileImageInput').addEventListener('change', function (e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const newSrc = event.target.result;
+
+        // Update the preview and the image in HOME tab
+        document.getElementById('previewProfileImage').src = newSrc;
+        document.querySelector('#homeTab img').src = newSrc;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
   </script>
 </head>
 <body>
