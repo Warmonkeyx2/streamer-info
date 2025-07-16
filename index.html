@@ -11,24 +11,34 @@
     <div class="info-button" onclick="toggleCard()">i</div>
 
     <div class="info-card" id="infoCard">
-      <nav class="top-nav internal-nav">
-        <a href="index.html">HOME</a>
-        <a href="servers.html">SERVERS</a>
-      </nav>
+<nav class="top-nav internal-nav">
+  <button onclick="showTab('homeTab')">HOME</button>
+  <button onclick="showTab('serversTab')">SERVERS</button>
+</nav>
 
-      <img src="assets/profile.png" alt="Profile" />
-      <h3>WARMONKEYX</h3>
-      <p>
-        Lore-heavy chaos with the Hobogang. Come watch explosions, rituals,
-        and the Church of Dale.
-      </p>
-      <div class="streamer-links">
-        <a href="https://twitch.tv/warmonkeyx" target="_blank">Twitch</a>
-        <a href="https://youtube.com/@warmonkeyx" target="_blank">YouTube</a>
-        <a href="https://kick.com/warmonkeyx" target="_blank">Kick</a>
-        <a href="https://discord.gg/ANvfmFFwUS" target="_blank">Discord</a>
-      </div>
-    </div>
+<div class="tab-content" id="homeTab">
+  <img src="assets/profile.png" alt="Profile" />
+  <h3>WARMONKEYX</h3>
+  <p>
+    Lore-heavy chaos with the Hobogang. Come watch explosions, rituals,
+    and the Church of Dale.
+  </p>
+  <div class="streamer-links">
+    <a href="https://twitch.tv/warmonkeyx" target="_blank">Twitch</a>
+    <a href="https://youtube.com/@warmonkeyx" target="_blank">YouTube</a>
+    <a href="https://kick.com/warmonkeyx" target="_blank">Kick</a>
+    <a href="https://discord.gg/ANvfmFFwUS" target="_blank">Discord</a>
+  </div>
+</div>
+
+<div class="tab-content" id="serversTab" style="display: none;">
+  <h3>Servers</h3>
+  <p>Check out the servers we love:</p>
+  <div class="server-entry">
+    <img src="assets/serverlogo.png" alt="Server Logo" />
+    <a href="https://example.com" target="_blank">Server Website</a>
+  </div>
+</div>
   </div>
 
   <script src="script.js"></script>
