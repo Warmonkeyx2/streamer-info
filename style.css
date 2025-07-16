@@ -77,3 +77,4 @@ body {
     linear-gradient(#121212, #121212) padding-box,
     linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet) border-box;
   transition: all 0.3s ease;
+}
