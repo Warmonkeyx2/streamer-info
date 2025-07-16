@@ -15,10 +15,10 @@
       document.querySelectorAll('.tab-content').forEach(tab => {
         tab.style.display = "none";
       });
-      document.getElementById(tabId).style.display = "flex";
+      const target = document.getElementById(tabId);
+      if (target) target.style.display = "flex";
     }
 
-    // Default tab on load
     window.onload = () => {
       showTab('homeTab');
     };
@@ -29,6 +29,7 @@
     <div class="info-button" onclick="toggleCard()">i</div>
 
     <div class="info-card" id="infoCard">
+      <!-- Top Nav -->
       <nav class="top-nav internal-nav">
         <button onclick="showTab('homeTab')">HOME</button>
         <button onclick="showTab('serversTab')">SERVERS</button>
@@ -40,7 +41,8 @@
         <h3>WARMONKEYX</h3>
         <p>
           Witness the madness unfold under the freeway. From explosive dumpster deals and sketchy science experiments to mysterious rituals beneath the full moon — WarmonkeyX delivers raw, unscripted RP that blends chaos with character-driven lore. Whether it's founding the Church of Dale, decoding secret transmissions, or lighting up the city with pure anarchy, the Hobogang brings fire to every frame.
-If you crave unpredictable storylines, gritty humor, and explosive moments, this is your new religion.
+          <br><br>
+          If you crave unpredictable storylines, gritty humor, and explosive moments, this is your new religion.
         </p>
         <div class="streamer-links">
           <a href="https://twitch.tv/warmonkeyx" target="_blank">Twitch</a>
@@ -53,20 +55,35 @@ If you crave unpredictable storylines, gritty humor, and explosive moments, this
       <!-- SERVERS TAB -->
       <div class="tab-content" id="serversTab" style="display: none;">
         <h3>Servers</h3>
-        <p>Check out the servers we love:</p>
-
-        <!-- PRODIGY RP -->
-        <div class="server-entry">
-          <img src="assets/server1-logo.png" alt="PRODIGY RP Logo" />
-          <a href="https://prodigyrp.net/" target="_blank">PRODIGY RP Website</a>
-        </div>
-
-        <!-- FREE2 RP -->
-        <div class="server-entry">
-          <img src="assets/server2-logo.png" alt="FREE2 RP Logo" />
-          <a href="https://free2rp.com/" target="_blank">FREE2 RP Website</a>
+        <p>Select your server type:</p>
+        <div class="internal-nav">
+          <button onclick="showTab('gtaTab')">GTA RP</button>
+          <button onclick="showTab('redmTab')">RedM RP</button>
         </div>
       </div>
+
+      <!-- GTA RP SERVERS TAB -->
+      <div class="tab-content" id="gtaTab" style="display: none;">
+        <h3>GTA RP Servers</h3>
+        <div class="server-entry">
+          <img src="assets/server1-logo.png" alt="PRODIGY RP Logo" />
+          <a href="https://prodigyrp.net/" target="_blank">PRODIGY RP</a>
+        </div>
+        <div class="server-entry">
+          <img src="assets/server2-logo.png" alt="FREE2 RP Logo" />
+          <a href="https://free2rp.com/" target="_blank">FREE2 RP</a>
+        </div>
+      </div>
+
+      <!-- REDM RP SERVERS TAB -->
+      <div class="tab-content" id="redmTab" style="display: none;">
+        <h3>RedM RP Servers</h3>
+        <div class="server-entry">
+          <img src="assets/rserver1-logo.png" alt="Redemption RP Logo" />
+          <a href="https://discord.gg/2BaubsMfX4" target="_blank">Redemption RP</a>
+        </div>
+      </div>
+
     </div>
   </div>
 </body>
