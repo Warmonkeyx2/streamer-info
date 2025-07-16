@@ -102,12 +102,24 @@
       </div>
 
       <!-- SETTINGS TAB -->
-      <div class="tab-content" id="settingsTab" style="display: none;">
-        <h3>Settings</h3>
-        <p>Customize your streamer panel colors below:</p>
-        <button class="color-button" onclick="toggleColorPicker()">Change Color</button>
-        <input type="color" id="colorPicker" style="display: none; margin-top: 10px;" onchange="updateThemeColor(this.value)" />
       </div>
+
+<!-- SETTINGS TAB -->
+<div class="tab-content" id="settingsTab" style="display: none;">
+  <h3>Settings</h3>
+  <p>Customize your streamer panel colors below:</p>
+
+  <!-- 🎨 Color Picker -->
+  <button class="color-button" onclick="toggleColorPicker()">Change Color</button>
+  <input type="color" id="colorPicker" style="display: none; margin-top: 10px;" onchange="updateThemeColor(this.value)" />
+
+  <hr style="margin: 20px 0; width: 100%; border-color: #444;" />
+
+  <!-- 🖼️ Profile Image Uploader -->
+  <label for="profileImageInput">Upload Profile Image</label>
+  <input type="file" id="profileImageInput" accept="image/*" />
+  <img id="previewProfileImage" src="assets/profile.png" alt="Preview" style="width: 80%; border-radius: 12px; margin-top: 10px;" />
+</div>
     </div>
   </div>
 </body>
