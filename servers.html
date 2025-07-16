@@ -5,6 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Servers</title>
   <link rel="stylesheet" href="style.css" />
+  <script defer>
+    function showServerTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.style.display = "none";
+      });
+      const target = document.getElementById(tabId);
+      if (target) target.style.display = "flex";
+    }
+
+    window.onload = () => {
+      showServerTab('gtaTab');
+    };
+  </script>
 </head>
 <body>
 
@@ -15,19 +28,32 @@
       <a href="servers.html">SERVERS</a>
     </div>
 
-    <h3>Servers</h3>
-    <p>Check out the servers we love:</p>
-
-    <!-- Server 1 -->
-    <div class="server-entry">
-      <img src="assets/server1-logo.png" alt="PRODIGY RP Logo" />
-      <a href="https://prodigyrp.net/" target="_blank">PRODIGY RP Website</a>
+    <!-- Server Type Tabs -->
+    <div class="internal-nav" style="margin-top: 10px;">
+      <button onclick="showServerTab('gtaTab')">GTA RP</button>
+      <button onclick="showServerTab('redmTab')">RedM RP</button>
     </div>
 
-    <!-- Server 2 -->
-    <div class="server-entry">
-      <img src="assets/server2-logo.png" alt="FREE2 RP Logo" />
-      <a href="https://free2rp.com/" target="_blank">FREE2 RP Website</a>
+    <!-- GTA RP Tab -->
+    <div class="tab-content" id="gtaTab" style="display: none;">
+      <h3>GTA RP Servers</h3>
+      <div class="server-entry">
+        <img src="assets/prodigy-logo.png" alt="PRODIGY RP" />
+        <a href="https://prodigyrp.net/" target="_blank">PRODIGY RP</a>
+      </div>
+      <div class="server-entry">
+        <img src="assets/free2-logo.png" alt="FREE2 RP" />
+        <a href="https://free2rp.com/" target="_blank">FREE2 RP</a>
+      </div>
+    </div>
+
+    <!-- RedM RP Tab -->
+    <div class="tab-content" id="redmTab" style="display: none;">
+      <h3>RedM RP Servers</h3>
+      <div class="server-entry">
+        <img src="assets/rserver1-logo.png" alt="Redemption RP Logo" />
+        <a href="https://discord.gg/2BaubsMfX4" target="_blank">Redemption RP</a>
+      </div>
     </div>
   </div>
 
