@@ -88,8 +88,8 @@ body {
   color: white;
   font-size: 12px;
   background:
-    linear-gradient(#121212, #121212) padding-box,
-    linear-gradient(to right, var(--gradient-start), var(--gradient-end)) border-box;
+  linear-gradient(#121212, #121212) padding-box,
+  linear-gradient(to right, var(--accent-color), #ff00d4) border-box;
   border: 2px solid transparent;
   background-clip: padding-box, border-box;
   transition: transform 0.3s ease;
@@ -110,8 +110,8 @@ body {
   color: white;
   border-radius: 999px;
   background:
-    linear-gradient(#121212, #121212) padding-box,
-    linear-gradient(to right, var(--gradient-start), var(--gradient-end)) border-box;
+  linear-gradient(#121212, #121212) padding-box,
+  linear-gradient(to right, var(--accent-color), #ff00d4) border-box;
   border: 2px solid transparent;
   background-clip: padding-box, border-box;
   transition: transform 0.3s;
@@ -149,8 +149,8 @@ body {
   font-weight: bold;
   color: white;
   background:
-    linear-gradient(#121212, #121212) padding-box,
-    linear-gradient(to right, var(--gradient-start), var(--gradient-end)) border-box;
+  linear-gradient(#121212, #121212) padding-box,
+  linear-gradient(to right, var(--accent-color), #ff00d4) border-box;
   border: 2px solid transparent;
   background-clip: padding-box, border-box;
   transition: transform 0.3s ease;
