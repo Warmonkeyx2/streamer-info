@@ -66,19 +66,29 @@ body {
 }
 
 .streamer-links a {
-  display: block;
+  display: inline-block;
   margin: 8px 0;
-  padding: 8px 16px;
-  color: #00f0ff;
+  padding: 10px 20px;
+  color: white;
   text-decoration: none;
   border-radius: 999px;
-  border: 2px solid transparent;
-  background-image:
-    linear-gradient(#121212, #121212),
-    linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  box-decoration-break: clone;
-  transition: all 0.3s ease;
+  font-weight: bold;
+
+  /* Required for gradient border effect */
+  background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+  position: relative;
+  z-index: 1;
+}
+
+.streamer-links a::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  background-color: #121212;
+  border-radius: 999px;
+  z-index: -1;
 }
 
