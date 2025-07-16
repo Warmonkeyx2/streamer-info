@@ -4,6 +4,7 @@ body {
   background: #0d0d0d;
 }
 
+/* 🟦 Popout Info Button */
 .info-bubble {
   position: fixed;
   bottom: 20px;
@@ -27,6 +28,7 @@ body {
   box-shadow: 0 0 10px rgba(255,255,255,0.3);
 }
 
+/* 🧊 Popout Card Container */
 .info-card {
   display: none;
   flex-direction: column;
@@ -47,18 +49,14 @@ body {
   opacity: 1;
 }
 
-.info-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.75);
-  border-image: linear-gradient(145deg, #00f0ff, #ff00d4) 1;
-}
-
+/* 🖼️ Image Styling */
 .info-card img {
   width: 100%;
   border-radius: 15px;
   margin-bottom: 10px;
 }
 
+/* 🏷️ Header Styling */
 .info-card h3 {
   text-align: center;
   font-weight: bold;
@@ -66,7 +64,14 @@ body {
   font-size: 20px;
 }
 
-/* 🎨 Internal Nav */
+/* 🔥 RGB Hover for the Card */
+.info-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.75);
+  border-image: linear-gradient(145deg, #00f0ff, #ff00d4) 1;
+}
+
+/* 🎨 Internal Navigation (Home / Servers) */
 .internal-nav {
   width: 100%;
   display: flex;
@@ -75,7 +80,8 @@ body {
   margin-bottom: 12px;
 }
 
-.internal-nav a {
+.internal-nav a,
+.internal-nav button {
   padding: 6px 18px;
   font-weight: bold;
   text-decoration: none;
@@ -87,14 +93,17 @@ body {
     linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet) border-box;
   border: 2px solid transparent;
   background-clip: padding-box, border-box;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
-.internal-nav a:hover {
+.internal-nav a:hover,
+.internal-nav button:hover {
   transform: scale(1.1);
   color: #00f0ff;
 }
 
+/* 🎥 Streamer Links */
 .streamer-links a {
   display: inline-block;
   margin: 6px 6px;
@@ -115,6 +124,7 @@ body {
   color: #00f0ff;
 }
 
+/* 🧭 Tab Content (for switching between HOME and SERVERS) */
 .tab-content {
   width: 100%;
   display: flex;
@@ -122,6 +132,7 @@ body {
   align-items: center;
 }
 
+/* 🖥️ Server Entry Styling */
 .server-entry {
   display: flex;
   flex-direction: column;
@@ -152,21 +163,4 @@ body {
 .server-entry a:hover {
   transform: scale(1.05);
   color: #00f0ff;
-}
-
-.internal-nav button {
-  padding: 6px 18px;
-  font-weight: bold;
-  border-radius: 999px;
-  background:
-    linear-gradient(#121212, #121212) padding-box,
-    linear-gradient(to right, red, orange, yellow, green, blue, violet) border-box;
-  border: 2px solid transparent;
-  color: white;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.internal-nav button:hover {
-  transform: scale(1.1);
 }
