@@ -5,64 +5,121 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Streamer Info</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .link-setting {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 10px;
+      color: white;
+    }
+    .link-setting input[type="url"] {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #444;
+      background-color: #1c1c1c;
+      color: white;
+    }
+  </style>
   <script defer>
-  function toggleCard() {
-    const card = document.getElementById("infoCard");
-    card.style.display = card.style.display === "flex" ? "none" : "flex";
-  }
-
-  function showTab(tabId) {
-    const tabs = document.querySelectorAll('.tab-content');
-    tabs.forEach(tab => tab.style.display = 'none');
-    document.getElementById(tabId).style.display = 'flex';
-  }
-
-  function toggleColorPicker() {
-    const picker = document.getElementById("colorPicker");
-    picker.style.display = picker.style.display === "block" ? "none" : "block";
-  }
-
-  function updateThemeColor(hexColor) {
-    document.documentElement.style.setProperty('--accent-color', hexColor);
-  }
-
-  // 🔄 Update streamer name and bio live
-  function updateStreamerInfo() {
-    const name = document.getElementById('streamerNameInput').value;
-    const bio = document.getElementById('streamerBioInput').value;
-
-    if (name) {
-      document.querySelector('#homeTab h3').textContent = name;
+    function toggleCard() {
+      const card = document.getElementById("infoCard");
+      card.style.display = card.style.display === "flex" ? "none" : "flex";
     }
 
-    if (bio) {
-      document.querySelector('#homeTab p').innerHTML = bio.replace(/\n/g, '<br>');
+    function showTab(tabId) {
+      const tabs = document.querySelectorAll('.tab-content');
+      tabs.forEach(tab => tab.style.display = 'none');
+      document.getElementById(tabId).style.display = 'flex';
     }
-  }
 
-  window.onload = () => {
-    showTab('homeTab');
-  };
-</script>
+    function toggleColorPicker() {
+      const picker = document.getElementById("colorPicker");
+      picker.style.display = picker.style.display === "block" ? "none" : "block";
+    }
+
+    function updateThemeColor(hexColor) {
+      document.documentElement.style.setProperty('--accent-color', hexColor);
+      const buttons = document.querySelectorAll(
+        '.streamer-links a, .internal-nav a, .internal-nav button, .server-entry a, .color-button'
+      );
+      buttons.forEach(btn => {
+        btn.style.backgroundImage = `linear-gradient(#121212, #121212), linear-gradient(to right, ${hexColor}, ${hexColor})`;
+      });
+    }
+
+    function updateStreamerInfo() {
+      const name = document.getElementById('streamerNameInput').value;
+      const bio = document.getElementById('streamerBioInput').value;
+
+      if (name) {
+        document.querySelector('#homeTab h3').textContent = name;
+      }
+
+      if (bio) {
+        document.querySelector('#homeTab p').innerHTML = bio.replace(/\n/g, '<br>');
+      }
+    }
+
+    function updateProfileImage(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = document.querySelector('#homeTab img');
+          if (img) img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function updateStreamerLinks() {
+      const links = [
+        { id: 'twitch', name: 'Twitch' },
+        { id: 'youtube', name: 'YouTube' },
+        { id: 'kick', name: 'Kick' },
+        { id: 'discord', name: 'Discord' },
+        { id: 'tiktok', name: 'TikTok' },
+        { id: 'donate', name: 'Donate' }
+      ];
+
+      const container = document.querySelector('.streamer-links');
+      container.innerHTML = '';
+
+      links.forEach(link => {
+        const isChecked = document.getElementById(`${link.id}Check`).checked;
+        const url = document.getElementById(`${link.id}URL`).value;
+        if (isChecked && url.trim() !== '') {
+          const a = document.createElement('a');
+          a.href = url;
+          a.target = "_blank";
+          a.textContent = link.name;
+          container.appendChild(a);
+        }
+      });
+    }
+
+    window.onload = () => {
+      showTab('homeTab');
+      updateStreamerLinks();
+    };
+  </script>
 </head>
 <body>
   <div class="info-bubble">
     <div class="info-button" onclick="toggleCard()">i</div>
-
     <div class="info-card" id="infoCard">
-      <!-- Top Nav -->
       <nav class="top-nav internal-nav">
         <button onclick="showTab('homeTab')">HOME</button>
         <button onclick="showTab('serversTab')">SERVERS</button>
         <div class="settings-icon" onclick="showTab('settingsTab')">⚙️</div>
       </nav>
 
-      <!-- HOME TAB -->
       <div class="tab-content" id="homeTab">
         <img src="assets/profile.png" alt="Profile" />
         <h3>WARMONKEYX</h3>
         <p>
-          Witness the madness unfold under the freeway. From explosive dumpster deals and sketchy science experiments to mysterious rituals beneath the full moon — WarmonkeyX delivers raw, unscripted RP that blends chaos with character-driven lore. Whether it's founding the Church of Dale, decoding secret transmissions, or lighting up the city with pure anarchy, the Hobogang brings fire to every frame.
+          Witness the madness unfold under the freeway. From explosive dumpster deals and sketchy science experiments to mysterious rituals beneath the full moon — WarmonkeyX delivers raw, unscripted RP that blends chaos with character-driven lore.
           <br><br>
           If you crave unpredictable storylines, gritty humor, and explosive moments, this is your new religion.
         </p>
@@ -76,7 +133,6 @@
         </div>
       </div>
 
-      <!-- SERVERS TAB -->
       <div class="tab-content" id="serversTab" style="display: none;">
         <h3>Servers</h3>
         <p>Select your server type:</p>
@@ -86,7 +142,6 @@
         </div>
       </div>
 
-      <!-- GTA RP SERVERS TAB -->
       <div class="tab-content" id="gtaTab" style="display: none;">
         <h3>GTA RP Servers</h3>
         <div class="server-entry">
@@ -99,7 +154,6 @@
         </div>
       </div>
 
-      <!-- REDM RP SERVERS TAB -->
       <div class="tab-content" id="redmTab" style="display: none;">
         <h3>RedM RP Servers</h3>
         <div class="server-entry">
@@ -108,66 +162,65 @@
         </div>
       </div>
 
-      <!-- SETTINGS TAB -->
-<div class="tab-content" id="settingsTab" style="display: none;">
-  <h3>Settings</h3>
-  <p>Customize your streamer panel colors below:</p>
-  <button class="color-button" onclick="toggleColorPicker()">Change Color</button>
-  <input type="color" id="colorPicker" style="display: none; margin-top: 10px;" onchange="updateThemeColor(this.value)" />
+      <div class="tab-content" id="settingsTab" style="display: none;">
+        <h3>Settings</h3>
+        <p>Customize your streamer panel colors below:</p>
+        <button class="color-button" onclick="toggleColorPicker()">Change Color</button>
+        <input type="color" id="colorPicker" style="display: none; margin-top: 10px;" onchange="updateThemeColor(this.value)" />
 
-  <hr style="margin: 16px 0; width: 100%;" />
+        <hr style="margin: 16px 0; width: 100%;" />
 
-  <label for="streamerNameInput" style="color: white;">Streamer Name:</label>
-  <input type="text" id="streamerNameInput" placeholder="Enter new name..." style="margin-bottom: 10px; padding: 6px; border-radius: 6px; border: none; width: 100%;" />
+        <label for="streamerNameInput" style="color: white;">Streamer Name:</label>
+        <input type="text" id="streamerNameInput" placeholder="Enter new name..." style="margin-bottom: 10px; padding: 6px; border-radius: 6px; border: none; width: 100%;" />
 
-  <label for="streamerBioInput" style="color: white;">Streamer Bio:</label>
-  <textarea id="streamerBioInput" rows="4" placeholder="Enter bio..." style="margin-bottom: 10px; padding: 6px; border-radius: 6px; border: none; width: 100%; resize: vertical;"></textarea>
+        <label for="streamerBioInput" style="color: white;">Streamer Bio:</label>
+        <textarea id="streamerBioInput" rows="4" placeholder="Enter bio..." style="margin-bottom: 10px; padding: 6px; border-radius: 6px; border: none; width: 100%; resize: vertical;"></textarea>
 
-  <button class="color-button" onclick="updateStreamerInfo()">Save Changes</button>
+        <button class="color-button" onclick="updateStreamerInfo()">Save Changes</button>
 
-  <hr style="margin: 16px 0; width: 100%;" />
+        <hr style="margin: 16px 0; width: 100%;" />
 
-  <label for="profileImageInput" style="color: white;">Update Profile Image:</label>
-  <input type="file" id="profileImageInput" accept="image/*" onchange="updateProfileImage(event)" />
+        <label for="profileImageInput" style="color: white;">Update Profile Image:</label>
+        <input type="file" id="profileImageInput" accept="image/*" onchange="updateProfileImage(event)" />
 
-<hr style="margin: 16px 0; width: 100%;" />
-<h4 style="color: white;">Streamer Links</h4>
-<p style="color: #ccc;">Choose which buttons to show and edit their links:</p>
+        <hr style="margin: 16px 0; width: 100%;" />
 
-<div id="linkSettings">
-  <div class="link-setting">
-    <input type="checkbox" id="twitchCheck" checked onchange="updateStreamerLinks()" />
-    <label for="twitchCheck">Twitch</label>
-    <input type="url" id="twitchURL" placeholder="https://twitch.tv/yourname" value="https://twitch.tv/warmonkeyx" onchange="updateStreamerLinks()" />
-  </div>
-  <div class="link-setting">
-    <input type="checkbox" id="youtubeCheck" checked onchange="updateStreamerLinks()" />
-    <label for="youtubeCheck">YouTube</label>
-    <input type="url" id="youtubeURL" placeholder="https://youtube.com/@yourname" value="https://youtube.com/@warmonkeyx" onchange="updateStreamerLinks()" />
-  </div>
-  <div class="link-setting">
-    <input type="checkbox" id="kickCheck" checked onchange="updateStreamerLinks()" />
-    <label for="kickCheck">Kick</label>
-    <input type="url" id="kickURL" placeholder="https://kick.com/yourname" value="https://kick.com/warmonkeyx" onchange="updateStreamerLinks()" />
-  </div>
-  <div class="link-setting">
-    <input type="checkbox" id="discordCheck" checked onchange="updateStreamerLinks()" />
-    <label for="discordCheck">Discord</label>
-    <input type="url" id="discordURL" placeholder="https://discord.gg/yourcode" value="https://discord.gg/ANvfmFFwUS" onchange="updateStreamerLinks()" />
-  </div>
-  <div class="link-setting">
-    <input type="checkbox" id="tiktokCheck" checked onchange="updateStreamerLinks()" />
-    <label for="tiktokCheck">TikTok</label>
-    <input type="url" id="tiktokURL" placeholder="https://tiktok.com/@yourname" value="https://tiktok.com/@warmonkeyx" onchange="updateStreamerLinks()" />
-  </div>
-  <div class="link-setting">
-    <input type="checkbox" id="donateCheck" checked onchange="updateStreamerLinks()" />
-    <label for="donateCheck">Donate</label>
-    <input type="url" id="donateURL" placeholder="https://streamelements.com/yourname/tip" value="https://streamelements.com/warmonkeyx/tip" onchange="updateStreamerLinks()" />
-</div>
+        <h4 style="color: white;">Streamer Links</h4>
+        <p style="color: #ccc;">Choose which buttons to show and edit their links:</p>
 
-
-
+        <div id="linkSettings">
+          <div class="link-setting">
+            <input type="checkbox" id="twitchCheck" checked onchange="updateStreamerLinks()" />
+            <label for="twitchCheck">Twitch</label>
+            <input type="url" id="twitchURL" placeholder="https://twitch.tv/yourname" value="https://twitch.tv/warmonkeyx" onchange="updateStreamerLinks()" />
+          </div>
+          <div class="link-setting">
+            <input type="checkbox" id="youtubeCheck" checked onchange="updateStreamerLinks()" />
+            <label for="youtubeCheck">YouTube</label>
+            <input type="url" id="youtubeURL" placeholder="https://youtube.com/@yourname" value="https://youtube.com/@warmonkeyx" onchange="updateStreamerLinks()" />
+          </div>
+          <div class="link-setting">
+            <input type="checkbox" id="kickCheck" checked onchange="updateStreamerLinks()" />
+            <label for="kickCheck">Kick</label>
+            <input type="url" id="kickURL" placeholder="https://kick.com/yourname" value="https://kick.com/warmonkeyx" onchange="updateStreamerLinks()" />
+          </div>
+          <div class="link-setting">
+            <input type="checkbox" id="discordCheck" checked onchange="updateStreamerLinks()" />
+            <label for="discordCheck">Discord</label>
+            <input type="url" id="discordURL" placeholder="https://discord.gg/yourcode" value="https://discord.gg/ANvfmFFwUS" onchange="updateStreamerLinks()" />
+          </div>
+          <div class="link-setting">
+            <input type="checkbox" id="tiktokCheck" checked onchange="updateStreamerLinks()" />
+            <label for="tiktokCheck">TikTok</label>
+            <input type="url" id="tiktokURL" placeholder="https://tiktok.com/@yourname" value="https://tiktok.com/@warmonkeyx" onchange="updateStreamerLinks()" />
+          </div>
+          <div class="link-setting">
+            <input type="checkbox" id="donateCheck" checked onchange="updateStreamerLinks()" />
+            <label for="donateCheck">Donate</label>
+            <input type="url" id="donateURL" placeholder="https://streamelements.com/yourname/tip" value="https://streamelements.com/warmonkeyx/tip" onchange="updateStreamerLinks()" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </body>
