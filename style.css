@@ -201,3 +201,23 @@ body {
   cursor: pointer;
   outline: none;
 }
+
+.color-button {
+  margin-top: 10px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-weight: bold;
+  color: white;
+  background:
+    linear-gradient(#121212, #121212) padding-box,
+    linear-gradient(to right, var(--accent-color), var(--accent-color)) border-box;
+  border: 2px solid transparent;
+  background-clip: padding-box, border-box;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.color-button:hover {
+  transform: scale(1.05);
+  color: var(--accent-color);
+}
