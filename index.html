@@ -335,58 +335,57 @@
   </div>
 </div>
 
-      <div id="serverSettings" class="admin-section">
-        <h4>Server Settings</h4>
-<p>Edit the names, links, and visibility of your servers below:</p>
-<div class="server-grid">
-  <!-- Repeat for 6 total slots -->
-  <div class="server-slot">
-    <label>Server Name:</label>
-    <input type="text" class="server-name" value="PRODIGY RP" />
-    <label>Server Link:</label>
-    <input type="url" class="server-link" value="https://prodigyrp.net/" />
-    <label><input type="checkbox" class="server-visible" checked /> Show</label>
-  </div>
-  <div class="server-slot">
-    <label>Server Name:</label>
-    <input type="text" class="server-name" value="FREE2 RP" />
-    <label>Server Link:</label>
-    <input type="url" class="server-link" value="https://free2rp.com/" />
-    <label><input type="checkbox" class="server-visible" checked /> Show</label>
-  </div>
-  <!-- 4 more blank slots -->
-  <div class="server-slot">
-    <label>Server Name:</label>
-    <input type="text" class="server-name" placeholder="Server Name" />
-    <label>Server Link:</label>
-    <input type="url" class="server-link" placeholder="https://..." />
-    <label><input type="checkbox" class="server-visible" /> Show</label>
-  </div>
-  <div class="server-slot">
-    <label>Server Name:</label>
-    <input type="text" class="server-name" placeholder="Server Name" />
-    <label>Server Link:</label>
-    <input type="url" class="server-link" placeholder="https://..." />
-    <label><input type="checkbox" class="server-visible" /> Show</label>
-  </div>
-  <div class="server-slot">
-    <label>Server Name:</label>
-    <input type="text" class="server-name" placeholder="Server Name" />
-    <label>Server Link:</label>
-    <input type="url" class="server-link" placeholder="https://..." />
-    <label><input type="checkbox" class="server-visible" /> Show</label>
-  </div>
-  <div class="server-slot">
-    <label>Server Name:</label>
-    <input type="text" class="server-name" placeholder="Server Name" />
-    <label>Server Link:</label>
-    <input type="url" class="server-link" placeholder="https://..." />
-    <label><input type="checkbox" class="server-visible" /> Show</label>
-  </div>
-</div>
-<button onclick="updateServerButtons()" class="color-button" style="margin-top: 20px;">Save Server Buttons</button>
+      <div id="serverSettingsPanel" class="admin-section" style="display: none;">
+  <h3>Server Settings</h3>
+  <p>Edit your server types below. Toggle visibility to show/hide them as buttons.</p>
 
-      </div>
+  <div class="server-type-grid">
+    <!-- Server Type Slot 1 -->
+    <div class="server-type-card">
+      <label>Server Type:</label>
+      <input type="text" class="server-type-label" placeholder="GTA RP" value="GTA RP" />
+      <label><input type="checkbox" class="server-type-visible" checked /> Show</label>
+    </div>
+
+    <!-- Server Type Slot 2 -->
+    <div class="server-type-card">
+      <label>Server Type:</label>
+      <input type="text" class="server-type-label" placeholder="RedM RP" value="RedM RP" />
+      <label><input type="checkbox" class="server-type-visible" checked /> Show</label>
+    </div>
+
+    <!-- Server Type Slot 3 -->
+    <div class="server-type-card">
+      <label>Server Type:</label>
+      <input type="text" class="server-type-label" placeholder="Unused" />
+      <label><input type="checkbox" class="server-type-visible" /> Show</label>
+    </div>
+
+    <!-- Server Type Slot 4 -->
+    <div class="server-type-card">
+      <label>Server Type:</label>
+      <input type="text" class="server-type-label" placeholder="Unused" />
+      <label><input type="checkbox" class="server-type-visible" /> Show</label>
+    </div>
+
+    <!-- Server Type Slot 5 -->
+    <div class="server-type-card">
+      <label>Server Type:</label>
+      <input type="text" class="server-type-label" placeholder="Unused" />
+      <label><input type="checkbox" class="server-type-visible" /> Show</label>
+    </div>
+
+    <!-- Server Type Slot 6 -->
+    <div class="server-type-card">
+      <label>Server Type:</label>
+      <input type="text" class="server-type-label" placeholder="Unused" />
+      <label><input type="checkbox" class="server-type-visible" /> Show</label>
+    </div>
+  </div>
+
+  <button class="color-button" onclick="updateServerButtons()">Save Server Buttons</button>
+</div>
+
     </div>
   </div>
 </body>
