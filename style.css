@@ -569,3 +569,15 @@ body {
   transform: scale(1.2);
   margin-right: 6px;
 }
+#serversTab {
+  min-height: 200px;
+}
+
+.internal-nav button {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 12px;
+}
