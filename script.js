@@ -137,6 +137,10 @@ nav.appendChild(btn);
       btn.onclick = () => alert(`Clicked ${label}`);
       serversTab.querySelector('.internal-nav').appendChild(btn);
     }
+  function toggleCollapse(header) {
+  const card = header.closest('.collapsible-card');
+  card.classList.toggle('expanded');
+}
   });
 }
 
