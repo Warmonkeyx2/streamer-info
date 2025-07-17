@@ -157,10 +157,20 @@
       <div class="tab-content" id="serversTab" style="display: none;">
         <h3>Servers</h3>
         <p>Select your server type:</p>
-        <div class="internal-nav">
-          <button onclick="showTab('gtaTab')">GTA RP</button>
-          <button onclick="showTab('redmTab')">RedM RP</button>
-        </div>
+        <div class="internal-nav" id="serverTypeButtons">
+  <button onclick="showTab('gtaTab')">GTA RP</button>
+  <button onclick="showTab('redmTab')">RedM RP</button>
+  <!-- Custom buttons will be appended here -->
+</div>
+
+<button class="color-button" onclick="toggleServerSettings()">⚙️ Edit Server Types</button>
+
+<div id="serverSettingsPanel" class="server-settings-panel" style="display: none;">
+  <h4>Edit Server Types</h4>
+  <div id="customServerTypesContainer"></div>
+  <button class="color-button" onclick="addServerType()">+ Add Custom Server</button>
+      </div>
+
       </div>
 
       <div class="tab-content" id="gtaTab" style="display: none;">
