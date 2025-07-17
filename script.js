@@ -4,12 +4,12 @@
     const card = document.getElementById("infoCard");
     card.style.display = card.style.display === "flex" ? "none" : "flex";
   }
-function toggleAdminPanel() {
-  const panel = document.getElementById("adminPanel");
-  panel.style.display = panel.style.display === "flex" ? "none" : "flex";
-}
 
-  // Show specific tab
+  function toggleAdminPanel() {
+    const panel = document.getElementById("adminPanel");
+    panel.style.display = panel.style.display === "flex" ? "none" : "flex";
+  }
+
   function showTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(tab => {
       tab.style.display = 'none';
@@ -18,13 +18,11 @@ function toggleAdminPanel() {
     if (target) target.style.display = 'flex';
   }
 
-  // Toggle visibility of color picker
   function toggleColorPicker() {
     const picker = document.getElementById("colorPicker");
     picker.style.display = picker.style.display === "block" ? "none" : "block";
   }
 
-  // Update global accent color and button gradients
   function updateThemeColor(hexColor) {
     document.documentElement.style.setProperty('--accent-color', hexColor);
     const buttons = document.querySelectorAll(
@@ -38,7 +36,6 @@ function toggleAdminPanel() {
     });
   }
 
-  // Update Streamer Name & Bio in HOME tab
   function updateStreamerInfo() {
     const name = document.getElementById('streamerNameInput').value;
     const bio = document.getElementById('streamerBioInput').value;
@@ -46,7 +43,6 @@ function toggleAdminPanel() {
     if (bio) document.querySelector('#homeTab p').innerHTML = bio.replace(/\n/g, '<br>');
   }
 
-  // Update Profile Image live
   function updateProfileImage(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -58,7 +54,6 @@ function toggleAdminPanel() {
     reader.readAsDataURL(file);
   }
 
-  // Update Streamer Social Link Buttons
   function updateStreamerLinks() {
     const links = [
       { id: 'twitch', name: 'Twitch' },
@@ -83,7 +78,6 @@ function toggleAdminPanel() {
     });
   }
 
-  // ✅ These MUST be outside updateStreamerLinks()
   function toggleServerLinkSettings() {
     const container = document.getElementById("serverLinkSettingsContainer");
     container.style.display = container.style.display === "none" ? "block" : "none";
@@ -116,14 +110,43 @@ function toggleAdminPanel() {
     container.appendChild(wrapper);
     updateServerLinks();
   }
-function showAdminSection(sectionId) {
-  document.querySelectorAll('.admin-section').forEach(section => {
-    section.style.display = 'none';
-  });
-  document.getElementById(sectionId).style.display = 'block';
-}
 
-  // Initialize defaults
+  function showAdminSection(sectionId) {
+    document.querySelectorAll('.admin-section').forEach(section => {
+      section.style.display = 'none';
+    });
+    document.getElementById(sectionId).style.display = 'block';
+  }
+
+  function updateServerButtons() {
+    const slots = document.querySelectorAll('.server-slot');
+    const gtaTab = document.getElementById('gtaTab');
+    gtaTab.innerHTML = `<h3>GTA RP Servers</h3>`;
+
+    slots.forEach((slot, index) => {
+      const nameInput = slot.querySelector('.serverName');
+      const linkInput = slot.querySelector('.serverLink');
+      const visibleCheckbox = slot.querySelector('.serverVisible');
+
+      const name = nameInput.value.trim();
+      const link = linkInput.value.trim();
+      const isVisible = visibleCheckbox.checked;
+
+      if (name && link && isVisible) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'server-entry';
+
+        const linkBtn = document.createElement('a');
+        linkBtn.href = link;
+        linkBtn.target = "_blank";
+        linkBtn.textContent = name;
+
+        wrapper.appendChild(linkBtn);
+        gtaTab.appendChild(wrapper);
+      }
+    });
+  }
+
   window.onload = () => {
     showTab('homeTab');
     updateStreamerLinks();
