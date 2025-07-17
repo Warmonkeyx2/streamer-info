@@ -233,6 +233,7 @@ function updateServerButtons() {
       <nav class="top-nav internal-nav">
         <button onclick="showTab('homeTab')">HOME</button>
         <button onclick="showTab('serversTab')">SERVERS</button>
+        <button onclick="showTab('appsTab')">APPS</button>
         <div class="settings-icon" onclick="toggleAdminPanel()">⚙️</div>
       </nav>
 
@@ -282,6 +283,16 @@ function updateServerButtons() {
           <a href="https://discord.gg/2BaubsMfX4" target="_blank">Redemption RP</a>
         </div>
       </div>
+      <div class="tab-content" id="appsTab" style="display: none;">
+        <h3>Apps</h3>
+        <p>Viewer apps will appear here in the future.</p>
+        <div class="apps-grid">
+          <!-- Placeholder app icons -->
+          <div class="app-icon">📱</div>
+          <div class="app-icon">🎮</div>
+          <div class="app-icon">🎥</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -297,6 +308,7 @@ function updateServerButtons() {
       <div class="admin-tabs">
         <button class="admin-tab active" onclick="showAdminSection('homeSettings')">HOME</button>
         <button class="admin-tab" onclick="showAdminSection('serverSettingsPanel')">SERVERS</button>
+        <button class="admin-tab" onclick="showAdminSection('appsSettingsPanel')">APPS</button>
       </div>
     </div>
 
@@ -382,6 +394,15 @@ function updateServerButtons() {
       <input type="url" class="server-type-url" placeholder="https://yourserver.com" />
 
       <label><input type="checkbox" class="server-type-visible" checked /> Show</label>
+    </div>
+    <div id="appsSettingsPanel" class="admin-section" style="display: none;">
+      <h3>Apps Settings</h3>
+      <p>This section will allow you to manage which viewer-facing apps are available. Placeholder for now.</p>
+      <ul>
+        <li>💡 App Slot 1 - Placeholder</li>
+        <li>💡 App Slot 2 - Placeholder</li>
+        <li>💡 App Slot 3 - Placeholder</li>
+      </ul>
     </div>
   </div>
 
