@@ -114,7 +114,10 @@
 
   <!-- JS goes at the end for performance -->
   <script>
-    // your original script here (unchanged unless you want me to update that too)
+    function toggleCard() {
+  const card = document.getElementById("infoCard");
+  card.style.display = card.style.display === "flex" ? "none" : "flex";
+}
   </script>
 </body>
 </html>
