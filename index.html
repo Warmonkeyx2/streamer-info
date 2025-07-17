@@ -276,6 +276,55 @@
       <div id="homeSettings" class="admin-section" style="display: block;">
         <h4>Streamer Settings</h4>
         <!-- Add your editable streamer settings UI here -->
+        <label for="streamerNameInput">Streamer Name:</label>
+        <input type="text" id="streamerNameInput" placeholder="Enter your streamer name" />
+        <label for="streamerBioInput">Streamer Bio:</label>
+        <textarea id="streamerBioInput" placeholder="Enter your bio..." rows="4"></textarea>
+        <button onclick="updateStreamerInfo()">Save Info</button>
+
+        <label for="profileImageUpload">Upload Profile Image:</label>
+        <input type="file" id="profileImageUpload" accept="image/*" onchange="updateProfileImage(event)" />
+          
+        <label for="profileImageUpload">Upload Profile Image:</label>
+        <input type="file" id="profileImageUpload" accept="image/*" onchange="updateProfileImage(event)" />
+
+        <div style="margin-top: 20px;">
+        <label for="colorPicker">Theme Color:</label><br />
+        <input type="color" id="colorPicker" onchange="updateThemeColor(this.value)" />
+
+        <button id="toggleLinkSettings" onclick="toggleLinkSettings()">Toggle Streamer Links</button>
+<div id="linkSettingsContainer" style="display: none;">
+  <div class="link-setting">
+    <label><input type="checkbox" id="twitchCheck" checked /> Twitch:</label>
+    <input type="url" id="twitchURL" value="https://twitch.tv/warmonkeyx" />
+  </div>
+  <div class="link-setting">
+    <label><input type="checkbox" id="youtubeCheck" checked /> YouTube:</label>
+    <input type="url" id="youtubeURL" value="https://youtube.com/@warmonkeyx" />
+  </div>
+  <div class="link-setting">
+    <label><input type="checkbox" id="kickCheck" checked /> Kick:</label>
+    <input type="url" id="kickURL" value="https://kick.com/warmonkeyx" />
+  </div>
+  <div class="link-setting">
+    <label><input type="checkbox" id="discordCheck" checked /> Discord:</label>
+    <input type="url" id="discordURL" value="https://discord.gg/ANvfmFFwUS" />
+  </div>
+  <div class="link-setting">
+    <label><input type="checkbox" id="tiktokCheck" checked /> TikTok:</label>
+    <input type="url" id="tiktokURL" value="https://www.tiktok.com/@warmonkeyx" />
+  </div>
+  <div class="link-setting">
+    <label><input type="checkbox" id="donateCheck" checked /> Donate:</label>
+    <input type="url" id="donateURL" value="https://streamelements.com/warmonkeyx/tip" />
+  </div>
+  <button onclick="updateStreamerLinks()">Save Streamer Links</button>
+</div>
+
+
+</div>
+
+  
       </div>
       <div id="serverSettings" class="admin-section">
         <h4>Server Settings</h4>
