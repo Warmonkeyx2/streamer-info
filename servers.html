@@ -14,6 +14,70 @@
       if (target) target.style.display = "flex";
     }
 
+    window.onload = () => {
+      showServerTab('gtaTab');
+    };
+  </script>
+</head>
+<body>
+
+  <div class="info-card" style="margin: 60px auto; display: flex; flex-direction: column;">
+    
+    <!-- Top Navigation -->
+    <div class="internal-nav">
+      <a href="index.html">HOME</a>
+      <a href="servers.html">SERVERS</a>
+    </div>
+
+    <!-- Server Tab Buttons -->
+    <div class="internal-nav" style="margin-top: 10px; align-items: center;">
+      <button onclick="showServerTab('gtaTab')" id="gtaTabBtn">GTA RP</button>
+      <button onclick="showServerTab('redmTab')" id="redmTabBtn">RedM RP</button>
+      <div class="settings-icon" onclick="toggleServerSettings()" title="Edit Server Buttons">⚙️</div>
+    </div>
+
+    <!-- ✅ Server Settings Panel (NOW inside info-card so it displays properly) -->
+    <div id="serverSettingsPanel" class="settings-panel" style="display: none;">
+      <h4 style="margin-top: 0;">Edit Server Buttons</h4>
+
+      <label>
+        <input type="checkbox" id="gtaVisible" checked onchange="toggleDefaultServer('gtaTab', 'gtaTabBtn')"> Show GTA RP
+      </label>
+      <label>
+        <input type="checkbox" id="redmVisible" checked onchange="toggleDefaultServer('redmTab', 'redmTabBtn')"> Show RedM RP
+      </label>
+
+      <hr style="margin: 12px 0;" />
+
+      <button class="color-button" onclick="addCustomServerButton()">+ Add Custom Server Button</button>
+      <div id="customServerButtonList" style="margin-top: 10px;"></div>
+    </div>
+
+    <!-- GTA RP Servers -->
+    <div class="tab-content" id="gtaTab" style="display: none;">
+      <h3>GTA RP Servers</h3>
+      <div class="server-entry">
+        <img src="assets/prodigy-logo.png" alt="PRODIGY RP" />
+        <a href="https://prodigyrp.net/" target="_blank">PRODIGY RP</a>
+      </div>
+      <div class="server-entry">
+        <img src="assets/free2-logo.png" alt="FREE2 RP" />
+        <a href="https://free2rp.com/" target="_blank">FREE2 RP</a>
+      </div>
+    </div>
+
+    <!-- RedM RP Servers -->
+    <div class="tab-content" id="redmTab" style="display: none;">
+      <h3>RedM RP Servers</h3>
+      <div class="server-entry">
+        <img src="assets/rserver1-logo.png" alt="Redemption RP Logo" />
+        <a href="https://discord.gg/2BaubsMfX4" target="_blank">Redemption RP</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Functions -->
+  <script>
     function toggleServerSettings() {
       const panel = document.getElementById("serverSettingsPanel");
       panel.style.display = panel.style.display === "none" ? "flex" : "none";
@@ -47,69 +111,6 @@
       list.appendChild(wrapper);
       customButtonCount++;
     }
-
-    window.onload = () => {
-      showServerTab('gtaTab');
-    };
   </script>
-</head>
-<body>
-
-  <div class="info-card" style="margin: 60px auto; display: flex; flex-direction: column;">
-    
-    <!-- Top Navigation -->
-    <div class="internal-nav">
-      <a href="index.html">HOME</a>
-      <a href="servers.html">SERVERS</a>
-    </div>
-
-    <!-- Server Tab Buttons -->
-    <div class="internal-nav" style="margin-top: 10px; align-items: center;">
-      <button onclick="showServerTab('gtaTab')" id="gtaTabBtn">GTA RP</button>
-      <button onclick="showServerTab('redmTab')" id="redmTabBtn">RedM RP</button>
-      <div class="settings-icon" onclick="toggleServerSettings()" title="Edit Server Buttons">⚙️</div>
-    </div>
-
-    <!-- GTA RP Servers -->
-    <div class="tab-content" id="gtaTab" style="display: none;">
-      <h3>GTA RP Servers</h3>
-      <div class="server-entry">
-        <img src="assets/prodigy-logo.png" alt="PRODIGY RP" />
-        <a href="https://prodigyrp.net/" target="_blank">PRODIGY RP</a>
-      </div>
-      <div class="server-entry">
-        <img src="assets/free2-logo.png" alt="FREE2 RP" />
-        <a href="https://free2rp.com/" target="_blank">FREE2 RP</a>
-      </div>
-    </div>
-
-    <!-- RedM RP Servers -->
-    <div class="tab-content" id="redmTab" style="display: none;">
-      <h3>RedM RP Servers</h3>
-      <div class="server-entry">
-        <img src="assets/rserver1-logo.png" alt="Redemption RP Logo" />
-        <a href="https://discord.gg/2BaubsMfX4" target="_blank">Redemption RP</a>
-      </div>
-    </div>
-
-    <!-- ✅ Server Settings Panel (outside tabs) -->
-    <div id="serverSettingsPanel" class="settings-panel" style="display: none;">
-      <h4 style="margin-top: 0;">Edit Server Buttons</h4>
-      
-      <label>
-        <input type="checkbox" id="gtaVisible" checked onchange="toggleDefaultServer('gtaTab', 'gtaTabBtn')"> Show GTA RP
-      </label>
-      <label>
-        <input type="checkbox" id="redmVisible" checked onchange="toggleDefaultServer('redmTab', 'redmTabBtn')"> Show RedM RP
-      </label>
-
-      <hr style="margin: 12px 0;" />
-
-      <button class="color-button" onclick="addCustomServerButton()">+ Add Custom Server Button</button>
-      <div id="customServerButtonList" style="margin-top: 10px;"></div>
-    </div>
-
-  </div>
-
 </body>
 </html>
