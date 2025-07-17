@@ -185,37 +185,38 @@
 
       <!-- Admin Panel Tablet Layout -->
 <div class="tab-content" id="settingsTab" style="display: none;">
-  <div id="adminPanel">
-    
-    <!-- Top Section: Profile Header -->
+  <div class="admin-panel">
+    <!-- Top Bar -->
     <div class="admin-header">
       <div class="admin-profile">
-        <img id="adminProfilePic" src="assets/profile.png" alt="Profile Picture" />
-        <div class="admin-profile-name">WARMONKEYX</div>
+        <img id="adminProfileImg" src="assets/profile.png" alt="Profile" />
+        <div class="admin-profile-info">
+          <h3 id="adminProfileName">WARMONKEYX</h3>
+        </div>
       </div>
-      <div class="admin-nav-tabs">
-        <button onclick="showAdminSection('homeSettings')">HOME</button>
-        <button onclick="showAdminSection('serverSettings')">SERVERS</button>
-        <!-- Add more tabs here -->
+      <div class="admin-tabs">
+        <button onclick="showAdminSection('homeSettings')" class="admin-tab active">HOME</button>
+        <button onclick="showAdminSection('serverSettings')" class="admin-tab">SERVERS</button>
+        <!-- Add more tabs as needed -->
       </div>
     </div>
 
-    <!-- Content Area -->
-    <div id="adminContent">
-      <!-- Sections get swapped in here -->
+    <!-- Main Content -->
+    <div class="admin-content">
       <div id="homeSettings" class="admin-section">
-        <!-- Home settings content goes here -->
-        <h3>Home Settings</h3>
-        <p>Streamer Name, Bio, Profile Pic, Social Links...</p>
+        <!-- Your Home/Streamer settings go here -->
+        <h4>Streamer Settings</h4>
+        <!-- Name, Bio, Profile Upload, etc. -->
       </div>
+
       <div id="serverSettings" class="admin-section" style="display: none;">
-        <!-- Server settings content goes here -->
-        <h3>Server Settings</h3>
-        <p>Add/remove server buttons like GTA RP, RedM RP, DayZ RP...</p>
+        <!-- Your Server customization UI goes here -->
+        <h4>Server Settings</h4>
+        <!-- GTA/RedM + Add Custom Button UI -->
       </div>
     </div>
-
   </div>
 </div>
+
 </body>
 </html>
