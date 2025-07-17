@@ -243,6 +243,31 @@
               <label for="donateCheck">Donate</label>
               <input type="url" id="donateURL" placeholder="https://streamelements.com/yourname/tip" value="https://streamelements.com/warmonkeyx/tip" onchange="updateStreamerLinks()" />
             </div>
+            <!-- Server Links Section Start -->
+<hr style="margin: 16px 0; width: 100%;" />
+<h4 style="color: white;">Server Links</h4>
+<p style="color: #ccc;">Choose which server buttons to show and edit:</p>
+
+<button id="toggleServerSettings" onclick="toggleServerLinkSettings()">Show/Hide Server Link Settings</button>
+
+<div id="serverLinkSettingsContainer" style="display: none;">
+  <div class="link-setting">
+    <input type="checkbox" id="gtaCheck" checked onchange="updateServerLinks()" />
+    <label for="gtaCheck">GTA RP</label>
+    <input type="url" id="gtaURL" value="https://prodigyrp.net/" placeholder="https://yourserver.com" onchange="updateServerLinks()" />
+  </div>
+
+  <div class="link-setting">
+    <input type="checkbox" id="redmCheck" checked onchange="updateServerLinks()" />
+    <label for="redmCheck">RedM RP</label>
+    <input type="url" id="redmURL" value="https://discord.gg/2BaubsMfX4" placeholder="https://yourserver.com" onchange="updateServerLinks()" />
+  </div>
+
+  <button class="color-button" onclick="addCustomServerLink()">+ Add Custom Server Link</button>
+  <div id="customServerLinks" style="margin-top: 10px;"></div>
+</div>
+<!-- Server Links Section End -->
+
           </div>
         </div>
 
