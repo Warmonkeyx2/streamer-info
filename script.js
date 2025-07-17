@@ -88,11 +88,45 @@
         a.textContent = link.name;
         container.appendChild(a);
       }
+      function toggleServerLinkSettings() {
+  const container = document.getElementById("serverLinkSettingsContainer");
+  container.style.display = container.style.display === "none" ? "block" : "none";
+}
+
+function updateServerLinks() {
+  const gtaBtn = document.querySelector('#serversTab button[onclick*="gtaTab"]');
+  const redmBtn = document.querySelector('#serversTab button[onclick*="redmTab"]');
+
+  const gtaVisible = document.getElementById('gtaCheck').checked;
+  const redmVisible = document.getElementById('redmCheck').checked;
+
+  gtaBtn.style.display = gtaVisible ? 'inline-block' : 'none';
+  redmBtn.style.display = redmVisible ? 'inline-block' : 'none';
+
+  gtaBtn.onclick = () => window.open(document.getElementById('gtaURL').value, '_blank');
+  redmBtn.onclick = () => window.open(document.getElementById('redmURL').value, '_blank');
+}
+
+function addCustomServerLink() {
+  const container = document.getElementById('customServerLinks');
+  const wrapper = document.createElement('div');
+  wrapper.classList.add('link-setting');
+  wrapper.innerHTML = `
+    <input type="checkbox" checked onchange="updateServerLinks()" />
+    <input type="text" placeholder="Label" />
+    <input type="url" placeholder="https://yourserver.com" />
+    <button onclick="this.parentElement.remove(); updateServerLinks()">❌</button>
+  `;
+  container.appendChild(wrapper);
+  updateServerLinks();
+}
     });
   }
 
   // Initialize default tab
   window.onload = () => {
-    showTab('homeTab');
-  };
+  showTab('homeTab');
+  updateStreamerLinks();
+  updateServerLinks();
+};
 </script>
