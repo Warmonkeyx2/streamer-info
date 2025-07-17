@@ -6,6 +6,10 @@
   <title>Streamer Info</title>
   <link rel="stylesheet" href="style.css" />
   <style>
+    :root {
+      --accent-color: #00ffff;
+    }
+
     .link-setting {
       display: flex;
       flex-direction: column;
@@ -36,8 +40,66 @@
       border: none;
       text-decoration: underline;
     }
+
+    .admin-panel {
+      position: fixed;
+      top: 50px;
+      right: 50px;
+      width: 400px;
+      height: 500px;
+      background-color: #111;
+      border: 2px solid var(--accent-color);
+      border-radius: 16px;
+      display: none;
+      flex-direction: column;
+      z-index: 1000;
+      box-shadow: 0 0 20px var(--accent-color);
+      color: white;
+    }
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid var(--accent-color);
+    }
+    .admin-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .admin-profile img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-color);
+    }
+    .admin-tabs {
+      display: flex;
+      gap: 10px;
+    }
+    .admin-tab {
+      padding: 6px 12px;
+      background-color: #222;
+      color: white;
+      border: 1px solid var(--accent-color);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .admin-tab.active {
+      background-color: var(--accent-color);
+      color: black;
+    }
+    .admin-content {
+      padding: 16px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .admin-section {
+      display: none;
+    }
   </style>
-  <script defer>
+      <script defer>
     function toggleCard() {
       const card = document.getElementById("infoCard");
       card.style.display = card.style.display === "flex" ? "none" : "flex";
@@ -65,16 +127,10 @@
     }
 
     function updateStreamerInfo() {
-      const name = document.getElementById('streamerNameInput').value;
-      const bio = document.getElementById('streamerBioInput').value;
-
-      if (name) {
-        document.querySelector('#homeTab h3').textContent = name;
-      }
-
-      if (bio) {
-        document.querySelector('#homeTab p').innerHTML = bio.replace(/\n/g, '<br>');
-      }
+      const name = document.getElementById('streamerNameInput')?.value;
+      const bio = document.getElementById('streamerBioInput')?.value;
+      if (name) document.querySelector('#homeTab h3').textContent = name;
+      if (bio) document.querySelector('#homeTab p').innerHTML = bio.replace(/\n/g, '<br>');
     }
 
     function updateProfileImage(event) {
@@ -98,14 +154,12 @@
         { id: 'tiktok', name: 'TikTok' },
         { id: 'donate', name: 'Donate' }
       ];
-
       const container = document.querySelector('.streamer-links');
       container.innerHTML = '';
-
       links.forEach(link => {
-        const isChecked = document.getElementById(`${link.id}Check`).checked;
-        const url = document.getElementById(`${link.id}URL`).value;
-        if (isChecked && url.trim() !== '') {
+        const isChecked = document.getElementById(`${link.id}Check`)?.checked;
+        const url = document.getElementById(`${link.id}URL`)?.value;
+        if (isChecked && url?.trim() !== '') {
           const a = document.createElement('a');
           a.href = url;
           a.target = "_blank";
@@ -119,19 +173,24 @@
       const container = document.getElementById("linkSettingsContainer");
       container.style.display = container.style.display === "none" ? "block" : "none";
     }
+
     function showAdminSection(sectionId) {
-  document.querySelectorAll('.admin-section').forEach(sec => {
-    sec.style.display = 'none';
-  });
-  const target = document.getElementById(sectionId);
-  if (target) target.style.display = 'block';
-}
-function toggleAdminPanel() {
-  const panel = document.querySelector(".admin-panel");
-  if (panel) {
-    panel.style.display = panel.style.display === "flex" ? "none" : "flex";
-  }
-}
+      document.querySelectorAll('.admin-section').forEach(sec => {
+        sec.style.display = 'none';
+      });
+      const target = document.getElementById(sectionId);
+      if (target) target.style.display = 'block';
+
+      document.querySelectorAll('.admin-tab').forEach(tab => tab.classList.remove('active'));
+      document.querySelector(`.admin-tab[onclick*="${sectionId}"]`)?.classList.add('active');
+    }
+
+    function toggleAdminPanel() {
+      const panel = document.querySelector(".admin-panel");
+      if (panel) {
+        panel.style.display = panel.style.display === "flex" ? "none" : "flex";
+      }
+    }
 
     window.onload = () => {
       showTab('homeTab');
@@ -147,7 +206,6 @@ function toggleAdminPanel() {
         <button onclick="showTab('homeTab')">HOME</button>
         <button onclick="showTab('serversTab')">SERVERS</button>
         <div class="settings-icon" onclick="toggleAdminPanel()">⚙️</div>
-
       </nav>
 
       <div class="tab-content" id="homeTab">
@@ -196,41 +254,34 @@ function toggleAdminPanel() {
           <a href="https://discord.gg/2BaubsMfX4" target="_blank">Redemption RP</a>
         </div>
       </div>
-
-      
     </div>
   </div>
-</div>
-<!-- Admin Panel Tablet Layout -->
-<div class="tab-content" id="settingsTab" style="display: none;">
-  <div class="admin-panel">
-    <!-- Top Bar -->
+
+  <!-- ✅ Admin Panel FLOATING at bottom of BODY -->
+  <div class="admin-panel" style="display: none;">
     <div class="admin-header">
       <div class="admin-profile">
-        <img id="adminProfileImg" src="assets/profile.png" alt="Profile" />
+        <img src="assets/profile.png" alt="Profile" />
         <div class="admin-profile-info">
-          <h3 id="adminProfileName">WARMONKEYX</h3>
+          <h3>WARMONKEYX</h3>
         </div>
       </div>
       <div class="admin-tabs">
-        <button onclick="showAdminSection('homeSettings')" class="admin-tab active">HOME</button>
-        <button onclick="showAdminSection('serverSettings')" class="admin-tab">SERVERS</button>
-        <!-- Add more tabs as needed -->
+        <button class="admin-tab active" onclick="showAdminSection('homeSettings')">HOME</button>
+        <button class="admin-tab" onclick="showAdminSection('serverSettings')">SERVERS</button>
       </div>
     </div>
 
-    <!-- Main Content -->
     <div class="admin-content">
-      <div id="homeSettings" class="admin-section">
-        <!-- Your Home/Streamer settings go here -->
+      <div id="homeSettings" class="admin-section" style="display: block;">
         <h4>Streamer Settings</h4>
-        <!-- Name, Bio, Profile Upload, etc. -->
+        <!-- Add your editable streamer settings UI here -->
       </div>
-
-      <div id="serverSettings" class="admin-section" style="display: none;">
-        <!-- Your Server customization UI goes here -->
+      <div id="serverSettings" class="admin-section">
         <h4>Server Settings</h4>
-        <!-- GTA/RedM + Add Custom Button UI -->
+        <!-- Add your editable server buttons/settings UI here -->
       </div>
+    </div>
+  </div>
 </body>
 </html>
