@@ -416,16 +416,32 @@ adminPanel {
   z-index: 9999;
 }
 
+.admin-section {
+  padding: 20px;
+  background: linear-gradient(to bottom right, #0f0f0f, #1a1a1a);
+  border: 1px solid #00ffff55;
+  border-radius: 14px;
+  box-shadow:
+    0 0 15px rgba(0, 255, 255, 0.1),
+    0 0 30px rgba(0, 255, 255, 0.05),
+    inset 0 0 10px rgba(0, 255, 255, 0.1);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
 .admin-field {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin-bottom: 15px;
-  color: white;
+  gap: 6px;
+  margin-bottom: 18px;
+  position: relative;
+  z-index: 1;
 }
 
 .admin-field label {
   font-weight: 600;
+  color: #ffffffcc;
+  text-shadow: 0 0 4px #00ffff88;
 }
 
 .admin-field input[type="text"],
@@ -434,19 +450,41 @@ adminPanel {
 .admin-field input[type="color"],
 .admin-field input[type="file"] {
   background-color: #121212;
-  border: 1px solid #444;
+  border: 1px solid #00ffff55;
   color: white;
-  padding: 8px;
-  border-radius: 5px;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow:
+    0 0 6px rgba(0, 255, 255, 0.2),
+    inset 0 0 4px rgba(0, 255, 255, 0.1);
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.admin-field input:focus,
+.admin-field textarea:focus {
+  outline: none;
+  box-shadow:
+    0 0 8px rgba(0, 255, 255, 0.4),
+    inset 0 0 6px rgba(0, 255, 255, 0.3);
 }
 
 .admin-field button {
-  background-color: var(--accent-color);
-  color: white;
-  padding: 8px 12px;
+  background: linear-gradient(to right, #00ffff, #00c6ff);
   border: none;
-  border-radius: 6px;
-  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: black;
   font-weight: bold;
+  cursor: pointer;
+  box-shadow:
+    0 0 10px #00ffff88,
+    inset 0 0 5px #00ffff55;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
 }
 
+.admin-field button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 15px #00ffffcc,
+    inset 0 0 8px #00ffff88;
+}
