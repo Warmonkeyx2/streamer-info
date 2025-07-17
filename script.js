@@ -148,8 +148,16 @@ nav.appendChild(btn);
   body.classList.toggle('collapsed');
   icon.textContent = isCollapsed ? '–' : '+';
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const collapsibleCards = document.querySelectorAll(".collapsible-card");
 
+  collapsibleCards.forEach(card => {
+    const header = card.querySelector(".card-header");
+    header.addEventListener("click", () => {
+      card.classList.toggle("expanded");
+    });
   });
+});
 }
 
   window.onload = () => {
