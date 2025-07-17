@@ -74,6 +74,22 @@
         <a href="https://discord.gg/2BaubsMfX4" target="_blank">Redemption RP</a>
       </div>
     </div>
+!-- ✅ Server Settings Panel OUTSIDE of tabs -->
+<div id="serverSettingsPanel" class="settings-panel" style="display: none;">
+  <h4 style="margin-top: 0;">Edit Server Buttons</h4>
+  
+  <label>
+    <input type="checkbox" id="gtaVisible" checked onchange="toggleDefaultServer('gtaTab', 'gtaTabBtn')"> Show GTA RP
+  </label>
+  <label>
+    <input type="checkbox" id="redmVisible" checked onchange="toggleDefaultServer('redmTab', 'redmTabBtn')"> Show RedM RP
+  </label>
+
+  <hr style="margin: 12px 0;" />
+
+  <button class="color-button" onclick="addCustomServerButton()">+ Add Custom Server Button</button>
+  <div id="customServerButtonList" style="margin-top: 10px;"></div>
+</div>
   </div>
 
   <!-- JavaScript Functions -->
