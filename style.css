@@ -621,3 +621,22 @@ display: flex;
 .collapsible-card.expanded .collapse-icon {
 transform: rotate(45deg); /* turns + into × */
 }
+
+.apps-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 10px;
+}
+.app-icon {
+  width: 60px;
+  height: 60px;
+  background-color: #222;
+  border: 2px solid var(--accent-color);
+  border-radius: 12px;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
