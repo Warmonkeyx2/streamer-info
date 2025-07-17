@@ -29,10 +29,12 @@
     </div>
 
     <!-- Server Category Tabs -->
-    <div class="internal-nav" style="margin-top: 10px;">
-      <button onclick="showServerTab('gtaTab')">GTA RP</button>
-      <button onclick="showServerTab('redmTab')">RedM RP</button>
-    </div>
+    <div class="internal-nav" style="margin-top: 10px; align-items: center;">
+  <button onclick="showServerTab('gtaTab')" id="gtaTabBtn">GTA RP</button>
+  <button onclick="showServerTab('redmTab')" id="redmTabBtn">RedM RP</button>
+  <div class="settings-icon" onclick="toggleServerSettings()" title="Edit Server Buttons">⚙️</div>
+</div>
+
 
     <!-- GTA RP Servers -->
     <div class="tab-content" id="gtaTab" style="display: none;">
@@ -41,6 +43,22 @@
         <img src="assets/prodigy-logo.png" alt="PRODIGY RP" />
         <a href="https://prodigyrp.net/" target="_blank">PRODIGY RP</a>
       </div>
+    !-- Server Settings Panel -->
+<div id="serverSettingsPanel" class="settings-panel" style="display: none;">
+  <h4 style="margin-top: 0;">Edit Server Buttons</h4>
+  
+  <label>
+    <input type="checkbox" id="gtaVisible" checked onchange="toggleDefaultServer('gtaTab', 'gtaTabBtn')"> Show GTA RP
+  </label>
+  <label>
+    <input type="checkbox" id="redmVisible" checked onchange="toggleDefaultServer('redmTab', 'redmTabBtn')"> Show RedM RP
+  </label>
+
+  <hr style="margin: 12px 0;" />
+
+  <button class="color-button" onclick="addCustomServerButton()">+ Add Custom Server Button</button>
+  <div id="customServerButtonList" style="margin-top: 10px;"></div>
+</div>
       <div class="server-entry">
         <img src="assets/free2-logo.png" alt="FREE2 RP" />
         <a href="https://free2rp.com/" target="_blank">FREE2 RP</a>
@@ -56,6 +74,40 @@
       </div>
     </div>
   </div>
+<script>
+  function toggleServerSettings() {
+    const panel = document.getElementById("serverSettingsPanel");
+    panel.style.display = panel.style.display === "none" ? "flex" : "none";
+  }
 
+  function toggleDefaultServer(tabId, btnId) {
+    const tab = document.getElementById(tabId);
+    const btn = document.getElementById(btnId);
+    const visible = document.getElementById(tabId === 'gtaTab' ? 'gtaVisible' : 'redmVisible').checked;
+    if (tab && btn) {
+      tab.style.display = visible ? "flex" : "none";
+      btn.style.display = visible ? "inline-block" : "none";
+    }
+  }
+
+  let customButtonCount = 0;
+  const maxCustomButtons = 6;
+
+  function addCustomServerButton() {
+    if (customButtonCount >= maxCustomButtons) return;
+
+    const list = document.getElementById("customServerButtonList");
+
+    const wrapper = document.createElement("div");
+    wrapper.style.marginBottom = "10px";
+    wrapper.innerHTML = `
+      <input type="text" placeholder="Label" style="margin-right: 6px;" />
+      <input type="url" placeholder="https://yourlink.com" style="margin-right: 6px;" />
+      <button onclick="this.parentElement.remove(); customButtonCount--;">❌</button>
+    `;
+    list.appendChild(wrapper);
+    customButtonCount++;
+  }
+</script>
 </body>
 </html>
