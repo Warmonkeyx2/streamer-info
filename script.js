@@ -139,8 +139,16 @@ nav.appendChild(btn);
     }
   function toggleCollapse(header) {
   const card = header.closest('.collapsible-card');
-  card.classList.toggle('expanded');
+  const body = card.querySelector('.card-body');
+  const icon = header.querySelector('.collapse-icon');
+
+  const isCollapsed = body.style.display === 'none' || body.classList.contains('collapsed');
+
+  body.style.display = isCollapsed ? 'block' : 'none';
+  body.classList.toggle('collapsed');
+  icon.textContent = isCollapsed ? '–' : '+';
 }
+
   });
 }
 
