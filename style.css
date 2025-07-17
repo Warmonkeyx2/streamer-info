@@ -318,3 +318,83 @@ adminPanel {
 .admin-section {
   margin-top: 20px;
 }
+/* Admin Panel Tablet Styling */
+#adminPanel {
+  background: #1a1a1a;
+  color: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  width: 100%;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Header with Profile Pic and Name */
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border-bottom: 2px solid #333;
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+}
+
+.admin-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-profile img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid var(--accent-color);
+  object-fit: cover;
+}
+
+.admin-profile-name {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* Navigation Tabs */
+.admin-nav-tabs {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-nav-tabs button {
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 2px solid var(--accent-color);
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.admin-nav-tabs button:hover {
+  background: var(--accent-color);
+  color: #121212;
+}
+
+/* Section Wrapper */
+.admin-section {
+  display: none;
+  margin-top: 20px;
+}
+
+.admin-section h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.admin-section p {
+  color: #ccc;
+}
+
