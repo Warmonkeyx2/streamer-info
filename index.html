@@ -337,7 +337,55 @@
 
       <div id="serverSettings" class="admin-section">
         <h4>Server Settings</h4>
-        <!-- Add your editable server buttons/settings UI here -->
+<p>Edit the names, links, and visibility of your servers below:</p>
+<div class="server-grid">
+  <!-- Repeat for 6 total slots -->
+  <div class="server-slot">
+    <label>Server Name:</label>
+    <input type="text" class="server-name" value="PRODIGY RP" />
+    <label>Server Link:</label>
+    <input type="url" class="server-link" value="https://prodigyrp.net/" />
+    <label><input type="checkbox" class="server-visible" checked /> Show</label>
+  </div>
+  <div class="server-slot">
+    <label>Server Name:</label>
+    <input type="text" class="server-name" value="FREE2 RP" />
+    <label>Server Link:</label>
+    <input type="url" class="server-link" value="https://free2rp.com/" />
+    <label><input type="checkbox" class="server-visible" checked /> Show</label>
+  </div>
+  <!-- 4 more blank slots -->
+  <div class="server-slot">
+    <label>Server Name:</label>
+    <input type="text" class="server-name" placeholder="Server Name" />
+    <label>Server Link:</label>
+    <input type="url" class="server-link" placeholder="https://..." />
+    <label><input type="checkbox" class="server-visible" /> Show</label>
+  </div>
+  <div class="server-slot">
+    <label>Server Name:</label>
+    <input type="text" class="server-name" placeholder="Server Name" />
+    <label>Server Link:</label>
+    <input type="url" class="server-link" placeholder="https://..." />
+    <label><input type="checkbox" class="server-visible" /> Show</label>
+  </div>
+  <div class="server-slot">
+    <label>Server Name:</label>
+    <input type="text" class="server-name" placeholder="Server Name" />
+    <label>Server Link:</label>
+    <input type="url" class="server-link" placeholder="https://..." />
+    <label><input type="checkbox" class="server-visible" /> Show</label>
+  </div>
+  <div class="server-slot">
+    <label>Server Name:</label>
+    <input type="text" class="server-name" placeholder="Server Name" />
+    <label>Server Link:</label>
+    <input type="url" class="server-link" placeholder="https://..." />
+    <label><input type="checkbox" class="server-visible" /> Show</label>
+  </div>
+</div>
+<button onclick="updateServerButtons()" class="color-button" style="margin-top: 20px;">Save Server Buttons</button>
+
       </div>
     </div>
   </div>
