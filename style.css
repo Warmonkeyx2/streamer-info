@@ -1,324 +1,264 @@
 /* === GLOBAL === */
 body {
-  margin: 0;
-  font-family: sans-serif;
-  background: #0d0d0d;
-  color: white;
-}
-
-:root {
-  --accent-color: #00f0ff;
-  --gradient-start: #00f0ff;
-  --gradient-end: #ff00d4;
-}
-
-/* === INFO BUBBLE === */
-.info-bubble {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999;
-}
-
-.info-button {
-  width: 50px;
-  height: 50px;
-  background-color: #1f1f1f;
-  color: white;
-  border-radius: 50%;
-  font-size: 24px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border: 2px solid #fff;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-}
-
-/* === INFO CARD === */
-.info-card {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  width: 340px;
-  background: rgba(18, 18, 18, 0.9);
-  color: #eee;
-  border-radius: 20px;
-  padding: 18px;
-  position: absolute;
-  bottom: 60px;
-  right: 0;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
-  border: 2px solid transparent;
-  background-clip: padding-box;
-  backdrop-filter: blur(10px);
-  max-height: 90vh;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--accent-color) #1c1c1c;
-}
-
-.info-card img {
-  width: 100%;
-  border-radius: 15px;
-  margin-bottom: 10px;
-}
-
-.info-card h3 {
-  margin: 10px 0;
-  font-size: 20px;
-  font-weight: bold;
-  text-align: center;
-}
-
-.info-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.75);
-  border-image: linear-gradient(145deg, var(--gradient-start), var(--gradient-end)) 1;
-}
-
-/* === TABS === */
-.internal-nav {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 12px;
-  position: relative;
-  flex-wrap: wrap;
-}
-
-.internal-nav a,
-.internal-nav button {
-  padding: 6px 18px;
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: 999px;
-  color: white;
-  font-size: 12px;
-  background:
-    linear-gradient(#121212, #121212) padding-box,
-    linear-gradient(to right, var(--accent-color), var(--gradient-end)) border-box;
-  border: 2px solid transparent;
-  background-clip: padding-box, border-box;
-  transition: transform 0.3s ease;
-  cursor: pointer;
-}
-
-.internal-nav a:hover,
-.internal-nav button:hover {
-  transform: scale(1.1);
-  color: var(--gradient-start);
-}
-
-/* === TAB CONTENT === */
-.tab-content {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* === STREAMER LINKS === */
-.streamer-links a {
-  display: inline-block;
-  margin: 6px 6px;
-  padding: 6px 14px;
-  text-decoration: none;
-  color: white;
-  border-radius: 999px;
-  background:
-    linear-gradient(#121212, #121212) padding-box,
-    linear-gradient(to right, var(--accent-color), var(--gradient-end)) border-box;
-  border: 2px solid transparent;
-  background-clip: padding-box, border-box;
-  transition: transform 0.3s;
-}
-
-.streamer-links a:hover {
-  transform: scale(1.1);
-  color: var(--gradient-start);
-}
-
-/* === SERVER LIST === */
-.server-entry {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.server-entry img {
-  width: 150px;
-  border-radius: 12px;
-  margin-bottom: 8px;
-}
-
-.server-entry a {
-  text-decoration: none;
-  padding: 6px 16px;
-  border-radius: 999px;
-  font-weight: bold;
-  color: white;
-  background:
-    linear-gradient(#121212, #121212) padding-box,
-    linear-gradient(to right, var(--accent-color), var(--gradient-end)) border-box;
-  border: 2px solid transparent;
-  background-clip: padding-box, border-box;
-  transition: transform 0.3s ease;
-}
-
-.server-entry a:hover {
-  transform: scale(1.05);
-  color: var(--gradient-start);
-}
-
-/* === SETTINGS === */
-.settings-icon {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  font-size: 20px;
-  cursor: pointer;
-  color: white;
-  background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
-  border-radius: 50%;
-  padding: 4px 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-}
-
-.settings-panel {
-  display: none;
-  flex-direction: column;
-  gap: 8px;
-  padding: 14px;
-  background: #1c1c1c;
-  border-radius: 12px;
-  border: 2px solid transparent;
-  background-clip: padding-box;
-  margin-top: 20px;
-  color: white;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
-  width: 90%;
-}
-
-.settings-panel label {
-  font-size: 14px;
-}
-/* === SERVER SETTINGS PANEL === */
-#serverSettingsPanel {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background: #1c1c1c;
-  padding: 14px;
-  border-radius: 12px;
-  border: 2px solid transparent;
-  background-clip: padding-box;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
-  width: 100%;
-  color: white;
-}
-
-.server-type-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #121212;
-  padding: 8px 12px;
-  border-radius: 8px;
-}
-
-.server-type-item input[type="text"] {
-  flex: 1;
-  padding: 6px 10px;
-  border-radius: 6px;
-  background: #1e1e1e;
-  color: white;
-  border: none;
-}
-
-.server-type-item button {
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: transform 0.2s;
-}
-
-.server-type-item button:hover {
-  transform: scale(1.05);
-  background-color: #ff1a1a;
-}
-.settings-panel input[type="color"] {
-  width: 100%;
-  height: 40px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  outline: none;
-}
-
-.color-button {
-  margin-top: 10px;
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-weight: bold;
-  color: white;
-  background:
-    linear-gradient(#121212, #121212) padding-box,
-    linear-gradient(to right, var(--accent-color), var(--accent-color)) border-box;
-  border: 2px solid transparent;
-  background-clip: padding-box, border-box;
-  cursor: pointer;
-  transition: transform 0.3s;
-}
-
-.color-button:hover {
-  transform: scale(1.05);
-  color: var(--accent-color);
-}
-
-/* === STREAMER LINK SETTINGS – COMPACT === */
-#linkSettingsContainer {
-  max-height: 180px;
-  overflow-y: auto;
-  width: 100%;
-  margin-top: 10px;
-  padding-right: 4px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--accent-color) #1c1c1c;
-}
-
-.link-setting {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 8px;
-  font-size: 13px;
-}
-
-.link-setting label {
-  min-width: 60px;
-  color: #ccc;
-}
-
-.link-setting input[type="checkbox"] {
-  transform: scale(1.1);
-  margin-right: 4px;
-}
-
-.link-setting input[type="url"] {
-  flex: 1;
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid #444;
-  background-color: #1c1c1c;
-  color: white;
-  font-size: 12px;
-}
+    margin: 0;
+    font-family: sans-serif;
+    background: #0d0d0d;
+  }
+  
+  :root {
+    --accent-color: #00f0ff;
+    --gradient-start: #00f0ff;
+    --gradient-end: #ff00d4;
+  }
+  
+  /* === INFO BUBBLE === */
+  .info-bubble {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+  }
+  
+  .info-button {
+    width: 50px;
+    height: 50px;
+    background-color: #1f1f1f;
+    color: white;
+    border-radius: 50%;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 0 10px rgba(255,255,255,0.3);
+  }
+  
+  /* === INFO CARD === */
+  .info-card {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 340px;
+    background: rgba(18, 18, 18, 0.8);
+    color: #eee;
+    border-radius: 20px;
+    padding: 18px;
+    position: absolute;
+    bottom: 60px;
+    right: 0;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    backdrop-filter: blur(10px);
+    opacity: 1;
+    max-height: 90vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) #1c1c1c;
+  }
+  
+  .info-card img {
+    width: 100%;
+    border-radius: 15px;
+    margin-bottom: 10px;
+  }
+  
+  .info-card h3 {
+    text-align: center;
+    font-weight: bold;
+    margin: 10px 0;
+    font-size: 20px;
+  }
+  
+  .info-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.75);
+    border-image: linear-gradient(145deg, var(--gradient-start), var(--gradient-end)) 1;
+  }
+  
+  /* === TABS === */
+  .internal-nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  
+  .internal-nav a,
+  .internal-nav button {
+    padding: 6px 18px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 999px;
+    color: white;
+    font-size: 12px;
+    background:
+      linear-gradient(#121212, #121212) padding-box,
+      linear-gradient(to right, var(--accent-color), var(--gradient-end)) border-box;
+    border: 2px solid transparent;
+    background-clip: padding-box, border-box;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .internal-nav a:hover,
+  .internal-nav button:hover {
+    transform: scale(1.1);
+    color: var(--gradient-start);
+  }
+  
+  /* === STREAMER LINKS DISPLAY === */
+  .streamer-links a {
+    display: inline-block;
+    margin: 6px 6px;
+    padding: 6px 14px;
+    text-decoration: none;
+    color: white;
+    border-radius: 999px;
+    background:
+      linear-gradient(#121212, #121212) padding-box,
+      linear-gradient(to right, var(--accent-color), var(--gradient-end)) border-box;
+    border: 2px solid transparent;
+    background-clip: padding-box, border-box;
+    transition: transform 0.3s;
+  }
+  
+  .streamer-links a:hover {
+    transform: scale(1.1);
+    color: var(--gradient-start);
+  }
+  
+  /* === TABS === */
+  .tab-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* === SERVERS === */
+  .server-entry {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .server-entry img {
+    width: 150px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+  }
+  
+  .server-entry a {
+    text-decoration: none;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-weight: bold;
+    color: white;
+    background:
+      linear-gradient(#121212, #121212) padding-box,
+      linear-gradient(to right, var(--accent-color), var(--gradient-end)) border-box;
+    border: 2px solid transparent;
+    background-clip: padding-box, border-box;
+    transition: transform 0.3s ease;
+  }
+  
+  .server-entry a:hover {
+    transform: scale(1.05);
+    color: var(--gradient-start);
+  }
+  
+  /* === SETTINGS === */
+  .settings-icon {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+    border-radius: 50%;
+    padding: 4px 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  }
+  
+  .settings-panel {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px;
+    background: #1c1c1c;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    margin-top: 20px;
+    color: white;
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    width: 90%;
+  }
+  
+  .settings-panel label {
+    font-size: 14px;
+  }
+  
+  .settings-panel input[type="color"] {
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .color-button {
+    margin-top: 10px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-weight: bold;
+    color: white;
+    background:
+      linear-gradient(#121212, #121212) padding-box,
+      linear-gradient(to right, var(--accent-color), var(--accent-color)) border-box;
+    border: 2px solid transparent;
+    background-clip: padding-box, border-box;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  
+  .color-button:hover {
+    transform: scale(1.05);
+    color: var(--accent-color);
+  }
+  
+  /* === STREAMER LINK SETTINGS COMPACT === */
+  .link-setting {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 6px 0;
+  }
+  
+  .link-setting label {
+    color: #ccc;
+    font-size: 13px;
+    min-width: 50px;
+  }
+  
+  .link-setting input[type="checkbox"] {
+    transform: scale(1.1);
+  }
+  
+  .link-setting input[type="url"] {
+    flex: 1;
+    padding: 6px;
+    border-radius: 6px;
+    border: none;
+    font-size: 12px;
+  }
