@@ -81,13 +81,13 @@ body {
   
   /* === TABS === */
   .internal-nav {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 12px;
-    position: relative;
-  }
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  justify-content: center;
+  margin: 20px 0;
+  padding: 0 12px;
+}
   
   .internal-nav a,
   .internal-nav button {
