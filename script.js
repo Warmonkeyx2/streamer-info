@@ -2,26 +2,34 @@
   // Toggle Info Card visibility
   function toggleCard() {
     const card = document.getElementById("infoCard");
-    card.style.display = card.style.display === "flex" ? "none" : "flex";
+    if (card) {
+      card.style.display = card.style.display === "flex" ? "none" : "flex";
+    }
   }
 
-  // Show specific tab
+  // Show specific content tab
   function showTab(tabId) {
-    document.querySelectorAll('.tab-content').forEach(tab => {
-      tab.style.display = 'none';
-    });
+    const tabs = document.querySelectorAll('.tab-content');
+    tabs.forEach(tab => tab.style.display = 'none');
+
     const target = document.getElementById(tabId);
-    if (target) target.style.display = 'flex';
+    if (target) {
+      target.style.display = 'flex';
+    }
   }
 
-  // Toggle visibility of color picker
+  // Toggle color picker display
   function toggleColorPicker() {
     const picker = document.getElementById("colorPicker");
-    picker.style.display = picker.style.display === "block" ? "none" : "block";
+    if (picker) {
+      picker.style.display = picker.style.display === "block" ? "none" : "block";
+    }
   }
 
-  // Update global accent color and button gradients
+  // Update CSS accent color and apply to UI elements
   function updateThemeColor(hexColor) {
+    if (!hexColor) return;
+
     document.documentElement.style.setProperty('--accent-color', hexColor);
 
     const buttons = document.querySelectorAll(
@@ -30,27 +38,25 @@
 
     buttons.forEach(btn => {
       btn.style.backgroundImage = `
-        linear-gradient(#121212, #121212), 
+        linear-gradient(#121212, #121212),
         linear-gradient(to right, ${hexColor}, ${hexColor})
       `;
     });
   }
 
-  // Update Streamer Name & Bio in HOME tab
+  // Save updated streamer name and bio
   function updateStreamerInfo() {
-    const name = document.getElementById('streamerNameInput').value;
-    const bio = document.getElementById('streamerBioInput').value;
+    const name = document.getElementById('streamerNameInput')?.value || '';
+    const bio = document.getElementById('streamerBioInput')?.value || '';
 
-    if (name) {
-      document.querySelector('#homeTab h3').textContent = name;
-    }
+    const nameDisplay = document.querySelector('#homeTab h3');
+    const bioDisplay = document.querySelector('#homeTab p');
 
-    if (bio) {
-      document.querySelector('#homeTab p').innerHTML = bio.replace(/\n/g, '<br>');
-    }
+    if (nameDisplay && name.trim()) nameDisplay.textContent = name;
+    if (bioDisplay) bioDisplay.innerHTML = bio.replace(/\n/g, '<br>');
   }
 
-  // Update Profile Image live
+  // Live preview for profile image
   function updateProfileImage(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -63,7 +69,7 @@
     reader.readAsDataURL(file);
   }
 
-  // Update social link buttons based on checkboxes and URLs
+  // Control which social links show and update their URLs
   function updateStreamerLinks() {
     const links = [
       { id: 'twitch', name: 'Twitch' },
@@ -75,24 +81,29 @@
     ];
 
     const container = document.querySelector('.streamer-links');
-    container.innerHTML = ''; // Clear existing buttons
+    if (!container) return;
+
+    container.innerHTML = ''; // Clear current links
 
     links.forEach(link => {
-      const isChecked = document.getElementById(`${link.id}Check`).checked;
-      const url = document.getElementById(`${link.id}URL`).value;
+      const checkbox = document.getElementById(`${link.id}Check`);
+      const urlInput = document.getElementById(`${link.id}URL`);
+      const isChecked = checkbox?.checked;
+      const url = urlInput?.value || '';
 
-      if (isChecked && url.trim() !== '') {
+      if (isChecked && url.trim()) {
         const a = document.createElement('a');
         a.href = url;
-        a.target = "_blank";
+        a.target = '_blank';
         a.textContent = link.name;
         container.appendChild(a);
       }
     });
   }
 
-  // Initialize default tab
+  // Initialize first tab when the page loads
   window.onload = () => {
     showTab('homeTab');
+    updateStreamerLinks();
   };
 </script>
