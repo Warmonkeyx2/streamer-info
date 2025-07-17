@@ -126,6 +126,12 @@
   const target = document.getElementById(sectionId);
   if (target) target.style.display = 'block';
 }
+function toggleAdminPanel() {
+  const panel = document.querySelector(".admin-panel");
+  if (panel) {
+    panel.style.display = panel.style.display === "flex" ? "none" : "flex";
+  }
+}
 
     window.onload = () => {
       showTab('homeTab');
