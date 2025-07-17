@@ -41,7 +41,7 @@
 <body>
   <div class="info-bubble">
     <div class="info-button" onclick="toggleCard()">i</div>
-    <div class="info-card" id="infoCard">
+    <div class="info-card" id="infoCard" style="display: none;">
       <nav class="top-nav internal-nav">
         <button onclick="showTab('homeTab')">HOME</button>
         <button onclick="showTab('serversTab')">SERVERS</button>
@@ -107,17 +107,84 @@
           <button class="color-button" onclick="addServerType()">+ Add Server Type</button>
           <div id="customServerTypesContainer" style="margin-top: 10px;"></div>
         </div>
-
       </div>
     </div>
   </div>
 
-  <!-- JS goes at the end for performance -->
+  <!-- Script -->
   <script>
     function toggleCard() {
-  const card = document.getElementById("infoCard");
-  card.style.display = card.style.display === "flex" ? "none" : "flex";
-}
+      const card = document.getElementById("infoCard");
+      card.style.display = card.style.display === "flex" ? "none" : "flex";
+    }
+
+    function showTab(tabId) {
+      const tabs = document.querySelectorAll('.tab-content');
+      tabs.forEach(tab => tab.style.display = 'none');
+      document.getElementById(tabId).style.display = 'flex';
+    }
+
+    function toggleColorPicker() {
+      const picker = document.getElementById("colorPicker");
+      picker.style.display = picker.style.display === "block" ? "none" : "block";
+    }
+
+    function updateThemeColor(hexColor) {
+      document.documentElement.style.setProperty('--accent-color', hexColor);
+      const buttons = document.querySelectorAll(
+        '.streamer-links a, .internal-nav a, .internal-nav button, .server-entry a, .color-button'
+      );
+      buttons.forEach(btn => {
+        btn.style.backgroundImage = `linear-gradient(#121212, #121212), linear-gradient(to right, ${hexColor}, ${hexColor})`;
+      });
+    }
+
+    function updateStreamerInfo() {
+      const name = document.getElementById('streamerNameInput').value;
+      const bio = document.getElementById('streamerBioInput').value;
+      if (name) document.querySelector('#homeTab h3').textContent = name;
+      if (bio) document.querySelector('#homeTab p').innerHTML = bio.replace(/\n/g, '<br>');
+    }
+
+    function updateProfileImage(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = document.querySelector('#homeTab img');
+          if (img) img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function toggleLinkSettings() {
+      const container = document.getElementById("linkSettingsContainer");
+      container.style.display = container.style.display === "none" ? "block" : "none";
+    }
+
+    function toggleServerSettings() {
+      const panel = document.getElementById("serverSettingsPanel");
+      panel.style.display = panel.style.display === "none" ? "block" : "none";
+    }
+
+    function addServerType() {
+      const container = document.getElementById("customServerTypesContainer");
+      const count = container.children.length;
+      if (count >= 6) return alert("You can only add up to 6 server types.");
+
+      const input = document.createElement("input");
+      input.type = "text";
+      input.placeholder = "Enter server name...";
+      input.classList.add("link-setting");
+      input.style.marginBottom = "8px";
+
+      container.appendChild(input);
+    }
+
+    window.onload = () => {
+      showTab('homeTab');
+    };
   </script>
 </body>
 </html>
