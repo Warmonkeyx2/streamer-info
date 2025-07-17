@@ -143,5 +143,6 @@
     showTab('homeTab');
     updateStreamerLinks();
     updateServerLinks();
+    updateServerButtons();
   };
 </script>
