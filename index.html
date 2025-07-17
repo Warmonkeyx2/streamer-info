@@ -183,96 +183,39 @@
         </div>
       </div>
 
-      <div class="tab-content" id="settingsTab" style="display: none;">
-        <h3>Settings</h3>
-        <p>Customize your streamer panel colors below:</p>
-        <button class="color-button" onclick="toggleColorPicker()">Change Color</button>
-        <input type="color" id="colorPicker" style="display: none; margin-top: 10px;" onchange="updateThemeColor(this.value)" />
-
-        <hr style="margin: 16px 0; width: 100%;" />
-
-        <label for="streamerNameInput" style="color: white;">Streamer Name:</label>
-        <input type="text" id="streamerNameInput" placeholder="Enter new name..." style="margin-bottom: 10px; padding: 6px; border-radius: 6px; border: none; width: 100%;" />
-
-        <label for="streamerBioInput" style="color: white;">Streamer Bio:</label>
-        <textarea id="streamerBioInput" rows="4" placeholder="Enter bio..." style="margin-bottom: 10px; padding: 6px; border-radius: 6px; border: none; width: 100%; resize: vertical;"></textarea>
-
-        <button class="color-button" onclick="updateStreamerInfo()">Save Changes</button>
-
-        <hr style="margin: 16px 0; width: 100%;" />
-
-        <label for="profileImageInput" style="color: white;">Update Profile Image:</label>
-        <input type="file" id="profileImageInput" accept="image/*" onchange="updateProfileImage(event)" />
-
-        <hr style="margin: 16px 0; width: 100%;" />
-
-        <h4 style="color: white;">Streamer Links</h4>
-        <p style="color: #ccc;">Choose which buttons to show and edit their links:</p>
-
-        <button id="toggleLinkSettings" onclick="toggleLinkSettings()">Show/Hide Link Settings</button>
-
-        <div id="linkSettingsContainer">
-          <div id="linkSettings">
-            <div class="link-setting">
-              <input type="checkbox" id="twitchCheck" checked onchange="updateStreamerLinks()" />
-              <label for="twitchCheck">Twitch</label>
-              <input type="url" id="twitchURL" placeholder="https://twitch.tv/yourname" value="https://twitch.tv/warmonkeyx" onchange="updateStreamerLinks()" />
-            </div>
-            <div class="link-setting">
-              <input type="checkbox" id="youtubeCheck" checked onchange="updateStreamerLinks()" />
-              <label for="youtubeCheck">YouTube</label>
-              <input type="url" id="youtubeURL" placeholder="https://youtube.com/@yourname" value="https://youtube.com/@warmonkeyx" onchange="updateStreamerLinks()" />
-            </div>
-            <div class="link-setting">
-              <input type="checkbox" id="kickCheck" checked onchange="updateStreamerLinks()" />
-              <label for="kickCheck">Kick</label>
-              <input type="url" id="kickURL" placeholder="https://kick.com/yourname" value="https://kick.com/warmonkeyx" onchange="updateStreamerLinks()" />
-            </div>
-            <div class="link-setting">
-              <input type="checkbox" id="discordCheck" checked onchange="updateStreamerLinks()" />
-              <label for="discordCheck">Discord</label>
-              <input type="url" id="discordURL" placeholder="https://discord.gg/yourcode" value="https://discord.gg/ANvfmFFwUS" onchange="updateStreamerLinks()" />
-            </div>
-            <div class="link-setting">
-              <input type="checkbox" id="tiktokCheck" checked onchange="updateStreamerLinks()" />
-              <label for="tiktokCheck">TikTok</label>
-              <input type="url" id="tiktokURL" placeholder="https://tiktok.com/@yourname" value="https://tiktok.com/@warmonkeyx" onchange="updateStreamerLinks()" />
-            </div>
-            <div class="link-setting">
-              <input type="checkbox" id="donateCheck" checked onchange="updateStreamerLinks()" />
-              <label for="donateCheck">Donate</label>
-              <input type="url" id="donateURL" placeholder="https://streamelements.com/yourname/tip" value="https://streamelements.com/warmonkeyx/tip" onchange="updateStreamerLinks()" />
-            </div>
-            <!-- Server Links Section Start -->
-<hr style="margin: 16px 0; width: 100%;" />
-<h4 style="color: white;">Server Links</h4>
-<p style="color: #ccc;">Choose which server buttons to show and edit:</p>
-
-<button id="toggleServerSettings" onclick="toggleServerLinkSettings()">Show/Hide Server Link Settings</button>
-
-<div id="serverLinkSettingsContainer" style="display: none;">
-  <div class="link-setting">
-    <input type="checkbox" id="gtaCheck" checked onchange="updateServerLinks()" />
-    <label for="gtaCheck">GTA RP</label>
-    <input type="url" id="gtaURL" value="https://prodigyrp.net/" placeholder="https://yourserver.com" onchange="updateServerLinks()" />
-  </div>
-
-  <div class="link-setting">
-    <input type="checkbox" id="redmCheck" checked onchange="updateServerLinks()" />
-    <label for="redmCheck">RedM RP</label>
-    <input type="url" id="redmURL" value="https://discord.gg/2BaubsMfX4" placeholder="https://yourserver.com" onchange="updateServerLinks()" />
-  </div>
-
-  <button class="color-button" onclick="addCustomServerLink()">+ Add Custom Server Link</button>
-  <div id="customServerLinks" style="margin-top: 10px;"></div>
-</div>
-<!-- Server Links Section End -->
-
-          </div>
-        </div>
-
+      <!-- Admin Panel Tablet Layout -->
+<div class="tab-content" id="settingsTab" style="display: none;">
+  <div id="adminPanel">
+    
+    <!-- Top Section: Profile Header -->
+    <div class="admin-header">
+      <div class="admin-profile">
+        <img id="adminProfilePic" src="assets/profile.png" alt="Profile Picture" />
+        <div class="admin-profile-name">WARMONKEYX</div>
+      </div>
+      <div class="admin-nav-tabs">
+        <button onclick="showAdminSection('homeSettings')">HOME</button>
+        <button onclick="showAdminSection('serverSettings')">SERVERS</button>
+        <!-- Add more tabs here -->
       </div>
     </div>
+
+    <!-- Content Area -->
+    <div id="adminContent">
+      <!-- Sections get swapped in here -->
+      <div id="homeSettings" class="admin-section">
+        <!-- Home settings content goes here -->
+        <h3>Home Settings</h3>
+        <p>Streamer Name, Bio, Profile Pic, Social Links...</p>
+      </div>
+      <div id="serverSettings" class="admin-section" style="display: none;">
+        <!-- Server settings content goes here -->
+        <h3>Server Settings</h3>
+        <p>Add/remove server buttons like GTA RP, RedM RP, DayZ RP...</p>
+      </div>
+    </div>
+
   </div>
+</div>
 </body>
 </html>
