@@ -191,6 +191,27 @@
         panel.style.display = panel.style.display === "flex" ? "none" : "flex";
       }
     }
+function updateServerButtons() {
+  const serverTab = document.getElementById('serversTab');
+  const navContainer = serverTab.querySelector('.internal-nav');
+  navContainer.innerHTML = ''; // Clear previous buttons
+
+  const typeCards = document.querySelectorAll('.server-type-card');
+
+  typeCards.forEach((card, i) => {
+    const labelInput = card.querySelector('.server-type-label');
+    const checkbox = card.querySelector('.server-type-visible');
+    const label = labelInput.value.trim();
+
+    if (label && checkbox.checked) {
+      const btn = document.createElement('button');
+      btn.textContent = label;
+      btn.classList.add('color-button'); // Optional for style
+      btn.onclick = () => alert(`Open tab for: ${label}`);
+      navContainer.appendChild(btn);
+    }
+  });
+}
 
     window.onload = () => {
       showTab('homeTab');
