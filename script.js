@@ -128,7 +128,6 @@
     const serversTab = document.getElementById('serversTab');
     const nav = serversTab.querySelector('.internal-nav');
 
-    // Clear current buttons
     nav.innerHTML = '';
 
     serverGrid.forEach(card => {
@@ -145,24 +144,24 @@
     });
   }
 
-  // Expand/Collapse for Server Type Cards
+  // Collapse behavior for collapsible cards
+  function toggleCollapse(header) {
+    const card = header.closest('.collapsible-card');
+    const body = card.querySelector('.card-body');
+    const icon = header.querySelector('.collapse-icon');
+
+    const isCollapsed = body.style.display === 'none' || card.classList.contains('collapsed');
+
+    body.style.display = isCollapsed ? 'block' : 'none';
+    card.classList.toggle('collapsed', !isCollapsed);
+    icon.textContent = isCollapsed ? '–' : '+';
+  }
+
+  // Attach collapse behavior after DOM is loaded
   document.addEventListener("DOMContentLoaded", () => {
-    const collapsibleCards = document.querySelectorAll(".collapsible-card");
-
-    collapsibleCards.forEach(card => {
-      const header = card.querySelector(".card-header");
-      const icon = header.querySelector(".collapse-icon");
-      const body = card.querySelector(".card-body");
-
-      header.addEventListener("click", () => {
-        const isExpanded = card.classList.toggle("expanded");
-        body.style.display = isExpanded ? "block" : "none";
-        icon.textContent = isExpanded ? "–" : "+";
-      });
-
-      // Set initial collapsed state
-      body.style.display = "none";
-      icon.textContent = "+";
+    const headers = document.querySelectorAll(".collapsible-card .card-header");
+    headers.forEach(header => {
+      header.addEventListener("click", () => toggleCollapse(header));
     });
   });
 
@@ -170,4 +169,6 @@
     showTab('homeTab');
     updateStreamerLinks();
     updateServerLinks();
-    updateSer
+    updateServerButtons();
+  };
+</script>
