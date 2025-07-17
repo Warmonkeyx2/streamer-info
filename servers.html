@@ -2,115 +2,169 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Servers</title>
   <link rel="stylesheet" href="style.css" />
-  <script defer>
-    function showServerTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.style.display = "none";
-      });
-      const target = document.getElementById(tabId);
-      if (target) target.style.display = "flex";
+  <style>
+    .internal-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .internal-nav button {
+      background-image: linear-gradient(#121212, #121212), linear-gradient(to right, var(--accent-color), var(--accent-color));
+      color: white;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .server-page {
+      display: none;
+    }
+    .server-entry {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .server-entry img {
+      height: 40px;
+    }
+    #serverSettingsPanel {
+      margin-top: 20px;
+      background-color: #1b1b1b;
+      padding: 10px;
+      border-radius: 8px;
+      display: none;
+    }
+    .server-config {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .server-config input {
+      padding: 6px;
+      border-radius: 4px;
+      border: 1px solid #333;
+      background-color: #0f0f0f;
+      color: white;
+    }
+    .server-config button {
+      align-self: flex-start;
+      margin-top: 4px;
+    }
+  </style>
+  <script>
+    let customServers = [];
+
+    function showServerPage(id) {
+      document.querySelectorAll('.server-page').forEach(div => div.style.display = 'none');
+      const section = document.getElementById(id);
+      if (section) section.style.display = 'block';
     }
 
-    window.onload = () => {
-      showServerTab('gtaTab');
-    };
+    function toggleSettings() {
+      const panel = document.getElementById("serverSettingsPanel");
+      panel.style.display = panel.style.display === "none" ? "block" : "none";
+    }
+
+    function addServerButton() {
+      const name = document.getElementById("newServerName").value.trim();
+      const url = document.getElementById("newServerURL").value.trim();
+      const pageId = name.toLowerCase().replace(/\s+/g, '') + "Tab";
+
+      if (!name || !url) return;
+
+      const nav = document.querySelector(".internal-nav");
+      const btn = document.createElement("button");
+      btn.textContent = name;
+      btn.onclick = () => showServerPage(pageId);
+      nav.appendChild(btn);
+
+      const section = document.createElement("div");
+      section.className = "server-page";
+      section.id = pageId;
+      section.innerHTML = `
+        <h3>${name}</h3>
+        <div class="server-entry">
+          <img src="assets/server1-logo.png" alt="${name} Logo" />
+          <a href="${url}" target="_blank">${name}</a>
+        </div>`;
+      document.body.appendChild(section);
+
+      const list = document.getElementById("customServerList");
+      const config = document.createElement("div");
+      config.className = "server-config";
+      config.innerHTML = `
+        <input type="text" value="${name}" readonly />
+        <input type="text" value="${url}" readonly />
+        <button onclick="removeServer('${pageId}', this)">Remove</button>`;
+      list.appendChild(config);
+
+      customServers.push({ name, url, pageId });
+      document.getElementById("newServerName").value = "";
+      document.getElementById("newServerURL").value = "";
+    }
+
+    function removeServer(pageId, btn) {
+      const section = document.getElementById(pageId);
+      if (section) section.remove();
+
+      const nav = document.querySelector(".internal-nav");
+      const buttons = Array.from(nav.querySelectorAll("button"));
+      buttons.forEach(b => {
+        if (b.onclick.toString().includes(pageId)) b.remove();
+      });
+
+      const row = btn.parentElement;
+      if (row) row.remove();
+    }
+
+    window.onload = () => showServerPage('gtaTab');
   </script>
 </head>
 <body>
+  <h3 style="color:white;">Select a Server</h3>
+  <div class="internal-nav">
+    <button onclick="showServerPage('gtaTab')">GTA RP</button>
+    <button onclick="showServerPage('redmTab')">RedM RP</button>
+  </div>
 
-  <div class="info-card" style="margin: 60px auto; display: flex; flex-direction: column;">
-    
-    <!-- Top Navigation -->
-    <div class="internal-nav">
-      <a href="index.html">HOME</a>
-      <a href="servers.html">SERVERS</a>
+  <!-- Server Content Tabs -->
+  <div class="server-page" id="gtaTab">
+    <h3>GTA RP Servers</h3>
+    <div class="server-entry">
+      <img src="assets/server1-logo.png" alt="PRODIGY RP Logo" />
+      <a href="https://prodigyrp.net/" target="_blank">PRODIGY RP</a>
     </div>
-
-    <!-- Server Tab Buttons -->
-    <div class="internal-nav" style="margin-top: 10px; align-items: center;">
-      <button onclick="showServerTab('gtaTab')" id="gtaTabBtn">GTA RP</button>
-      <button onclick="showServerTab('redmTab')" id="redmTabBtn">RedM RP</button>
-      <div class="settings-icon" onclick="toggleServerSettings()" title="Edit Server Buttons">⚙️</div>
-    </div>
-
-    <!-- Server Settings Panel -->
-    <div id="serverSettingsPanel" class="settings-panel" style="display: none;">
-      <h4 style="margin-top: 0;">Edit Server Buttons</h4>
-
-      <label>
-        <input type="checkbox" id="gtaVisible" checked onchange="toggleDefaultServer('gtaTab', 'gtaTabBtn')"> Show GTA RP
-      </label>
-      <label>
-        <input type="checkbox" id="redmVisible" checked onchange="toggleDefaultServer('redmTab', 'redmTabBtn')"> Show RedM RP
-      </label>
-
-      <hr style="margin: 12px 0;" />
-
-      <button class="color-button" onclick="addCustomServerButton()">+ Add Custom Server Button</button>
-      <div id="customServerButtonList" style="margin-top: 10px;"></div>
-    </div>
-
-    <!-- GTA RP Servers -->
-    <div class="tab-content" id="gtaTab" style="display: none;">
-      <h3>GTA RP Servers</h3>
-      <div class="server-entry">
-        <img src="assets/prodigy-logo.png" alt="PRODIGY RP" />
-        <a href="https://prodigyrp.net/" target="_blank">PRODIGY RP</a>
-      </div>
-      <div class="server-entry">
-        <img src="assets/free2-logo.png" alt="FREE2 RP" />
-        <a href="https://free2rp.com/" target="_blank">FREE2 RP</a>
-      </div>
-    </div>
-
-    <!-- RedM RP Servers -->
-    <div class="tab-content" id="redmTab" style="display: none;">
-      <h3>RedM RP Servers</h3>
-      <div class="server-entry">
-        <img src="assets/rserver1-logo.png" alt="Redemption RP Logo" />
-        <a href="https://discord.gg/2BaubsMfX4" target="_blank">Redemption RP</a>
-      </div>
+    <div class="server-entry">
+      <img src="assets/server2-logo.png" alt="FREE2 RP Logo" />
+      <a href="https://free2rp.com/" target="_blank">FREE2 RP</a>
     </div>
   </div>
 
-  <!-- JavaScript Functions -->
-  <script>
-    function toggleServerSettings() {
-      const panel = document.getElementById("serverSettingsPanel");
-      panel.style.display = panel.style.display === "none" ? "flex" : "none";
-    }
+  <div class="server-page" id="redmTab" style="display: none;">
+    <h3>RedM RP Servers</h3>
+    <div class="server-entry">
+      <img src="assets/rserver1-logo.png" alt="Redemption RP Logo" />
+      <a href="https://discord.gg/2BaubsMfX4" target="_blank">Redemption RP</a>
+    </div>
+  </div>
 
-    function toggleDefaultServer(tabId, btnId) {
-      const tab = document.getElementById(tabId);
-      const btn = document.getElementById(btnId);
-      const visible = document.getElementById(tabId === 'gtaTab' ? 'gtaVisible' : 'redmVisible').checked;
-      if (tab && btn) {
-        tab.style.display = visible ? "flex" : "none";
-        btn.style.display = visible ? "inline-block" : "none";
-      }
-    }
+  <!-- Add Custom Server Buttons -->
+  <div style="margin-top: 20px;">
+    <button class="color-button" onclick="toggleSettings()">⚙️ Server Button Settings</button>
+    <div id="serverSettingsPanel">
+      <h4 style="color:white;">Add New Server Button</h4>
+      <input type="text" id="newServerName" placeholder="Button Name (e.g. DayZ RP)" />
+      <input type="text" id="newServerURL" placeholder="https://yourserver.com" />
+      <button onclick="addServerButton()">+ Add Server</button>
 
-    let customButtonCount = 0;
-    const maxCustomButtons = 6;
-
-    function addCustomServerButton() {
-      if (customButtonCount >= maxCustomButtons) return;
-
-      const list = document.getElementById("customServerButtonList");
-
-      const wrapper = document.createElement("div");
-      wrapper.style.marginBottom = "10px";
-      wrapper.innerHTML = `
-        <input type="text" placeholder="Label" style="margin-right: 6px;" />
-        <input type="url" placeholder="https://yourlink.com" style="margin-right: 6px;" />
-        <button onclick="this.parentElement.remove(); customButtonCount--;">❌</button>
-      `;
-      list.appendChild(wrapper);
-      customButtonCount++;
-    }
-  </script>
+      <div id="customServerList" style="margin-top: 20px;"></div>
+    </div>
+  </div>
 </body>
 </html>
