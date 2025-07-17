@@ -83,7 +83,7 @@
     const container = document.querySelector('.streamer-links');
     if (!container) return;
 
-    container.innerHTML = ''; // Clear current links
+    container.innerHTML = '';
 
     links.forEach(link => {
       const checkbox = document.getElementById(`${link.id}Check`);
@@ -101,7 +101,83 @@
     });
   }
 
-  // Initialize first tab when the page loads
+  // --- CUSTOM SERVER SETTINGS SECTION ---
+  let customServerCount = 0;
+  const maxCustomServers = 6;
+
+  function toggleServerSettings() {
+    const panel = document.getElementById("serverSettingsPanel");
+    panel.style.display = panel.style.display === "none" ? "block" : "none";
+  }
+
+  function addServerType() {
+    if (customServerCount >= maxCustomServers) return alert("Max 6 custom server types allowed.");
+
+    const container = document.getElementById("customServerTypesContainer");
+    const tabId = `customTab${customServerCount}`;
+    const name = `Custom ${customServerCount + 1}`;
+
+    // Add button to nav
+    const serverBtn = document.createElement("button");
+    serverBtn.textContent = name;
+    serverBtn.onclick = () => showTab(tabId);
+    document.getElementById("serverTypeButtons").appendChild(serverBtn);
+
+    // Add matching tab
+    const newTab = document.createElement("div");
+    newTab.className = "tab-content";
+    newTab.id = tabId;
+    newTab.style.display = "none";
+    newTab.innerHTML = `
+      <h3>${name}</h3>
+      <div class="server-entry">
+        <img src="assets/placeholder.png" alt="${name} Logo" />
+        <a href="#" target="_blank">${name} Link</a>
+      </div>
+    `;
+    document.getElementById("infoCard").appendChild(newTab);
+
+    // Add setting input
+    const settingRow = document.createElement("div");
+    settingRow.className = "link-setting";
+    settingRow.innerHTML = `
+      <input type="text" placeholder="Custom Name" value="${name}" onchange="renameServerTab('${tabId}', this.value)" />
+      <button onclick="removeServerType('${tabId}', this)">❌</button>
+    `;
+    container.appendChild(settingRow);
+
+    customServerCount++;
+  }
+
+  function removeServerType(tabId, btnElement) {
+    const tab = document.getElementById(tabId);
+    if (tab) tab.remove();
+
+    const nav = document.getElementById("serverTypeButtons");
+    const btns = Array.from(nav.querySelectorAll("button"));
+    const match = btns.find(btn => btn.onclick?.toString().includes(tabId));
+    if (match) match.remove();
+
+    btnElement.parentElement.remove();
+    customServerCount--;
+  }
+
+  function renameServerTab(tabId, newName) {
+    const nav = document.getElementById("serverTypeButtons");
+    const btns = Array.from(nav.querySelectorAll("button"));
+    const match = btns.find(btn => btn.onclick?.toString().includes(tabId));
+    if (match) match.textContent = newName;
+
+    const tab = document.getElementById(tabId);
+    if (tab) {
+      const h3 = tab.querySelector("h3");
+      if (h3) h3.textContent = newName;
+      const a = tab.querySelector("a");
+      if (a) a.textContent = `${newName} Link`;
+    }
+  }
+
+  // INIT
   window.onload = () => {
     showTab('homeTab');
     updateStreamerLinks();
