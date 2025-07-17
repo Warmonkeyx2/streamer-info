@@ -4,6 +4,10 @@
     const card = document.getElementById("infoCard");
     card.style.display = card.style.display === "flex" ? "none" : "flex";
   }
+function toggleAdminPanel() {
+  const panel = document.getElementById("adminPanel");
+  panel.style.display = panel.style.display === "flex" ? "none" : "flex";
+}
 
   // Show specific tab
   function showTab(tabId) {
