@@ -6,7 +6,7 @@
   }
 
   function toggleAdminPanel() {
-    const panel = document.getElementById("adminPanel");
+    const panel = document.querySelector(".admin-panel");
     panel.style.display = panel.style.display === "flex" ? "none" : "flex";
   }
 
@@ -63,7 +63,7 @@
       { id: 'tiktok', name: 'TikTok' },
       { id: 'donate', name: 'Donate' }
     ];
-    const container = document.querySelector('.streamer-links');
+    if (!container) return;
     container.innerHTML = '';
     links.forEach(link => {
       const isChecked = document.getElementById(`${link.id}Check`).checked;
@@ -123,8 +123,9 @@
   const serversTab = document.getElementById('serversTab');
 
   // Clear current buttons except heading
-  serversTab.innerHTML = '<div class="internal-nav"></div>';
-
+  const nav = serversTab.querySelector('.internal-nav');
+nav.innerHTML = '';
+nav.appendChild(btn);
   serverGrid.forEach(card => {
     const label = card.querySelector('.server-type-label').value.trim();
     const isVisible = card.querySelector('.server-type-visible').checked;
