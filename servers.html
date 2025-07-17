@@ -5,53 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Servers</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    .tab-content {
-      display: none;
-      flex-direction: column;
-      margin-top: 20px;
-    }
-    .server-entry {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-    .server-entry img {
-      height: 40px;
-      width: 40px;
-      object-fit: contain;
-    }
-    .server-settings-panel {
-      margin-top: 20px;
-      background-color: #111;
-      padding: 12px;
-      border-radius: 8px;
-      color: white;
-    }
-    .server-type-entry {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-    .server-type-entry input {
-      flex: 1;
-      padding: 4px;
-      border-radius: 4px;
-    }
-    .server-type-entry button {
-      background: red;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      padding: 4px 8px;
-      cursor: pointer;
-    }
-  </style>
   <script defer>
-    let customServerCount = 0;
-    const maxServers = 6;
-
     function showServerTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(tab => {
         tab.style.display = "none";
@@ -60,79 +14,14 @@
       if (target) target.style.display = "flex";
     }
 
-    function addServerType() {
-      if (customServerCount >= maxServers) {
-        alert("Max 6 custom server types allowed.");
-        return;
-      }
-
-      const id = `customServer${customServerCount}`;
-      const name = `Server ${customServerCount + 1}`;
-
-      // Add tab button
-      const nav = document.querySelector('.internal-nav.server-tabs');
-      const btn = document.createElement('button');
-      btn.textContent = name;
-      btn.onclick = () => showServerTab(id);
-      nav.appendChild(btn);
-
-      // Add tab content
-      const content = document.createElement('div');
-      content.className = 'tab-content';
-      content.id = id;
-      content.innerHTML = `<h3>${name}</h3><p>Custom server tab created.</p>`;
-      document.body.querySelector('.info-card').appendChild(content);
-
-      // Add editable entry
-      const list = document.getElementById('serverTypeList');
-      const entry = document.createElement('div');
-      entry.className = 'server-type-entry';
-      entry.innerHTML = `
-        <input type="text" placeholder="Server Tab Name" value="${name}" oninput="updateServerName('${id}', this.value)" />
-        <button onclick="removeServerType('${id}', this)">Remove</button>
-      `;
-      list.appendChild(entry);
-
-      customServerCount++;
-    }
-
-    function updateServerName(id, newName) {
-      // Update tab button label
-      const btns = document.querySelectorAll('.internal-nav.server-tabs button');
-      btns.forEach(btn => {
-        if (btn.onclick.toString().includes(`'${id}'`)) {
-          btn.textContent = newName;
-        }
-      });
-
-      // Update content heading
-      const heading = document.querySelector(`#${id} h3`);
-      if (heading) heading.textContent = newName;
-    }
-
-    function removeServerType(id, btn) {
-      // Remove tab content
-      document.getElementById(id)?.remove();
-
-      // Remove tab button
-      const btns = document.querySelectorAll('.internal-nav.server-tabs button');
-      btns.forEach(el => {
-        if (el.onclick.toString().includes(`'${id}'`)) el.remove();
-      });
-
-      // Remove setting entry
-      btn.parentElement.remove();
-      customServerCount--;
-    }
-
     window.onload = () => {
       showServerTab('gtaTab');
     };
   </script>
 </head>
 <body>
-  <div class="info-card" style="margin: 60px auto; display: flex; flex-direction: column;">
 
+  <div class="info-card" style="margin: 60px auto; display: flex; flex-direction: column;">
     <!-- Top Navigation -->
     <div class="internal-nav">
       <a href="index.html">HOME</a>
@@ -140,13 +29,13 @@
     </div>
 
     <!-- Server Category Tabs -->
-    <div class="internal-nav server-tabs" style="margin-top: 10px;">
+    <div class="internal-nav" style="margin-top: 10px;">
       <button onclick="showServerTab('gtaTab')">GTA RP</button>
       <button onclick="showServerTab('redmTab')">RedM RP</button>
     </div>
 
     <!-- GTA RP Servers -->
-    <div class="tab-content" id="gtaTab">
+    <div class="tab-content" id="gtaTab" style="display: none;">
       <h3>GTA RP Servers</h3>
       <div class="server-entry">
         <img src="assets/prodigy-logo.png" alt="PRODIGY RP" />
@@ -159,20 +48,14 @@
     </div>
 
     <!-- RedM RP Servers -->
-    <div class="tab-content" id="redmTab">
+    <div class="tab-content" id="redmTab" style="display: none;">
       <h3>RedM RP Servers</h3>
       <div class="server-entry">
         <img src="assets/rserver1-logo.png" alt="Redemption RP Logo" />
         <a href="https://discord.gg/2BaubsMfX4" target="_blank">Redemption RP</a>
       </div>
-
-      <!-- Server Settings Panel (Attached to RedM for now) -->
-      <div id="serverSettingsPanel" class="server-settings-panel">
-        <h4>Edit Server Types</h4>
-        <div id="serverTypeList"></div>
-        <button class="color-button" onclick="addServerType()">+ Add Server Type</button>
-      </div>
     </div>
   </div>
+
 </body>
 </html>
