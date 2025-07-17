@@ -368,50 +368,111 @@ function updateServerButtons() {
   <p>Edit your server types below. Toggle visibility to show/hide them as buttons.</p>
 
   <div class="server-type-grid">
-    <!-- Server Type Slot 1 -->
-    <div class="server-type-card">
-      <label>Server Type:</label>
-      <input type="text" class="server-type-label" placeholder="GTA RP" value="GTA RP" />
+<!-- Server Type Slot 1 -->
+  <div class="server-type-card collapsible-card">
+    <div class="card-header" onclick="toggleCollapse(this)">
+      <span class="collapse-icon">+</span>
+      <span class="card-title">Server Type</span>
+    </div>
+    <div class="card-body">
+      <label>Server Name:</label>
+      <input type="text" class="server-type-label" placeholder="e.g. GTA RP" value="GTA RP" />
+
+      <label>Server Link:</label>
+      <input type="url" class="server-type-url" placeholder="https://yourserver.com" />
+
       <label><input type="checkbox" class="server-type-visible" checked /> Show</label>
     </div>
+  </div>
 
-    <!-- Server Type Slot 2 -->
-    <div class="server-type-card">
-      <label>Server Type:</label>
-      <input type="text" class="server-type-label" placeholder="RedM RP" value="RedM RP" />
+  <!-- Server Type Slot 2 -->
+  <div class="server-type-card collapsible-card">
+    <div class="card-header" onclick="toggleCollapse(this)">
+      <span class="collapse-icon">+</span>
+      <span class="card-title">Server Type</span>
+    </div>
+    <div class="card-body">
+      <label>Server Name:</label>
+      <input type="text" class="server-type-label" placeholder="e.g. RedM RP" value="RedM RP" />
+
+      <label>Server Link:</label>
+      <input type="url" class="server-type-url" placeholder="https://yourserver.com" />
+
       <label><input type="checkbox" class="server-type-visible" checked /> Show</label>
     </div>
+  </div>
 
-    <!-- Server Type Slot 3 -->
-    <div class="server-type-card">
-      <label>Server Type:</label>
-      <input type="text" class="server-type-label" placeholder="Unused" />
-      <label><input type="checkbox" class="server-type-visible" /> Show</label>
+  <!-- Server Type Slot 3 -->
+  <div class="server-type-card collapsible-card">
+    <div class="card-header" onclick="toggleCollapse(this)">
+      <span class="collapse-icon">+</span>
+      <span class="card-title">Server Type</span>
     </div>
+    <div class="card-body">
+      <label>Server Name:</label>
+      <input type="text" class="server-type-label" placeholder="e.g. Unused" />
 
-    <!-- Server Type Slot 4 -->
-    <div class="server-type-card">
-      <label>Server Type:</label>
-      <input type="text" class="server-type-label" placeholder="Unused" />
-      <label><input type="checkbox" class="server-type-visible" /> Show</label>
-    </div>
+      <label>Server Link:</label>
+      <input type="url" class="server-type-url" placeholder="https://yourserver.com" />
 
-    <!-- Server Type Slot 5 -->
-    <div class="server-type-card">
-      <label>Server Type:</label>
-      <input type="text" class="server-type-label" placeholder="Unused" />
-      <label><input type="checkbox" class="server-type-visible" /> Show</label>
-    </div>
-
-    <!-- Server Type Slot 6 -->
-    <div class="server-type-card">
-      <label>Server Type:</label>
-      <input type="text" class="server-type-label" placeholder="Unused" />
       <label><input type="checkbox" class="server-type-visible" /> Show</label>
     </div>
   </div>
 
-  <button class="color-button" onclick="updateServerButtons()">Save Server Buttons</button>
+  <!-- Server Type Slot 4 -->
+  <div class="server-type-card collapsible-card">
+    <div class="card-header" onclick="toggleCollapse(this)">
+      <span class="collapse-icon">+</span>
+      <span class="card-title">Server Type</span>
+    </div>
+    <div class="card-body">
+      <label>Server Name:</label>
+      <input type="text" class="server-type-label" placeholder="e.g. Unused" />
+
+      <label>Server Link:</label>
+      <input type="url" class="server-type-url" placeholder="https://yourserver.com" />
+
+      <label><input type="checkbox" class="server-type-visible" /> Show</label>
+    </div>
+  </div>
+
+  <!-- Server Type Slot 5 -->
+  <div class="server-type-card collapsible-card">
+    <div class="card-header" onclick="toggleCollapse(this)">
+      <span class="collapse-icon">+</span>
+      <span class="card-title">Server Type</span>
+    </div>
+    <div class="card-body">
+      <label>Server Name:</label>
+      <input type="text" class="server-type-label" placeholder="e.g. Unused" />
+
+      <label>Server Link:</label>
+      <input type="url" class="server-type-url" placeholder="https://yourserver.com" />
+
+      <label><input type="checkbox" class="server-type-visible" /> Show</label>
+    </div>
+  </div>
+
+  <!-- Server Type Slot 6 -->
+  <div class="server-type-card collapsible-card">
+    <div class="card-header" onclick="toggleCollapse(this)">
+      <span class="collapse-icon">+</span>
+      <span class="card-title">Server Type</span>
+    </div>
+    <div class="card-body">
+      <label>Server Name:</label>
+      <input type="text" class="server-type-label" placeholder="e.g. Unused" />
+
+      <label>Server Link:</label>
+      <input type="url" class="server-type-url" placeholder="https://yourserver.com" />
+
+      <label><input type="checkbox" class="server-type-visible" /> Show</label>
+    </div>
+  </div>
+
+</div>
+
+<button class="color-button" onclick="updateServerButtons()">Save Server Buttons</button>
 </div>
 
     </div>
