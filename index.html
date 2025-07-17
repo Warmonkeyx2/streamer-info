@@ -140,7 +140,8 @@
       <nav class="top-nav internal-nav">
         <button onclick="showTab('homeTab')">HOME</button>
         <button onclick="showTab('serversTab')">SERVERS</button>
-        <div class="settings-icon" onclick="showTab('settingsTab')">⚙️</div>
+        <div class="settings-icon" onclick="toggleAdminPanel()">⚙️</div>
+
       </nav>
 
       <div class="tab-content" id="homeTab">
@@ -190,7 +191,11 @@
         </div>
       </div>
 
-      <!-- Admin Panel Tablet Layout -->
+      
+    </div>
+  </div>
+</div>
+<!-- Admin Panel Tablet Layout -->
 <div class="tab-content" id="settingsTab" style="display: none;">
   <div class="admin-panel">
     <!-- Top Bar -->
@@ -221,9 +226,5 @@
         <h4>Server Settings</h4>
         <!-- GTA/RedM + Add Custom Button UI -->
       </div>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>
