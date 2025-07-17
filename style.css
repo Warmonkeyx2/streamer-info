@@ -3,6 +3,7 @@ body {
   margin: 0;
   font-family: sans-serif;
   background: #0d0d0d;
+  color: white;
 }
 
 :root {
@@ -32,7 +33,7 @@ body {
   justify-content: center;
   cursor: pointer;
   border: 2px solid #fff;
-  box-shadow: 0 0 10px rgba(255,255,255,0.3);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 /* === INFO CARD === */
@@ -42,7 +43,7 @@ body {
   align-items: center;
   text-align: center;
   width: 340px;
-  background: rgba(18, 18, 18, 0.8);
+  background: rgba(18, 18, 18, 0.9);
   color: #eee;
   border-radius: 20px;
   padding: 18px;
@@ -53,7 +54,6 @@ body {
   border: 2px solid transparent;
   background-clip: padding-box;
   backdrop-filter: blur(10px);
-  opacity: 1;
   max-height: 90vh;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -67,10 +67,10 @@ body {
 }
 
 .info-card h3 {
-  text-align: center;
-  font-weight: bold;
   margin: 10px 0;
   font-size: 20px;
+  font-weight: bold;
+  text-align: center;
 }
 
 .info-card:hover {
@@ -87,6 +87,7 @@ body {
   gap: 12px;
   margin-bottom: 12px;
   position: relative;
+  flex-wrap: wrap;
 }
 
 .internal-nav a,
@@ -112,7 +113,15 @@ body {
   color: var(--gradient-start);
 }
 
-/* === STREAMER LINKS DISPLAY === */
+/* === TAB CONTENT === */
+.tab-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* === STREAMER LINKS === */
 .streamer-links a {
   display: inline-block;
   margin: 6px 6px;
@@ -133,15 +142,7 @@ body {
   color: var(--gradient-start);
 }
 
-/* === TABS === */
-.tab-content {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* === SERVERS === */
+/* === SERVER LIST === */
 .server-entry {
   display: flex;
   flex-direction: column;
@@ -185,7 +186,7 @@ body {
   background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
   border-radius: 50%;
   padding: 4px 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
 
 .settings-panel {
@@ -199,7 +200,7 @@ body {
   background-clip: padding-box;
   margin-top: 20px;
   color: white;
-  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
   width: 90%;
 }
 
@@ -236,29 +237,41 @@ body {
   color: var(--accent-color);
 }
 
-/* === STREAMER LINK SETTINGS COMPACT === */
+/* === STREAMER LINK SETTINGS – COMPACT === */
+#linkSettingsContainer {
+  max-height: 180px;
+  overflow-y: auto;
+  width: 100%;
+  margin-top: 10px;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-color) #1c1c1c;
+}
+
 .link-setting {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 6px;
-  padding: 6px 0;
+  margin-bottom: 8px;
+  font-size: 13px;
 }
 
 .link-setting label {
+  min-width: 60px;
   color: #ccc;
-  font-size: 13px;
-  min-width: 50px;
 }
 
 .link-setting input[type="checkbox"] {
   transform: scale(1.1);
+  margin-right: 4px;
 }
 
 .link-setting input[type="url"] {
   flex: 1;
-  padding: 6px;
+  padding: 6px 10px;
   border-radius: 6px;
-  border: none;
+  border: 1px solid #444;
+  background-color: #1c1c1c;
+  color: white;
   font-size: 12px;
 }
