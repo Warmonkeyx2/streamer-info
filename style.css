@@ -581,3 +581,43 @@ body {
   font-weight: bold;
   border-radius: 12px;
 }
+.collapsible-card {
+  border: 2px solid var(--accent-color);
+  border-radius: 10px;
+  margin-bottom: 12px;
+  background: #121212;
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  color: var(--accent-color);
+  font-weight: bold;
+  user-select: none;
+}
+
+.collapse-icon {
+  font-size: 20px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.card-body {
+  display: none;
+  flex-direction: column;
+  padding: 12px;
+  gap: 8px;
+  color: white;
+}
+
+.collapsible-card.expanded .card-body {
+  display: flex;
+}
+
+.collapsible-card.expanded .collapse-icon {
+  transform: rotate(45deg); /* turns + into × */
+}
