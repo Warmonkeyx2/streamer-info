@@ -119,33 +119,25 @@
   }
 
   function updateServerButtons() {
-    const slots = document.querySelectorAll('.server-slot');
-    const gtaTab = document.getElementById('gtaTab');
-    gtaTab.innerHTML = `<h3>GTA RP Servers</h3>`;
+  const serverGrid = document.querySelectorAll('.server-type-card');
+  const serversTab = document.getElementById('serversTab');
 
-    slots.forEach((slot, index) => {
-      const nameInput = slot.querySelector('.serverName');
-      const linkInput = slot.querySelector('.serverLink');
-      const visibleCheckbox = slot.querySelector('.serverVisible');
+  // Clear current buttons except heading
+  serversTab.innerHTML = '<div class="internal-nav"></div>';
 
-      const name = nameInput.value.trim();
-      const link = linkInput.value.trim();
-      const isVisible = visibleCheckbox.checked;
+  serverGrid.forEach(card => {
+    const label = card.querySelector('.server-type-label').value.trim();
+    const isVisible = card.querySelector('.server-type-visible').checked;
 
-      if (name && link && isVisible) {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'server-entry';
-
-        const linkBtn = document.createElement('a');
-        linkBtn.href = link;
-        linkBtn.target = "_blank";
-        linkBtn.textContent = name;
-
-        wrapper.appendChild(linkBtn);
-        gtaTab.appendChild(wrapper);
-      }
-    });
-  }
+    if (label && isVisible) {
+      const btn = document.createElement('button');
+      btn.textContent = label;
+      btn.classList.add('color-button');
+      btn.onclick = () => alert(`Clicked ${label}`);
+      serversTab.querySelector('.internal-nav').appendChild(btn);
+    }
+  });
+}
 
   window.onload = () => {
     showTab('homeTab');
