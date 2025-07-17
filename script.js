@@ -63,6 +63,7 @@
       { id: 'tiktok', name: 'TikTok' },
       { id: 'donate', name: 'Donate' }
     ];
+    const container = document.querySelector('.streamer-links');
     if (!container) return;
     container.innerHTML = '';
     links.forEach(link => {
@@ -87,14 +88,18 @@
     const gtaBtn = document.querySelector('#serversTab button[onclick*="gtaTab"]');
     const redmBtn = document.querySelector('#serversTab button[onclick*="redmTab"]');
 
-    const gtaVisible = document.getElementById('gtaCheck').checked;
-    const redmVisible = document.getElementById('redmCheck').checked;
+    const gtaVisible = document.getElementById('gtaCheck')?.checked;
+    const redmVisible = document.getElementById('redmCheck')?.checked;
 
-    gtaBtn.style.display = gtaVisible ? 'inline-block' : 'none';
-    redmBtn.style.display = redmVisible ? 'inline-block' : 'none';
+    if (gtaBtn && gtaVisible !== undefined)
+      gtaBtn.style.display = gtaVisible ? 'inline-block' : 'none';
+    if (redmBtn && redmVisible !== undefined)
+      redmBtn.style.display = redmVisible ? 'inline-block' : 'none';
 
-    gtaBtn.onclick = () => window.open(document.getElementById('gtaURL').value, '_blank');
-    redmBtn.onclick = () => window.open(document.getElementById('redmURL').value, '_blank');
+    if (gtaBtn)
+      gtaBtn.onclick = () => window.open(document.getElementById('gtaURL').value, '_blank');
+    if (redmBtn)
+      redmBtn.onclick = () => window.open(document.getElementById('redmURL').value, '_blank');
   }
 
   function addCustomServerLink() {
@@ -119,51 +124,50 @@
   }
 
   function updateServerButtons() {
-  const serverGrid = document.querySelectorAll('.server-type-card');
-  const serversTab = document.getElementById('serversTab');
+    const serverGrid = document.querySelectorAll('.server-type-card');
+    const serversTab = document.getElementById('serversTab');
+    const nav = serversTab.querySelector('.internal-nav');
 
-  // Clear current buttons except heading
-  const nav = serversTab.querySelector('.internal-nav');
-nav.innerHTML = '';
-nav.appendChild(btn);
-  serverGrid.forEach(card => {
-    const label = card.querySelector('.server-type-label').value.trim();
-    const isVisible = card.querySelector('.server-type-visible').checked;
+    // Clear current buttons
+    nav.innerHTML = '';
 
-    if (label && isVisible) {
-      const btn = document.createElement('button');
-      btn.textContent = label;
-      btn.classList.add('color-button');
-      btn.onclick = () => alert(`Clicked ${label}`);
-      serversTab.querySelector('.internal-nav').appendChild(btn);
-    }
-  function toggleCollapse(header) {
-  const card = header.closest('.collapsible-card');
-  const body = card.querySelector('.card-body');
-  const icon = header.querySelector('.collapse-icon');
+    serverGrid.forEach(card => {
+      const label = card.querySelector('.server-type-label').value.trim();
+      const isVisible = card.querySelector('.server-type-visible').checked;
 
-  const isCollapsed = body.style.display === 'none' || body.classList.contains('collapsed');
+      if (label && isVisible) {
+        const btn = document.createElement('button');
+        btn.textContent = label;
+        btn.classList.add('color-button');
+        btn.onclick = () => alert(`Clicked ${label}`);
+        nav.appendChild(btn);
+      }
+    });
+  }
 
-  body.style.display = isCollapsed ? 'block' : 'none';
-  body.classList.toggle('collapsed');
-  icon.textContent = isCollapsed ? '–' : '+';
-}
-document.addEventListener("DOMContentLoaded", () => {
-  const collapsibleCards = document.querySelectorAll(".collapsible-card");
+  // Expand/Collapse for Server Type Cards
+  document.addEventListener("DOMContentLoaded", () => {
+    const collapsibleCards = document.querySelectorAll(".collapsible-card");
 
-  collapsibleCards.forEach(card => {
-    const header = card.querySelector(".card-header");
-    header.addEventListener("click", () => {
-      card.classList.toggle("expanded");
+    collapsibleCards.forEach(card => {
+      const header = card.querySelector(".card-header");
+      const icon = header.querySelector(".collapse-icon");
+      const body = card.querySelector(".card-body");
+
+      header.addEventListener("click", () => {
+        const isExpanded = card.classList.toggle("expanded");
+        body.style.display = isExpanded ? "block" : "none";
+        icon.textContent = isExpanded ? "–" : "+";
+      });
+
+      // Set initial collapsed state
+      body.style.display = "none";
+      icon.textContent = "+";
     });
   });
-});
-}
 
   window.onload = () => {
     showTab('homeTab');
     updateStreamerLinks();
     updateServerLinks();
-    updateServerButtons();
-  };
-</script>
+    updateSer
