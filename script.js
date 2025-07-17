@@ -112,6 +112,12 @@
     container.appendChild(wrapper);
     updateServerLinks();
   }
+function showAdminSection(sectionId) {
+  document.querySelectorAll('.admin-section').forEach(section => {
+    section.style.display = 'none';
+  });
+  document.getElementById(sectionId).style.display = 'block';
+}
 
   // Initialize defaults
   window.onload = () => {
