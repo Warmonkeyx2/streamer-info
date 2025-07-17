@@ -119,6 +119,13 @@
       const container = document.getElementById("linkSettingsContainer");
       container.style.display = container.style.display === "none" ? "block" : "none";
     }
+    function showAdminSection(sectionId) {
+  document.querySelectorAll('.admin-section').forEach(sec => {
+    sec.style.display = 'none';
+  });
+  const target = document.getElementById(sectionId);
+  if (target) target.style.display = 'block';
+}
 
     window.onload = () => {
       showTab('homeTab');
