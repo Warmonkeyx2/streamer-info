@@ -738,3 +738,36 @@ transform: rotate(45deg); /* turns + into × */
 .app-window-body[style*="display: none"] {
   opacity: 0;
 }
+
+.app-window-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #111;
+  color: white;
+  cursor: move;
+  border-bottom: 1px solid var(--accent-color);
+}
+
+.app-window-title {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.app-window-actions button {
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  font-size: 16px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.app-window-actions button:hover {
+  transform: scale(1.2);
+  color: #fff;
+}
+
