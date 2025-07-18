@@ -731,3 +731,10 @@ transform: rotate(45deg); /* turns + into × */
   color: white;
 }
 
+.app-window-body {
+  transition: opacity 0.3s ease;
+}
+
+.app-window-body[style*="display: none"] {
+  opacity: 0;
+}
