@@ -695,3 +695,39 @@ transform: rotate(45deg); /* turns + into × */
     transform: scale(1);
   }
 }
+
+.app-window {
+  position: fixed;
+  top: 200px;
+  left: 300px;
+  width: 800px;
+  height: 600px;
+  background-color: #111;
+  border: 2px solid var(--accent-color);
+  border-radius: 12px;
+  box-shadow: 0 0 16px var(--accent-color);
+  display: none;
+  flex-direction: column;
+  z-index: 10000;
+  overflow: hidden;
+}
+
+.app-window-header {
+  background-color: #1c1c1c;
+  color: white;
+  padding: 10px 14px;
+  font-weight: bold;
+  cursor: move;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--accent-color);
+}
+
+.app-window-body {
+  padding: 16px;
+  flex: 1;
+  overflow-y: auto;
+  color: white;
+}
+
