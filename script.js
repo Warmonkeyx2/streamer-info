@@ -196,7 +196,7 @@
         panel.style.display = panel.style.display === "flex" ? "none" : "flex";
       }
     }
-function updateServerButtons() {
+    function updateServerButtons() {
   const serverTab = document.getElementById('serversTab');
   const navContainer = serverTab.querySelector('.internal-nav');
   navContainer.innerHTML = ''; // Clear previous buttons
@@ -215,6 +215,47 @@ function updateServerButtons() {
       btn.onclick = () => alert(`Open tab for: ${label}`);
       navContainer.appendChild(btn);
     }
+    function openSolitaireApp() {
+  const win = document.getElementById("solitaireWindow");
+  const container = document.getElementById("solitaireGameContainer");
+
+  fetch("apps/games/solitaire/solitaire.html")
+    .then(res => res.text())
+    .then(html => {
+      container.innerHTML = html;
+      win.style.display = "flex";
+    })
+    .catch(err => {
+      container.innerHTML = "<p>Failed to load Solitaire game.</p>";
+      win.style.display = "flex";
+    });
+}
+
+function closeAppWindow() {
+  document.getElementById("solitaireWindow").style.display = "none";
+}
+
+let offsetX = 0, offsetY = 0, isDragging = false;
+
+function startDrag(e) {
+  const win = document.getElementById("solitaireWindow");
+  isDragging = true;
+  offsetX = e.clientX - win.offsetLeft;
+  offsetY = e.clientY - win.offsetTop;
+
+  document.onmousemove = function (event) {
+    if (!isDragging) return;
+    win.style.left = (event.clientX - offsetX) + "px";
+    win.style.top = (event.clientY - offsetY) + "px";
+  };
+
+  document.onmouseup = function () {
+    isDragging = false;
+    document.onmousemove = null;
+    document.onmouseup = null;
+  };
+}
+
   });
 }
 
