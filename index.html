@@ -511,16 +511,17 @@ function updateServerButtons() {
 
     </div>
   </div>
-  <!-- ✅ Solitaire Game Container (No iframe) -->
-<div id="solitaireWindow" class="app-window" style="display: none;">
+  <!-- Solitaire Game Popup -->
+<div id="solitaireWindow" class="app-window">
   <div class="app-window-header" onmousedown="startDrag(event)">
     <span>🃏 Solitaire</span>
     <button onclick="closeAppWindow()">✖</button>
   </div>
-  <div id="solitaireGameContainer">
-    <!-- We’ll inject solitaire.js & .html content here -->
+  <div id="solitaireGameContainer" class="app-window-body">
+    <!-- Solitaire game will load here -->
   </div>
 </div>
+
 
 </body>
 </html>
