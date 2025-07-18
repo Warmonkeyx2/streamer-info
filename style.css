@@ -622,34 +622,45 @@ display: flex;
 transform: rotate(45deg); /* turns + into × */
 }
 
+/* Grid container */
 .app-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
   margin-top: 20px;
-  justify-items: center;
+  animation: fadeInApps 0.8s ease-in-out both;
 }
 
+/* Individual App Icon */
 .app-icon {
   background-color: #121212;
   border: 2px solid var(--accent-color);
-  border-radius: 12px;
-  padding: 14px;
-  width: 100px;
-  height: 100px;
-  box-shadow: 0 0 12px var(--accent-color);
+  border-radius: 14px;
+  padding: 14px 20px;
+  min-width: 80px;
+  text-align: center;
+  box-shadow: 0 0 10px var(--accent-color);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+  color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-  text-align: center;
-  color: white;
+  opacity: 0;
+  animation: slideIn 0.6s ease forwards;
 }
 
+/* Delay each icon slightly */
+.app-icon:nth-child(1) { animation-delay: 0.1s; }
+.app-icon:nth-child(2) { animation-delay: 0.2s; }
+.app-icon:nth-child(3) { animation-delay: 0.3s; }
+.app-icon:nth-child(4) { animation-delay: 0.4s; }
+
 .app-icon:hover {
-  transform: scale(1.05);
+  transform: scale(1.08);
+  border-color: #ff00ff;
+  box-shadow: 0 0 18px #ff00ff;
 }
 
 .app-icon span {
@@ -659,7 +670,28 @@ transform: rotate(45deg); /* turns + into × */
 
 .app-icon p {
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
 }
 
+/* Animations */
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
+@keyframes fadeInApps {
+  0% {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
