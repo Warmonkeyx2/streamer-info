@@ -98,6 +98,49 @@
     .admin-section {
       display: none;
     }
+.app-window {
+  position: fixed;
+  width: 800px;
+  height: 600px;
+  background-color: #111;
+  border: 2px solid var(--accent-color);
+  border-radius: 12px;
+  z-index: 999;
+  top: 100px;
+  left: 100px;
+  box-shadow: 0 0 20px var(--accent-color);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.app-window-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #222;
+  padding: 10px 16px;
+  cursor: move;
+  border-bottom: 1px solid var(--accent-color);
+  font-weight: bold;
+  color: white;
+}
+
+.app-window-header button {
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.app-window-body {
+  flex: 1;
+  padding: 16px;
+  overflow: auto;
+  color: white;
+}
+
   </style>
       <script defer>
     function toggleCard() {
