@@ -15,3 +15,36 @@
   border: 2px dashed #00ffff;
   border-radius: 10px;
 }
+.solitaire-game {
+  padding: 20px;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #111;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.solitaire-game h2 {
+  margin-bottom: 16px;
+  color: var(--accent-color, #00ffff);
+  text-align: center;
+}
+
+.game-placeholder {
+  background-color: #1e1e1e;
+  border: 2px dashed var(--accent-color, #00ffff);
+  border-radius: 10px;
+  padding: 30px;
+  text-align: center;
+}
+
+.game-placeholder button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: var(--accent-color, #00ffff);
+  color: black;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
