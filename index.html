@@ -626,14 +626,19 @@ function toggleVanish() {
     </div>
   </div>
   <!-- Solitaire Game Popup -->
-<div id="solitaireWindow" class="app-window">
+<div id="solitaireWindow" class="app-window" style="display: none;">
   <div class="app-window-header" onmousedown="startDrag(event)">
-    <span>🃏 Solitaire</span>
-    <div style="margin-left:auto;">
-    <button onclick="toggleVanish()">👁️</button>
-    <button onclick="closeAppWindow()">✖</button>
+    <div class="app-window-title">
+      <img src="path/to/icon.png" alt="Solitaire" style="width: 16px; height: 16px; margin-right: 8px;">
+      <span><strong>Solitaire</strong></span>
+    </div>
+    <div class="app-window-actions">
+      <button class="vanish-btn" onclick="vanishAppWindow()" title="Vanish Window">👁️</button>
+      <button class="close-btn" onclick="closeAppWindow()" title="Close">✖</button>
+    </div>
+  </div>
   <div id="solitaireGameContainer" class="app-window-body">
-    <!-- Solitaire game will load here -->
+    <!-- Solitaire game loads here -->
   </div>
 </div>
 
