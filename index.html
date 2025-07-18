@@ -319,6 +319,19 @@
     document.removeEventListener("mousemove", drag);
     document.removeEventListener("mouseup", stopDrag);
   }
+function closeAppWindow() {
+  const appWindow = document.getElementById("solitaireWindow");
+  if (appWindow) {
+    appWindow.style.display = "none";
+  }
+}
+function toggleVanish() {
+  const body = document.querySelector("#solitaireWindow .app-window-body");
+  if (body) {
+    const isHidden = body.style.display === "none";
+    body.style.display = isHidden ? "block" : "none";
+  }
+}
 
   // 🔚 END DRAG FUNCTIONALITY
 
@@ -616,8 +629,9 @@
 <div id="solitaireWindow" class="app-window">
   <div class="app-window-header" onmousedown="startDrag(event)">
     <span>🃏 Solitaire</span>
+    <div style="margin-left:auto;">
+    <button onclick="toggleVanish()">👁️</button>
     <button onclick="closeAppWindow()">✖</button>
-  </div>
   <div id="solitaireGameContainer" class="app-window-body">
     <!-- Solitaire game will load here -->
   </div>
