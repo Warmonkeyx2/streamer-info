@@ -332,7 +332,12 @@ function toggleVanish() {
     body.style.display = isHidden ? "block" : "none";
   }
 }
-
+function vanishAppWindow() {
+  const appWindow = document.getElementById("solitaireWindow");
+  if (appWindow) {
+    appWindow.style.display = "none";
+  }
+}
   // 🔚 END DRAG FUNCTIONALITY
 
   window.onload = () => {
