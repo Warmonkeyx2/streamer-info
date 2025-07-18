@@ -1,50 +1,71 @@
-
-.solitaire-container {
-  font-family: Arial, sans-serif;
-  color: white;
-  padding: 20px;
-  background-color: #1c1c1c;
-  border-radius: 8px;
-  height: 100%;
+:root {
+  --accent-color: #00ffff;
+  --bg-dark: #111111;
+  --bg-mid: #1c1c1c;
+  --text-light: #ffffff;
 }
 
-#gameArea {
-  margin-top: 20px;
-  height: 300px;
-  background-color: #333;
-  border: 2px dashed #00ffff;
-  border-radius: 10px;
-}
-.solitaire-game {
-  padding: 20px;
-  color: white;
+body {
+  margin: 0;
+  padding: 0;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #111;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+}
+
+#solitaire-app {
+  padding: 20px;
+  background-color: var(--bg-mid);
+  border-radius: 12px;
+  border: 2px solid var(--accent-color);
+  box-shadow: 0 0 20px var(--accent-color);
+  max-width: 100%;
   height: 100%;
-  overflow-y: auto;
+  box-sizing: border-box;
 }
 
-.solitaire-game h2 {
-  margin-bottom: 16px;
-  color: var(--accent-color, #00ffff);
+#solitaire-app h2 {
+  margin-top: 0;
   text-align: center;
+  font-size: 28px;
+  color: var(--accent-color);
 }
 
-.game-placeholder {
-  background-color: #1e1e1e;
-  border: 2px dashed var(--accent-color, #00ffff);
+#solitaire-app p {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.game-area {
+  min-height: 300px;
+  background-color: #222;
+  border: 2px dashed var(--accent-color);
   border-radius: 10px;
-  padding: 30px;
+  padding: 20px;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.game-placeholder button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: var(--accent-color, #00ffff);
+/* Optional restart button styling */
+.restart-button {
+  display: inline-block;
+  margin: 20px auto;
+  padding: 10px 16px;
+  background-color: var(--accent-color);
   color: black;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
   font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 8px var(--accent-color);
+}
+
+.restart-button:hover {
+  background-color: #00dddd;
+  box-shadow: 0 0 16px var(--accent-color);
+  transform: scale(1.05);
 }
