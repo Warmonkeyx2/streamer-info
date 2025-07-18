@@ -104,6 +104,10 @@
       const card = document.getElementById("infoCard");
       card.style.display = card.style.display === "flex" ? "none" : "flex";
     }
+    function openApp(path) {
+      window.open(path, '_blank', 'width=800,height=600');
+    }
+    
 
     function showTab(tabId) {
       const tabs = document.querySelectorAll('.tab-content');
