@@ -216,24 +216,31 @@
       navContainer.appendChild(btn);
     }
     function openSolitaireApp() {
-  const win = document.getElementById("solitaireWindow");
-  const container = document.getElementById("solitaireGameContainer");
-
-  fetch("apps/games/solitaire/solitaire.html")
-    .then(res => res.text())
+  const popup = document.getElementById('solitaireWindow');
+  const container = document.getElementById('solitaireGameContainer');
+  
+  // Load the HTML of the game
+  fetch('apps/games/solitaire/solitaire.html')
+    .then(response => response.text())
     .then(html => {
       container.innerHTML = html;
-      win.style.display = "flex";
+      popup.style.display = 'flex';
+      popup.style.top = '300px';
+      popup.style.left = '300px';
     })
-    .catch(err => {
-      container.innerHTML = "<p>Failed to load Solitaire game.</p>";
-      win.style.display = "flex";
+    .catch(error => {
+      container.innerHTML = '<p style="color: red;">Failed to load game.</p>';
+      popup.style.display = 'flex';
     });
 }
 
 function closeAppWindow() {
-  document.getElementById("solitaireWindow").style.display = "none";
+  const popup = document.getElementById('solitaireWindow');
+  const container = document.getElementById('solitaireGameContainer');
+  popup.style.display = 'none';
+  container.innerHTML = ''; // Clean up
 }
+
 
 let offsetX = 0, offsetY = 0, isDragging = false;
 
