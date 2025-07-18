@@ -150,7 +150,27 @@
     function openApp(path) {
       window.open(path, '_blank', 'width=800,height=600');
     }
-    
+    function launchSolitaireApp() {
+    const appWindow = document.getElementById("solitaireWindow");
+    const container = document.getElementById("solitaireGameContainer");
+
+    appWindow.style.display = "flex"; // Show the popup
+    container.innerHTML = "<p>Loading...</p>";
+
+    fetch("apps/games/solitaire/solitaire.html")
+      .then((res) => res.text())
+      .then((html) => {
+        container.innerHTML = html;
+
+        // Load the JS manually since fetch won't auto-run scripts
+        const script = document.createElement("script");
+        script.src = "apps/games/solitaire/solitaire.js";
+        container.appendChild(script);
+      })
+      .catch((err) => {
+        container.innerHTML = "<p>Failed to load Solitaire.</p>";
+        console.error("Solitaire Load Error:", err);
+      });
 
     function showTab(tabId) {
       const tabs = document.querySelectorAll('.tab-content');
