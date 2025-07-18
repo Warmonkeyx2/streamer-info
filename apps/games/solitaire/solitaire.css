@@ -1,1 +1,17 @@
 
+.solitaire-container {
+  font-family: Arial, sans-serif;
+  color: white;
+  padding: 20px;
+  background-color: #1c1c1c;
+  border-radius: 8px;
+  height: 100%;
+}
+
+#gameArea {
+  margin-top: 20px;
+  height: 300px;
+  background-color: #333;
+  border: 2px dashed #00ffff;
+  border-radius: 10px;
+}
