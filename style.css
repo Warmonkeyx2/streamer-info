@@ -627,7 +627,7 @@ transform: rotate(45deg); /* turns + into × */
   flex-wrap: wrap;
   gap: 16px;
   padding-top: 16px;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .app-icon {
@@ -636,7 +636,7 @@ transform: rotate(45deg); /* turns + into × */
   background: linear-gradient(#111, #1a1a1a);
   border: 2px solid var(--accent-color);
   border-radius: 16px;
-  box-shadow: 0 0 12px var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-color);
   font-size: 32px;
   color: var(--accent-color);
   display: flex;
