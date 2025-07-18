@@ -622,33 +622,44 @@ display: flex;
 transform: rotate(45deg); /* turns + into × */
 }
 
-.apps-grid {
-  display: flex;
-  flex-wrap: wrap;
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 16px;
-  padding-top: 16px;
-  justify-content: center;
+  margin-top: 20px;
+  justify-items: center;
 }
 
 .app-icon {
-  width: 80px;
-  height: 80px;
-  background: linear-gradient(#111, #1a1a1a);
+  background-color: #121212;
   border: 2px solid var(--accent-color);
-  border-radius: 16px;
-  box-shadow: 0 0 10px var(--accent-color);
-  font-size: 32px;
-  color: var(--accent-color);
+  border-radius: 12px;
+  padding: 14px;
+  width: 100px;
+  height: 100px;
+  box-shadow: 0 0 12px var(--accent-color);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
+  transition: transform 0.2s ease;
+  text-align: center;
+  color: white;
 }
 
 .app-icon:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 0 20px var(--accent-color), 0 0 6px var(--accent-color) inset;
+  transform: scale(1.05);
+}
+
+.app-icon span {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.app-icon p {
+  margin: 0;
+  font-size: 14px;
 }
 
 
