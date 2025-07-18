@@ -283,15 +283,23 @@ function updateServerButtons() {
           <a href="https://discord.gg/2BaubsMfX4" target="_blank">Redemption RP</a>
         </div>
       </div>
-      <div class="tab-content" id="appsTab" style="display: none;">
-        <h3>Apps</h3>
-        <p>Viewer apps will appear here in the future.</p>
-        <div class="apps-grid">
-          <div class="app-icon" title="Mobile App">📱</div>
-          <div class="app-icon" title="Gaming">🎮</div>
-            <div class="app-icon" title="Streaming">🎥</div>
-        </div>
-      </div>
+      <div class="tab-content" id="appsTab" style="display: none;"> 
+  <h3>Apps</h3>
+  <p>Select a viewer app to open:</p>
+
+  <div class="app-grid">
+    <!-- Working Solitaire App -->
+    <div class="app-icon" onclick="openApp('apps/games/solitaire/solitaire.html')">
+      <span>🃏</span>
+      <p>Solitaire</p>
+    </div>
+
+    <!-- Placeholder Icons -->
+    <div class="app-icon" title="Mobile App">📱</div>
+    <div class="app-icon" title="Gaming">🎮</div>
+    <div class="app-icon" title="Streaming">🎥</div>
+  </div>
+</div>
     </div>
   </div>
 
