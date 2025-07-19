@@ -2,9 +2,9 @@
 
 
 // File: apps/games/solitaire/solitaire.js
-document.getElementById("solitaireGameContainer").innerHTML = `
-  <div style="padding: 20px; color: white;">
-    <h2>♠ Solitaire Game Loaded!</h2>
+document.getElementById("solitaire-root").innerHTML = `
+  <div style="text-align: center; color: white; font-family: sans-serif; padding: 40px;">
+    <h1>♠ Solitaire Game Loaded!</h1>
     <p>This is your placeholder while the real logic is being built.</p>
   </div>
 `;
