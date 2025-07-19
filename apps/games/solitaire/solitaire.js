@@ -1,18 +1,19 @@
-// solitaire.js
+document.addEventListener("DOMContentLoaded", () => {
+  const gameArea = document.querySelector(".game-area");
 
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('Solitaire game loaded.');
-
-  const gameArea = document.querySelector('.game-area');
-  if (gameArea) {
-    gameArea.innerHTML = '<p>🃏 Your solitaire cards will be dealt here!</p>';
+  // Generate simple placeholder cards
+  for (let i = 1; i <= 8; i++) {
+    const card = document.createElement("div");
+    card.classList.add("solitaire-card");
+    card.innerHTML = `<span>${i}</span>`;
+    gameArea.appendChild(card);
   }
+
+  // Apply animation after load
+  const cards = document.querySelectorAll(".solitaire-card");
+  cards.forEach((card, index) => {
+    setTimeout(() => {
+      card.classList.add("animated-in");
+    }, index * 100);
+  });
 });
-
-function restartSolitaire() {
-  const gameArea = document.querySelector('.game-area');
-  if (gameArea) {
-    gameArea.innerHTML = '<p>🔄 Game restarted! Dealing new cards...</p>';
-    console.log('Solitaire restarted.');
-  }
-}
