@@ -186,5 +186,23 @@
   border-style: dashed;
   pointer-events: none;
 }
+.card {
+  transition: transform 0.3s ease, box-shadow 0.2s ease;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.card.flip {
+  animation: flipCard 0.3s ease forwards;
+}
+
+@keyframes flipCard {
+  from {
+    transform: rotateY(180deg);
+  }
+  to {
+    transform: rotateY(0deg);
+  }
+}
 
 
