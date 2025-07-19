@@ -160,16 +160,17 @@ function launchSolitaireApp() {
   container.innerHTML = `<div id="solitaire-root"></div>`; // ✅ insert the root container
 
   fetch("apps/games/solitaire/solitaire.js")
-    .then((res) => res.text())
-    .then((scriptText) => {
-      const script = document.createElement("script");
-      script.textContent = scriptText;
-      document.body.appendChild(script);
-    })
-    .catch((err) => {
-      container.innerHTML = "<p>Failed to load Solitaire.</p>";
-      console.error("Solitaire Load Error:", err);
-    });
+  .then((res) => res.text())
+  .then((scriptText) => {
+    const script = document.createElement("script");
+    script.textContent = scriptText;
+    document.body.appendChild(script);
+  })
+  .catch((err) => {
+    container.innerHTML = "<p>Failed to load Solitaire.</p>";
+    console.error("Solitaire Load Error:", err);
+  });
+
 }
 
 
