@@ -107,6 +107,7 @@ let draggedCard = null;
 document.addEventListener('mousedown', (e) => {
   if (e.target.classList.contains('card') && e.target.dataset.faceUp === 'true') {
     draggedCard = e.target;
+    draggedCard._originalParent = draggedCard.parentElement;
     draggedCard.style.position = 'absolute';
     draggedCard.style.zIndex = 1000;
     moveCardWithMouse(e);
@@ -138,6 +139,17 @@ document.addEventListener('mouseup', (e) => {
   }
 
   draggedCard = null;
+// Flip card under the original stack if any
+    const oldParent = draggedCard._originalParent;
+    if (oldParent && oldParent.classList.contains('pile')) {
+      const remainingCards = Array.from(oldParent.children);
+      const lastCard = remainingCards[remainingCards.length - 1];
+      if (lastCard && lastCard.dataset.faceUp === 'false') {
+        lastCard.dataset.faceUp = 'true';
+        lastCard.classList.remove('card-back');
+        lastCard.textContent = lastCard.dataset.value || '';
+      }
+    }
 });
 
 function moveCardWithMouse(e) {
