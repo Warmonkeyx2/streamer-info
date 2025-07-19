@@ -1,14 +1,3 @@
-// apps/games/solitaire/solitaire.js
-
-
-// File: apps/games/solitaire/solitaire.js
-document.getElementById("solitaire-root").innerHTML = `
-  <div style="text-align: center; color: white; font-family: sans-serif; padding: 40px;">
-    <h1>♠ Solitaire Game Loaded!</h1>
-    <p>This is your placeholder while the real logic is being built.</p>
-  </div>
-`;
-
 function startSolitaireGame() {
   const suits = ['♠', '♥', '♣', '♦'];
   const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
@@ -99,10 +88,8 @@ function startSolitaireGame() {
 
   function drawFromStock() {
     if (!deck.length) return;
-
     const cardData = deck.pop();
     const card = createCardElement(cardData, true);
-
     const foundationGroup = document.querySelector('.foundation-group');
     const lastPile = foundationGroup.lastElementChild;
     lastPile.appendChild(card);
@@ -117,14 +104,92 @@ function startSolitaireGame() {
     card.dataset.suit = cardData.suit;
     card.dataset.faceUp = faceUp;
 
+    card.draggable = true;
+    card.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', JSON.stringify(cardData));
+      card.classList.add('dragging');
+    });
+    card.addEventListener('dragend', () => {
+      card.classList.remove('dragging');
+    });
+
     return card;
   }
 
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.card-slot, .pile').forEach(slot => {
+      slot.addEventListener('dragover', e => e.preventDefault());
+      slot.addEventListener('drop', e => {
+        e.preventDefault();
+        const cardData = JSON.parse(e.dataTransfer.getData('text/plain'));
+        const card = createCardElement(cardData, true);
+        slot.appendChild(card);
+      });
+    });
+  });
+
+  // === Drag and Drop Mouse Logic ===
+  let draggedCard = null;
+
+  document.addEventListener('mousedown', (e) => {
+    if (e.target.classList.contains('card') && e.target.dataset.faceUp === 'true') {
+      draggedCard = e.target;
+      draggedCard._originalParent = draggedCard.parentElement;
+      draggedCard.style.position = 'absolute';
+      draggedCard.style.zIndex = 1000;
+      moveCardWithMouse(e);
+      document.body.appendChild(draggedCard);
+    }
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (draggedCard) moveCardWithMouse(e);
+  });
+
+  document.addEventListener('mouseup', (e) => {
+    if (!draggedCard) return;
+
+    const elementsAtPoint = document.elementsFromPoint(e.clientX, e.clientY);
+    const dropTarget = elementsAtPoint.find(el => el.classList.contains('card-slot') || el.classList.contains('pile'));
+
+    if (dropTarget && dropTarget.childElementCount === 0) {
+      dropTarget.appendChild(draggedCard);
+      draggedCard.style.position = 'relative';
+      draggedCard.style.zIndex = 1;
+      draggedCard.style.left = '';
+      draggedCard.style.top = '';
+    } else {
+      draggedCard.remove();
+    }
+
+    const oldParent = draggedCard._originalParent;
+    if (oldParent && oldParent.classList.contains('pile')) {
+      const remainingCards = Array.from(oldParent.children);
+      const lastCard = remainingCards[remainingCards.length - 1];
+      if (lastCard && lastCard.dataset.faceUp === 'false') {
+        lastCard.dataset.faceUp = 'true';
+        lastCard.textContent = lastCard.dataset.value || '';
+      }
+    }
+
+    draggedCard = null;
+  });
+
+  function moveCardWithMouse(e) {
+    if (!draggedCard) return;
+    draggedCard.style.left = `${e.pageX - 40}px`;
+    draggedCard.style.top = `${e.pageY - 60}px`;
+  }
+
+  // Restart
   window.restartSolitaire = () => {
     createDeck();
     shuffleDeck();
     renderInitialLayout();
   };
 
+  // Start game
   restartSolitaire();
 }
+
+startSolitaireGame();
