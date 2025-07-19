@@ -262,8 +262,35 @@ function startDrag(e) {
     document.onmouseup = null;
   };
 }
+// script.js
 
-  });
+function launchSolitaireApp() {
+  const appWindow = document.getElementById("solitaireWindow");
+  const container = document.getElementById("solitaireGameContainer");
+
+  appWindow.style.display = "flex";
+  container.innerHTML = `<div id="solitaire-root"></div>`;
+
+  // Load CSS (ensure it's not already loaded)
+  if (!document.querySelector('link[href="apps/games/solitaire/solitaire.css"]')) {
+    const css = document.createElement("link");
+    css.rel = "stylesheet";
+    css.href = "apps/games/solitaire/solitaire.css";
+    document.head.appendChild(css);
+  }
+
+  // Load JS
+  fetch("apps/games/solitaire/solitaire.js")
+    .then((res) => res.text())
+    .then((scriptText) => {
+      const script = document.createElement("script");
+      script.textContent = scriptText;
+      document.body.appendChild(script);
+    })
+    .catch((err) => {
+      container.innerHTML = "<p>Failed to load Solitaire.</p>";
+      console.error("Solitaire Load Error:", err);
+    });
 }
 
   window.onload = () => {
