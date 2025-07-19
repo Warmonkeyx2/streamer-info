@@ -37,12 +37,12 @@ function startSolitaireGame() {
 
     const topRow = document.createElement('div');
     topRow.className = 'top-row';
+
     const stock = document.createElement('div');
     stock.className = 'card-slot';
     stock.id = 'stock';
     stock.innerText = '🂠';
     stock.addEventListener('click', drawFromStock);
-
 
     const foundationGroup = document.createElement('div');
     foundationGroup.className = 'foundation-group';
@@ -83,54 +83,52 @@ function startSolitaireGame() {
         const card = createCardElement(deck[cardIndex++], j === i);
         column.appendChild(card);
       }
-      function drawFromStock() {
-  if (!deck.length) return;
-
-  const cardData = deck.pop();
-  const card = createCardElement(cardData, true);
-
-  const foundationGroup = document.querySelector('.foundation-group');
-  const lastPile = foundationGroup.lastElementChild;
-  lastPile.appendChild(card);
-      
-
     }
   }
 
-  function createCardElement(cardData, faceUp = false) {
-  const card = document.createElement('div');
-  card.className = 'card';
-  card.innerText = faceUp ? `${cardData.value}${cardData.suit}` : '';
-  card.style.backgroundColor = faceUp ? (cardData.color === 'red' ? '#922' : '#222') : '#000';
-  card.dataset.value = cardData.value;
-  card.dataset.suit = cardData.suit;
-  card.dataset.faceUp = faceUp;
-
-  card.draggable = true;
-
-  card.addEventListener('dragstart', (e) => {
-    e.dataTransfer.setData('text/plain', JSON.stringify(cardData));
-    card.classList.add('dragging');
-  });
-
-  card.addEventListener('dragend', () => {
-    card.classList.remove('dragging');
-  });
-
-  return card;
-}
-document.querySelectorAll('.card-slot, .pile').forEach(slot => {
-  slot.addEventListener('dragover', e => e.preventDefault());
-  slot.addEventListener('drop', e => {
-    e.preventDefault();
-    const cardData = JSON.parse(e.dataTransfer.getData('text/plain'));
+  function drawFromStock() {
+    if (!deck.length) return;
+    const cardData = deck.pop();
     const card = createCardElement(cardData, true);
-    e.target.appendChild(card);
+    const foundationGroup = document.querySelector('.foundation-group');
+    const lastPile = foundationGroup.lastElementChild;
+    lastPile.appendChild(card);
+  }
+
+  function createCardElement(cardData, faceUp = false) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerText = faceUp ? `${cardData.value}${cardData.suit}` : '';
+    card.style.backgroundColor = faceUp ? (cardData.color === 'red' ? '#922' : '#222') : '#000';
+    card.dataset.value = cardData.value;
+    card.dataset.suit = cardData.suit;
+    card.dataset.faceUp = faceUp;
+
+    card.draggable = true;
+    card.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', JSON.stringify(cardData));
+      card.classList.add('dragging');
+    });
+    card.addEventListener('dragend', () => {
+      card.classList.remove('dragging');
+    });
+
+    return card;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.card-slot, .pile').forEach(slot => {
+      slot.addEventListener('dragover', e => e.preventDefault());
+      slot.addEventListener('drop', e => {
+        e.preventDefault();
+        const cardData = JSON.parse(e.dataTransfer.getData('text/plain'));
+        const card = createCardElement(cardData, true);
+        slot.appendChild(card);
+      });
+    });
   });
-});
 
-
-  // === Drag and Drop Logic ===
+  // === Drag and Drop Mouse Logic ===
   let draggedCard = null;
 
   document.addEventListener('mousedown', (e) => {
@@ -154,7 +152,7 @@ document.querySelectorAll('.card-slot, .pile').forEach(slot => {
     const elementsAtPoint = document.elementsFromPoint(e.clientX, e.clientY);
     const dropTarget = elementsAtPoint.find(el => el.classList.contains('card-slot') || el.classList.contains('pile'));
 
-    if (dropTarget && dropTarget.classList.contains('card-slot') && dropTarget.childElementCount === 0) {
+    if (dropTarget && dropTarget.childElementCount === 0) {
       dropTarget.appendChild(draggedCard);
       draggedCard.style.position = 'relative';
       draggedCard.style.zIndex = 1;
@@ -193,4 +191,5 @@ document.querySelectorAll('.card-slot, .pile').forEach(slot => {
   // Start game
   restartSolitaire();
 }
+
 startSolitaireGame();
