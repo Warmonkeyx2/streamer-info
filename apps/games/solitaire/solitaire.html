@@ -1,9 +1,33 @@
-<!-- apps/games/solitaire/solitaire.html -->
-<div id="solitaire-app">
-  <h2>🃏 Solitaire</h2>
-  <p>This is a placeholder for the Solitaire game.</p>
-  <div class="game-area">
-    <!-- Game canvas or logic will go here -->
+<div id="solitaire-root">
+  <div class="solitaire-background"></div>
+
+  <div class="solitaire-header">
+    <h2>🃏 Solitaire</h2>
+    <button onclick="resetSolitaire()">♻️ Restart</button>
   </div>
-  <button onclick="restartSolitaire()">Restart Game</button>
+
+  <div class="solitaire-board">
+    <!-- Top: Stock, Waste, Foundations -->
+    <div class="top-row">
+      <div id="stock" class="card-slot" onclick="drawCard()"></div>
+      <div id="waste" class="card-slot"></div>
+      <div class="foundation-group">
+        <div class="foundation card-slot" data-suit="hearts"></div>
+        <div class="foundation card-slot" data-suit="diamonds"></div>
+        <div class="foundation card-slot" data-suit="clubs"></div>
+        <div class="foundation card-slot" data-suit="spades"></div>
+      </div>
+    </div>
+
+    <!-- Tableau (7 columns) -->
+    <div class="tableau">
+      <div class="pile" id="pile-0"></div>
+      <div class="pile" id="pile-1"></div>
+      <div class="pile" id="pile-2"></div>
+      <div class="pile" id="pile-3"></div>
+      <div class="pile" id="pile-4"></div>
+      <div class="pile" id="pile-5"></div>
+      <div class="pile" id="pile-6"></div>
+    </div>
+  </div>
 </div>
