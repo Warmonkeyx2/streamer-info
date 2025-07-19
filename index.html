@@ -339,6 +339,16 @@ function vanishAppWindow() {
   }
 }
   // 🔚 END DRAG FUNCTIONALITY
+        
+function vanishAppWindow() {
+  document.getElementById("solitaireWindow").style.display = "none";
+  document.getElementById("solitaireRestoreBtn").style.display = "block";
+}
+
+function restoreSolitaire() {
+  document.getElementById("solitaireWindow").style.display = "flex";
+  document.getElementById("solitaireRestoreBtn").style.display = "none";
+}
 
   window.onload = () => {
     showTab('homeTab');
@@ -646,6 +656,24 @@ function vanishAppWindow() {
     <!-- Solitaire game loads here -->
   </div>
 </div>
+<!-- Solitaire Game Popup -->
+<div id="solitaireWindow" class="app-window">
+  <div class="app-window-header" onmousedown="startDrag(event)">
+    <span>🃏 Solitaire</span>
+    <div>
+      <button onclick="vanishAppWindow()">👁️</button>
+      <button onclick="closeAppWindow()">✖</button>
+    </div>
+  </div>
+  <div id="solitaireGameContainer" class="app-window-body">
+    <!-- Solitaire game will load here -->
+  </div>
+</div>
+
+<!-- 👇 Place this floating restore button BELOW the popup div -->
+<button id="solitaireRestoreBtn" onclick="restoreSolitaire()" style="display: none;">
+  🃏
+</button>
 
 
 </body>
