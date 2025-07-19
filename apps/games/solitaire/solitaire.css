@@ -204,5 +204,80 @@
     transform: rotateY(0deg);
   }
 }
+/* Solitaire Base Layout */
+.solitaire-board {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  color: white;
+  font-family: 'Arial', sans-serif;
+}
+
+.solitaire-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  align-items: center;
+}
+
+.card-slot,
+.pile {
+  width: 80px;
+  height: 120px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px dashed #555;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.foundation-group {
+  display: flex;
+  gap: 10px;
+}
+
+.tableau {
+  display: flex;
+  gap: 12px;
+}
+
+/* Cards */
+.card {
+  width: 80px;
+  height: 120px;
+  background-color: #1e1e1e;
+  color: white;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  font-weight: bold;
+  position: relative;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  user-select: none;
+  cursor: grab;
+  border: 2px solid #888;
+  margin-top: -90px;
+}
+
+.card:first-child {
+  margin-top: 0;
+}
+
+.card[data-face-up="false"] {
+  background-color: #000;
+  color: transparent;
+  border: 2px solid #444;
+}
 
 
