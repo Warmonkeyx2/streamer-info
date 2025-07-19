@@ -146,8 +146,10 @@ document.addEventListener('mouseup', (e) => {
       const lastCard = remainingCards[remainingCards.length - 1];
       if (lastCard && lastCard.dataset.faceUp === 'false') {
         lastCard.dataset.faceUp = 'true';
-        lastCard.classList.remove('card-back');
-        lastCard.textContent = lastCard.dataset.value || '';
+lastCard.classList.remove('card-back');
+lastCard.textContent = lastCard.dataset.value || '';
+lastCard.classList.add('flip');
+setTimeout(() => lastCard.classList.remove('flip'), 300); // Remove animation class
       }
     }
 });
