@@ -146,3 +146,39 @@
     transform: translate(0);
   }
 }
+
+/* Placeholder Card Styling for Animation Demo */
+.solitaire-card {
+  width: 80px;
+  height: 120px;
+  background: linear-gradient(to bottom right, #1a1a1a, #292929);
+  border-radius: 8px;
+  border: 1px solid #333;
+  color: #0ff;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 6px rgba(0, 255, 255, 0.2);
+  margin: 8px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.3s ease;
+}
+
+.solitaire-card.animated-in {
+  opacity: 1;
+  transform: translateY(0);
+  box-shadow: 0 0 12px #0ff;
+}
+
+.game-area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+  gap: 10px;
+}
+
+
