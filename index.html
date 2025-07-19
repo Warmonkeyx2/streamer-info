@@ -674,6 +674,21 @@ function restoreSolitaire() {
   🃏
 </button>
 
+<!-- ✅ Solitaire App Window -->
+<div id="solitaireWindow" class="draggable-app" style="display: none; position: absolute;">
+  <div class="app-header" onmousedown="startDrag(event)">
+    <img src="assets/solitaire-icon.png" alt="icon" style="width: 20px; margin-right: 6px;" />
+    <span>Solitaire</span>
+    <div style="margin-left: auto; display: flex; gap: 10px;">
+      <button onclick="closeAppWindow()" style="color: red;">⭘</button>
+      <button onclick="closeAppWindow()">✖</button>
+    </div>
+  </div>
+  <div id="solitaireGameContainer" class="app-body">
+    <!-- solitaire.html will be injected here -->
+  </div>
+</div>
+
 
 </body>
 </html>
