@@ -180,5 +180,11 @@
   padding: 20px;
   gap: 10px;
 }
+.card-back {
+  background: linear-gradient(45deg, #222, #444);
+  color: transparent;
+  border-style: dashed;
+  pointer-events: none;
+}
 
 
