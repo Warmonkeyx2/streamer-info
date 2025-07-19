@@ -1,5 +1,14 @@
 // apps/games/solitaire/solitaire.js
 
+
+// File: apps/games/solitaire/solitaire.js
+document.getElementById("solitaireGameContainer").innerHTML = `
+  <div style="padding: 20px; color: white;">
+    <h2>♠ Solitaire Game Loaded!</h2>
+    <p>This is your placeholder while the real logic is being built.</p>
+  </div>
+`;
+
 function startSolitaireGame() {
   const suits = ['♠', '♥', '♣', '♦'];
   const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
