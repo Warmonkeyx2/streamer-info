@@ -1,6 +1,4 @@
-// solitaire.js
-
-document.addEventListener('DOMContentLoaded', () => {
+function startSolitaireGame() {
   const suits = ['♠', '♥', '♣', '♦'];
   const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
   let deck = [];
@@ -26,40 +24,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderInitialLayout() {
-    const root = document.getElementById('solitaire-root');
-    if (!root) {
-      console.error('Missing #solitaire-root');
-      return;
-    }
-
-    root.innerHTML = ''; // Clear
-
-    // Background
-    const bg = document.createElement('div');
-    bg.className = 'solitaire-background';
-    root.appendChild(bg);
-
-    // Board container
     const board = document.createElement('div');
     board.className = 'solitaire-board';
 
-    // Header
+    const bg = document.createElement('div');
+    bg.className = 'solitaire-background';
+    document.getElementById('solitaire-root').appendChild(bg);
+
     const header = document.createElement('div');
     header.className = 'solitaire-header';
-    header.innerHTML = `
-      <h2>Solitaire</h2>
-      <button onclick="restartSolitaire()">Restart</button>
-    `;
-    board.appendChild(header);
+    header.innerHTML = `<h2>Solitaire</h2> <button onclick="restartSolitaire()">Restart</button>`;
 
-    // Top row
     const topRow = document.createElement('div');
     topRow.className = 'top-row';
-
     const stock = document.createElement('div');
     stock.className = 'card-slot';
     stock.id = 'stock';
-    stock.textContent = '🂠';
+    stock.innerText = '🂠';
 
     const foundationGroup = document.createElement('div');
     foundationGroup.className = 'foundation-group';
@@ -71,9 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     topRow.appendChild(stock);
     topRow.appendChild(foundationGroup);
-    board.appendChild(topRow);
 
-    // Tableau
     const tableau = document.createElement('div');
     tableau.className = 'tableau';
     for (let i = 0; i < 7; i++) {
@@ -82,9 +61,15 @@ document.addEventListener('DOMContentLoaded', () => {
       column.id = `tableau-${i}`;
       tableau.appendChild(column);
     }
+
+    board.appendChild(header);
+    board.appendChild(topRow);
     board.appendChild(tableau);
 
+    const root = document.getElementById('solitaire-root');
+    root.innerHTML = '';
     root.appendChild(board);
+
     dealCards();
   }
 
@@ -110,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return card;
   }
 
-  // Drag logic
+  // === Drag and Drop Logic ===
   let draggedCard = null;
 
   document.addEventListener('mousedown', (e) => {
@@ -132,9 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!draggedCard) return;
 
     const elementsAtPoint = document.elementsFromPoint(e.clientX, e.clientY);
-    const dropTarget = elementsAtPoint.find(el =>
-      el.classList.contains('card-slot') || el.classList.contains('pile')
-    );
+    const dropTarget = elementsAtPoint.find(el => el.classList.contains('card-slot') || el.classList.contains('pile'));
 
     if (dropTarget && dropTarget.classList.contains('card-slot') && dropTarget.childElementCount === 0) {
       dropTarget.appendChild(draggedCard);
@@ -152,9 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const lastCard = remainingCards[remainingCards.length - 1];
       if (lastCard && lastCard.dataset.faceUp === 'false') {
         lastCard.dataset.faceUp = 'true';
-        lastCard.textContent = `${lastCard.dataset.value}${lastCard.dataset.suit}`;
-        lastCard.classList.add('flip');
-        setTimeout(() => lastCard.classList.remove('flip'), 300);
+        lastCard.textContent = lastCard.dataset.value || '';
       }
     }
 
@@ -174,6 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderInitialLayout();
   };
 
-  // Initial launch
+  // Start game
   restartSolitaire();
-});
+}
