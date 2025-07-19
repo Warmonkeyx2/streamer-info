@@ -2,6 +2,7 @@ function startSolitaireGame() {
   const suits = ['♠', '♥', '♣', '♦'];
   const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
   let deck = [];
+  let wastePile = [];
 
   function createDeck() {
     deck = [];
@@ -23,17 +24,29 @@ function startSolitaireGame() {
     }
   }
 
+  function drawFromStock() {
+    if (!deck.length) return;
+    const cardData = deck.pop();
+    wastePile.push(cardData);
+    renderWastePile();
+  }
+
+  function renderWastePile() {
+    const wasteSlot = document.getElementById("waste");
+    wasteSlot.innerHTML = "";
+    if (wastePile.length > 0) {
+      const topCard = createCardElement(wastePile[wastePile.length - 1], true);
+      wasteSlot.appendChild(topCard);
+    }
+  }
+
   function renderInitialLayout() {
     const board = document.createElement('div');
     board.className = 'solitaire-board';
 
-    const bg = document.createElement('div');
-    bg.className = 'solitaire-background';
-    document.getElementById('solitaire-root').appendChild(bg);
-
     const header = document.createElement('div');
     header.className = 'solitaire-header';
-    header.innerHTML = `<h2>Solitaire</h2> <button onclick="restartSolitaire()">Restart</button>`;
+    header.innerHTML = '<h2>Solitaire</h2><button onclick="restartSolitaire()">Restart</button>';
 
     const topRow = document.createElement('div');
     topRow.className = 'top-row';
@@ -42,7 +55,11 @@ function startSolitaireGame() {
     stock.className = 'card-slot';
     stock.id = 'stock';
     stock.innerText = '🂠';
-    stock.addEventListener('click', drawFromStock);
+    stock.onclick = drawFromStock;
+
+    const waste = document.createElement('div');
+    waste.className = 'card-slot';
+    waste.id = 'waste';
 
     const foundationGroup = document.createElement('div');
     foundationGroup.className = 'foundation-group';
@@ -53,6 +70,7 @@ function startSolitaireGame() {
     }
 
     topRow.appendChild(stock);
+    topRow.appendChild(waste);
     topRow.appendChild(foundationGroup);
 
     const tableau = document.createElement('div');
@@ -86,29 +104,22 @@ function startSolitaireGame() {
     }
   }
 
-  function drawFromStock() {
-    if (!deck.length) return;
-    const cardData = deck.pop();
-    const card = createCardElement(cardData, true);
-    const foundationGroup = document.querySelector('.foundation-group');
-    const lastPile = foundationGroup.lastElementChild;
-    lastPile.appendChild(card);
-  }
-
   function createCardElement(cardData, faceUp = false) {
     const card = document.createElement('div');
     card.className = 'card';
-    card.innerText = faceUp ? `${cardData.value}${cardData.suit}` : '';
+    card.innerText = faceUp ? \`\${cardData.value}\${cardData.suit}\` : '';
     card.style.backgroundColor = faceUp ? (cardData.color === 'red' ? '#922' : '#222') : '#000';
     card.dataset.value = cardData.value;
     card.dataset.suit = cardData.suit;
     card.dataset.faceUp = faceUp;
 
-    card.draggable = true;
+    card.draggable = faceUp;
+
     card.addEventListener('dragstart', (e) => {
       e.dataTransfer.setData('text/plain', JSON.stringify(cardData));
       card.classList.add('dragging');
     });
+
     card.addEventListener('dragend', () => {
       card.classList.remove('dragging');
     });
@@ -116,79 +127,15 @@ function startSolitaireGame() {
     return card;
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.card-slot, .pile').forEach(slot => {
-      slot.addEventListener('dragover', e => e.preventDefault());
-      slot.addEventListener('drop', e => {
-        e.preventDefault();
-        const cardData = JSON.parse(e.dataTransfer.getData('text/plain'));
-        const card = createCardElement(cardData, true);
-        slot.appendChild(card);
-      });
-    });
-  });
-
-  // === Drag and Drop Mouse Logic ===
-  let draggedCard = null;
-
-  document.addEventListener('mousedown', (e) => {
-    if (e.target.classList.contains('card') && e.target.dataset.faceUp === 'true') {
-      draggedCard = e.target;
-      draggedCard._originalParent = draggedCard.parentElement;
-      draggedCard.style.position = 'absolute';
-      draggedCard.style.zIndex = 1000;
-      moveCardWithMouse(e);
-      document.body.appendChild(draggedCard);
-    }
-  });
-
-  document.addEventListener('mousemove', (e) => {
-    if (draggedCard) moveCardWithMouse(e);
-  });
-
-  document.addEventListener('mouseup', (e) => {
-    if (!draggedCard) return;
-
-    const elementsAtPoint = document.elementsFromPoint(e.clientX, e.clientY);
-    const dropTarget = elementsAtPoint.find(el => el.classList.contains('card-slot') || el.classList.contains('pile'));
-
-    if (dropTarget && dropTarget.childElementCount === 0) {
-      dropTarget.appendChild(draggedCard);
-      draggedCard.style.position = 'relative';
-      draggedCard.style.zIndex = 1;
-      draggedCard.style.left = '';
-      draggedCard.style.top = '';
-    } else {
-      draggedCard.remove();
-    }
-
-    const oldParent = draggedCard._originalParent;
-    if (oldParent && oldParent.classList.contains('pile')) {
-      const remainingCards = Array.from(oldParent.children);
-      const lastCard = remainingCards[remainingCards.length - 1];
-      if (lastCard && lastCard.dataset.faceUp === 'false') {
-        lastCard.dataset.faceUp = 'true';
-        lastCard.textContent = lastCard.dataset.value || '';
-      }
-    }
-
-    draggedCard = null;
-  });
-
-  function moveCardWithMouse(e) {
-    if (!draggedCard) return;
-    draggedCard.style.left = `${e.pageX - 40}px`;
-    draggedCard.style.top = `${e.pageY - 60}px`;
-  }
-
-  // Restart
+  // Restart game
   window.restartSolitaire = () => {
     createDeck();
     shuffleDeck();
+    wastePile = [];
     renderInitialLayout();
   };
 
-  // Start game
+  // Start
   restartSolitaire();
 }
 
