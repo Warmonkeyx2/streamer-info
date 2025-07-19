@@ -1,70 +1,208 @@
-body {
-  margin: 0;
-  font-family: sans-serif;
-  background: #000;
-  color: white;
-}
-
-
+/* Core Layout */
 #solitaire-root {
-  background-color: #111;
+  position: relative;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  border-radius: 6px;
-  box-shadow: inset 0 0 10px #00ffff;
+  padding: 16px;
+  box-sizing: border-box;
+  color: #ffffff;
+  font-family: 'Segoe UI', sans-serif;
+  z-index: 10;
 }
 
+.solitaire-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 10px 16px;
+  border-radius: 8px;
+  backdrop-filter: blur(6px);
+}
+
+.solitaire-header h2 {
+  margin: 0;
+  font-size: 1.4em;
+  text-shadow: 0 0 6px var(--accent-color, #0ff);
+}
+
+.solitaire-header button {
+  background-color: transparent;
+  color: #0ff;
+  border: 1px solid #0ff;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.solitaire-header button:hover {
+  background-color: #0ff;
+  color: #000;
+}
+
+/* Background Visual */
+.solitaire-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, #101820, #05070b);
+  z-index: -1;
+  animation: pulseBackground 10s infinite alternate;
+}
+@keyframes pulseBackground {
+  from {
+    filter: brightness(1);
+  }
+  to {
+    filter: brightness(1.1);
+  }
+}
+
+/* Board Layout */
 .solitaire-board {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 20px;
 }
 
+/* Top Row */
 .top-row {
   display: flex;
   justify-content: space-between;
-  width: 100%;
-  margin-bottom: 1rem;
+  align-items: center;
 }
 
-.card-slot, .pile {
+.card-slot,
+.pile {
   width: 80px;
   height: 120px;
-  margin: 0.25rem;
-  background-color: #111;
-  border: 1px solid #444;
+  border: 2px dashed #333;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.05);
+  position: relative;
+  margin: 0 6px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.card-slot:hover,
+.pile:hover {
+  border-color: #0ff;
+  box-shadow: 0 0 12px #0ff8;
+}
+
+.foundation-group {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: bold;
-  font-size: 1.2rem;
+  gap: 10px;
 }
 
 .tableau {
   display: flex;
-  justify-content: center;
-  width: 100%;
+  justify-content: space-between;
+  gap: 6px;
 }
 
+/* Cards */
 .card {
+  position: absolute;
   width: 80px;
   height: 120px;
-  margin-top: -100px;
-  background-color: #922;
+  border-radius: 6px;
+  background: linear-gradient(to bottom right, #202020, #2a2a2a);
+  border: 1px solid #444;
   color: white;
+  text-align: center;
+  line-height: 120px;
+  font-size: 24px;
+  cursor: grab;
+  user-select: none;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+  z-index: 1;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  animation: glitch 0.3s linear 1;
+  box-shadow: 0 0 14px #0ff;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(2px, -2px);
+  }
+  60% {
+    transform: translate(-1px, 1px);
+  }
+  80% {
+    transform: translate(1px, -1px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+/* Placeholder Card Styling for Animation Demo */
+.solitaire-card {
+  width: 80px;
+  height: 120px;
+  background: linear-gradient(to bottom right, #1a1a1a, #292929);
+  border-radius: 8px;
+  border: 1px solid #333;
+  color: #0ff;
+  font-size: 20px;
+  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid white;
-  position: relative;
-  z-index: 1;
-  user-select: none;
+  box-shadow: 0 0 6px rgba(0, 255, 255, 0.2);
+  margin: 8px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.3s ease;
 }
 
-.card.dragging {
-  opacity: 0.7;
-  z-index: 10000;
+.solitaire-card.animated-in {
+  opacity: 1;
+  transform: translateY(0);
+  box-shadow: 0 0 12px #0ff;
 }
+
+.game-area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+  gap: 10px;
+}
+.card-back {
+  background: linear-gradient(45deg, #222, #444);
+  color: transparent;
+  border-style: dashed;
+  pointer-events: none;
+}
+.card {
+  transition: transform 0.3s ease, box-shadow 0.2s ease;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.card.flip {
+  animation: flipCard 0.3s ease forwards;
+}
+
+@keyframes flipCard {
+  from {
+    transform: rotateY(180deg);
+  }
+  to {
+    transform: rotateY(0deg);
+  }
+}
+
 
