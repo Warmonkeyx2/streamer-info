@@ -87,7 +87,12 @@ function startSolitaireGame() {
   function createCardElement(cardData, faceUp = false) {
     const card = document.createElement('div');
     card.className = 'card';
-    card.innerText = faceUp ? `${cardData.value}${cardData.suit}` : '';
+    if (faceUp) {
+  card.innerHTML = `<span style="color:${cardData.color === 'red' ? '#e63946' : '#fff'}">${cardData.value}${cardData.suit}</span>`;
+} else {
+  card.innerHTML = '';
+}
+
     card.style.backgroundColor = faceUp ? (cardData.color === 'red' ? '#922' : '#222') : '#000';
     card.dataset.value = cardData.value;
     card.dataset.suit = cardData.suit;
