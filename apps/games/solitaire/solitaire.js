@@ -41,6 +41,8 @@ function startSolitaireGame() {
     stock.className = 'card-slot';
     stock.id = 'stock';
     stock.innerText = '🂠';
+    stock.addEventListener('click', drawFromStock);
+
 
     const foundationGroup = document.createElement('div');
     foundationGroup.className = 'foundation-group';
@@ -81,24 +83,52 @@ function startSolitaireGame() {
         const card = createCardElement(deck[cardIndex++], j === i);
         column.appendChild(card);
       }
+      function drawFromStock() {
+  if (!deck.length) return;
+
+  const cardData = deck.pop();
+  const card = createCardElement(cardData, true);
+
+  const foundationGroup = document.querySelector('.foundation-group');
+  const lastPile = foundationGroup.lastElementChild;
+  lastPile.appendChild(card);
+      
+
     }
   }
 
   function createCardElement(cardData, faceUp = false) {
-    const card = document.createElement('div');
-    card.className = 'card';
-    if (faceUp) {
-  card.innerHTML = `<span style="color:${cardData.color === 'red' ? '#e63946' : '#fff'}">${cardData.value}${cardData.suit}</span>`;
-} else {
-  card.innerHTML = '';
-}
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerText = faceUp ? `${cardData.value}${cardData.suit}` : '';
+  card.style.backgroundColor = faceUp ? (cardData.color === 'red' ? '#922' : '#222') : '#000';
+  card.dataset.value = cardData.value;
+  card.dataset.suit = cardData.suit;
+  card.dataset.faceUp = faceUp;
 
-    card.style.backgroundColor = faceUp ? (cardData.color === 'red' ? '#922' : '#222') : '#000';
-    card.dataset.value = cardData.value;
-    card.dataset.suit = cardData.suit;
-    card.dataset.faceUp = faceUp;
-    return card;
-  }
+  card.draggable = true;
+
+  card.addEventListener('dragstart', (e) => {
+    e.dataTransfer.setData('text/plain', JSON.stringify(cardData));
+    card.classList.add('dragging');
+  });
+
+  card.addEventListener('dragend', () => {
+    card.classList.remove('dragging');
+  });
+
+  return card;
+}
+document.querySelectorAll('.card-slot, .pile').forEach(slot => {
+  slot.addEventListener('dragover', e => e.preventDefault());
+  slot.addEventListener('drop', e => {
+    e.preventDefault();
+    const cardData = JSON.parse(e.dataTransfer.getData('text/plain'));
+    const card = createCardElement(cardData, true);
+    e.target.appendChild(card);
+  });
+});
+
 
   // === Drag and Drop Logic ===
   let draggedCard = null;
