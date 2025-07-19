@@ -100,6 +100,52 @@ document.addEventListener('DOMContentLoaded', () => {
     card.dataset.faceUp = faceUp;
     return card;
   }
+// === Drag and Drop Logic ===
+
+let draggedCard = null;
+
+document.addEventListener('mousedown', (e) => {
+  if (e.target.classList.contains('card') && e.target.dataset.faceUp === 'true') {
+    draggedCard = e.target;
+    draggedCard.style.position = 'absolute';
+    draggedCard.style.zIndex = 1000;
+    moveCardWithMouse(e);
+    document.body.appendChild(draggedCard);
+  }
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (draggedCard) {
+    moveCardWithMouse(e);
+  }
+});
+
+document.addEventListener('mouseup', (e) => {
+  if (!draggedCard) return;
+
+  const elementsAtPoint = document.elementsFromPoint(e.clientX, e.clientY);
+  const dropTarget = elementsAtPoint.find(el => el.classList.contains('card-slot') || el.classList.contains('pile'));
+
+  if (dropTarget && dropTarget.classList.contains('card-slot') && dropTarget.childElementCount === 0) {
+    dropTarget.appendChild(draggedCard);
+    draggedCard.style.position = 'relative';
+    draggedCard.style.zIndex = 1;
+    draggedCard.style.left = '';
+    draggedCard.style.top = '';
+  } else {
+    // Return to previous position
+    draggedCard.remove();
+  }
+
+  draggedCard = null;
+});
+
+function moveCardWithMouse(e) {
+  if (!draggedCard) return;
+  draggedCard.style.left = `${e.pageX - 40}px`;
+  draggedCard.style.top = `${e.pageY - 60}px`;
+}
+
 
   // Restart
   window.restartSolitaire = () => {
