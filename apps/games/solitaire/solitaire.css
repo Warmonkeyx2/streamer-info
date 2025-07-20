@@ -48,7 +48,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(ellipse at center, #101820, #05070b);
+  background: radial-gradient(ellipse at center, #251180, #c20ab9);
   z-index: -1;
   animation: pulseBackground 10s infinite alternate;
 }
@@ -204,5 +204,3 @@
     transform: rotateY(0deg);
   }
 }
-
-
