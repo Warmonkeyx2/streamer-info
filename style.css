@@ -702,7 +702,7 @@ transform: rotate(45deg); /* turns + into × */
   left: 300px;
   width: 800px;
   height: 600px;
-  background-color: #111;
+  background-color: #f8004a;
   border: 2px solid var(--accent-color);
   border-radius: 12px;
   box-shadow: 0 0 16px var(--accent-color);
@@ -714,7 +714,7 @@ transform: rotate(45deg); /* turns + into × */
 
 .app-window-header {
   background:
-    linear-gradient(#121212, #121212) padding-box,
+    linear-gradient(#00ee20, #0fe208) padding-box,
     linear-gradient(to right, var(--accent-color), var(--gradient-end)) border-box;
   color: white;
   padding: 10px 14px;
@@ -779,7 +779,7 @@ transform: rotate(45deg); /* turns + into × */
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #111;
+  background-color: #f30505;
   border: 2px solid var(--accent-color);
   border-radius: 50%;
   padding: 12px 16px;
@@ -793,6 +793,6 @@ transform: rotate(45deg); /* turns + into × */
 
 #solitaireRestoreBtn:hover {
   background-color: var(--accent-color);
-  color: #111;
+  color: #28e902;
   box-shadow: 0 0 25px var(--accent-color);
 }
