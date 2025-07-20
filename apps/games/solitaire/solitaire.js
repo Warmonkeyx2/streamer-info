@@ -1,3 +1,5 @@
+document.getElementById('solitaire-root').innerHTML = "<h2>Hello from Solitaire!</h2>";
+
 // solitaire.js
 function startSolitaireGame() {
   const suits = ['♠', '♥', '♣', '♦'];
