@@ -152,22 +152,22 @@
     window.open(path, '_blank', 'width=800,height=600');
   }
 
-function launchSolitaireApp() {
+  function launchSolitaireApp() {
   const appWindow = document.getElementById("solitaireWindow");
   const container = document.getElementById("solitaireGameContainer");
 
   appWindow.style.display = "flex";
-  container.innerHTML = ""; // Clear existing content
+  container.innerHTML = `<div id="solitaire-root"></div>`;
 
   fetch("apps/games/solitaire/solitaire.js")
-    .then(res => res.text())
-    .then(scriptText => {
+    .then((res) => res.text())
+    .then((scriptText) => {
       const script = document.createElement("script");
       script.textContent = scriptText;
       document.body.appendChild(script);
     })
-    .catch(err => {
-      container.innerHTML = "<p style='color:white;'>Failed to load Solitaire.</p>";
+    .catch((err) => {
+      container.innerHTML = "<p>Failed to load Solitaire.</p>";
       console.error("Solitaire Load Error:", err);
     });
 }
