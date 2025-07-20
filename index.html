@@ -646,17 +646,19 @@ function restoreSolitaire() {
 </button>
 
 <!-- ✅ Solitaire App Window -->
-<div id="solitaireWindow" class="draggable-app" style="display: none; position: absolute; top: 300px; left: 300px;">
-  <div class="app-header" onmousedown="startDrag(event)" style="display: flex; align-items: center; gap: 6px; background-color: #111; color: white; padding: 10px; border-bottom: 1px solid var(--accent-color); cursor: move;">
-    <img src="assets/solitaire-icon.png" alt="icon" style="width: 20px;" />
-    <span>Solitaire</span>
-    <div style="margin-left: auto; display: flex; gap: 10px;">
-      <button onclick="closeAppWindow()" style="color: red;">⭘</button>
-      <button onclick="closeAppWindow()">✖</button>
+<div id="solitaireWindow" class="app-window" style="display: none;">
+  <div class="app-window-header" onmousedown="startDrag(event)">
+    <div class="app-window-title">
+      <img src="assets/solitaire-icon.png" alt="Solitaire Icon" style="width: 24px; margin-right: 8px;" />
+      Solitaire
+    </div>
+    <div class="app-window-actions">
+      <button onclick="closeAppWindow()" title="Minimize">⭘</button>
+      <button onclick="closeAppWindow()" title="Close">✖</button>
     </div>
   </div>
-  <div id="solitaireGameContainer" class="app-body" style="background-color: #000; padding: 0; height: 500px; width: 800px;">
-    <!-- solitaire.html will be injected here -->
+  <div class="app-window-body" id="solitaireGameContainer">
+    <!-- Solitaire game loads here -->
   </div>
 </div>
 
