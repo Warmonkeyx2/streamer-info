@@ -483,6 +483,51 @@ window.addEventListener("DOMContentLoaded", () => {
   updatePopoutLinksPanel();
 });
 
+// ====== Viewer Dock Button Visibility Toggles (Apps Tab) ======
+// This allows viewers to show/hide dock buttons using checkboxes in the Apps tab
+
+function loadDockVisibilityPrefs() {
+  const prefs = JSON.parse(localStorage.getItem("dockVisibilityPrefs") || "{}");
+  document.querySelectorAll('.dock-toggle').forEach(toggle => {
+    const dockId = toggle.getAttribute('data-dock');
+    toggle.checked = prefs[dockId] !== false;
+    updateDockButtonVisibility(dockId, toggle.checked);
+    toggle.addEventListener('change', function () {
+      updateDockButtonVisibility(dockId, toggle.checked);
+      saveDockVisibilityPrefs();
+    });
+  });
+}
+
+function updateDockButtonVisibility(dockId, show) {
+  const btn = dockId === "customizeToggle"
+    ? document.getElementById("customizeToggle")
+    : document.querySelector('.dock-btn[data-panel="'+dockId+'"]');
+  if (btn) btn.style.display = show ? "" : "none";
+}
+
+function saveDockVisibilityPrefs() {
+  const prefs = {};
+  document.querySelectorAll('.dock-toggle').forEach(toggle => {
+    const dockId = toggle.getAttribute('data-dock');
+    prefs[dockId] = toggle.checked;
+  });
+  localStorage.setItem("dockVisibilityPrefs", JSON.stringify(prefs));
+}
+
+// ====== Toggle Apps Visibility Controls (Streaming Icon) ======
+// This allows the Streaming app icon to show/hide the dock button controls
+
+function toggleAppsVisibilityControls() {
+  const controls = document.querySelector('.apps-visibility-controls');
+  if (controls) {
+    controls.style.display = (controls.style.display === 'none' || controls.style.display === '') ? 'block' : 'none';
+  }
+}
+
+// ====== Initialize dock visibility toggles on page load ======
+window.addEventListener("DOMContentLoaded", loadDockVisibilityPrefs);
+
 // ====== Window Onload Setup and Event Binding ======
 window.onload = () => {
   showTab('homeTab');
