@@ -4,6 +4,10 @@
   --neon-pink: #ff4b8e;
   --neon-purple: #8f2fff;
   --panel-bg: #16181b;
+
+  --accent-color: var(--neon-cyan);
+  --gradient-start: var(--neon-cyan);
+  --gradient-end: var(--neon-pink);
 }
 
 /* === GLOBAL === */
