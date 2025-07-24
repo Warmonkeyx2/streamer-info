@@ -316,23 +316,40 @@
   </div>
 
   <!-- ✅ Stats App Window -->
-  <div id="statsWindow" class="app-window" style="display: none; position: absolute; top: 200px; left: 300px;">
-    <div class="app-window-header" onmousedown="startDrag(event)">
-      <span>📊 Stats</span>
-      <div style="margin-left: auto; display: flex; gap: 10px;">
-        <button onclick="closeStatsWindow()" style="color: red;">⭘</button>
-        <button onclick="closeStatsWindow()">✖</button>
-      </div>
-    </div>
-    <div class="app-window-body" id="statsAppContainer" style="background-color: #000; color: #0f0; font-family: 'Fira Mono', monospace;">
-      <div id="welcomeMessage" style="margin-bottom: 12px;"></div>
-      <div id="cmdTerminal"></div>
-      <div style="margin-top: 12px;">
-        <button onclick="showBasicStats()">Get Stats</button>
-        <button onclick="openCustomStats()">Custom Stats</button>
-      </div>
+<div id="statsWindow" class="app-window" style="display: none; position: absolute; top: 200px; left: 300px;">
+  <div class="app-window-header" onmousedown="startDrag(event)">
+    <span>📊 Stats</span>
+    <div style="margin-left: auto; display: flex; gap: 10px;">
+      <button onclick="closeStatsWindow()" style="color: red;">⭘</button>
+      <button onclick="closeStatsWindow()">✖</button>
     </div>
   </div>
+  
+  <!-- Custom Stats Panel (slide-out, left side) -->
+  <div class="custom-stats-panel" id="customStatsPanel">
+    <h4>Choose Your Stats</h4>
+    <form id="statsPrefsForm">
+      <label><input type="checkbox" name="followage" /> Followed Since</label><br>
+      <label><input type="checkbox" name="channelPoints" /> Channel Points</label><br>
+      <label><input type="checkbox" name="messagesSent" /> Messages Sent</label><br>
+      <label><input type="checkbox" name="badges" /> Badges</label><br>
+      <label><input type="checkbox" name="subStatus" /> Sub Status</label><br>
+      <label><input type="checkbox" name="viewerNumber" /> Viewer Number</label><br>
+      <button type="submit">Save & Show</button>
+      <button type="button" onclick="closeCustomStats()">Cancel</button>
+    </form>
+  </div>
+
+  <!-- Main App Body -->
+  <div class="app-window-body" id="statsAppContainer" style="background-color: #000; color: #0f0; font-family: 'Fira Mono', monospace;">
+    <div id="welcomeMessage" style="margin-bottom: 12px;"></div>
+    <div id="cmdTerminal"></div>
+    <div style="margin-top: 12px;">
+      <button onclick="showBasicStats()">Get Stats</button>
+      <button onclick="openCustomStats()">Custom Stats</button>
+    </div>
+  </div>
+</div>
 
 
   <!-- ✅ Custom Stats Modal OUTSIDE the stats window! -->
