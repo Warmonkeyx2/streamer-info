@@ -796,3 +796,10 @@ transform: rotate(45deg); /* turns + into × */
   color: #28e902;
   box-shadow: 0 0 25px var(--accent-color);
 }
+.cmd-cursor {
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
