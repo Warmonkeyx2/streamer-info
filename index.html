@@ -675,7 +675,11 @@ function restoreSolitaire() {
   </div>
   <div class="app-window-body" id="solitaireGameContainer">
     <!-- Solitaire game loads here -->
-  <div id="statsWindow" class="app-window" style="display: none; position: absolute; top: 200px; left: 300px;">
+  </div>
+</div>
+
+<!-- ✅ Stats App Window (move this OUTSIDE solitaire window) -->
+<div id="statsWindow" class="app-window" style="display: none; position: absolute; top: 200px; left: 300px;">
   <div class="app-window-header" onmousedown="startDrag(event)">
     <span>📊 Stats</span>
     <div style="margin-left: auto; display: flex; gap: 10px;">
@@ -684,7 +688,6 @@ function restoreSolitaire() {
     </div>
   </div>
   <div id="statsAppContainer" class="app-window-body" style="background-color: #000; color: #0f0; font-family: 'Fira Mono', monospace;"></div>
-</div>
 </div>
 
 
