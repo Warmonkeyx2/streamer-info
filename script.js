@@ -219,7 +219,7 @@ function launchStatsApp() {
   const terminal = document.getElementById("cmdTerminal");
   terminal.innerHTML = `
     <span style="color: #0ff;">███ WELCOME TO THE STATS TERMINAL ███</span><br>
-    <span style="color: #fff;">Type <b>Get Stats</b> or customize your experience.<br>
+    <span style="color: #fff;">Click <b>Get Stats</b> or customize your experience.<br>
     <span style="color: #08f;">Tips: Try "Custom Stats" for more options!</span>
     <br><br>
   `;
