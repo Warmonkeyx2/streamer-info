@@ -3,9 +3,29 @@ function toggleCard() {
   const card = document.getElementById("infoCard");
   card.style.display = card.style.display === "flex" ? "none" : "flex";
 }
+
+// ====== Drag Functionality for App Windows ======
+let isDragging = false;
+let dragOffsetX = 0;
+let dragOffsetY = 0;
+let draggedWindow = null;
+
+function startDrag(e) {
+  const header = e.target.closest(".app-window-header");
+  if (!header) return;
+  draggedWindow = header.parentElement;
+  if (!draggedWindow) return;
+
+  isDragging = true;
+  draggedWindow.style.position = 'absolute';
+  dragOffsetX = e.clientX - draggedWindow.offsetLeft;
+  dragOffsetY = e.clientY - draggedWindow.offsetTop;
+
+  document.addEventListener("mousemove", drag);
+  document.addEventListener("mouseup", stopDrag);
+}
 function drag(e) {
   if (!isDragging || !draggedWindow) return;
-
   draggedWindow.style.left = `${e.clientX - dragOffsetX}px`;
   draggedWindow.style.top = `${e.clientY - dragOffsetY}px`;
 }
@@ -182,39 +202,6 @@ function restoreSolitaire() {
   const restoreBtn = document.getElementById("solitaireRestoreBtn");
   if (appWindow) appWindow.style.display = "flex";
   if (restoreBtn) restoreBtn.style.display = "none";
-}
-
-// ====== Drag Functionality for App Windows ======
-let isDragging = false;
-let dragOffsetX = 0;
-let dragOffsetY = 0;
-let draggedWindow = null;
-
-function startDrag(e) {
-  const header = e.target.closest(".app-window-header");
-  if (!header) return;
-  draggedWindow = header.parentElement;
-  if (!draggedWindow) return;
-
-  isDragging = true;
-  draggedWindow.style.position = 'absolute';
-  dragOffsetX = e.clientX - draggedWindow.offsetLeft;
-  dragOffsetY = e.clientY - draggedWindow.offsetTop;
-
-  document.addEventListener("mousemove", drag);
-  document.addEventListener("mouseup", stopDrag);
-}
-function drag(e) {
-  if (!isDragging || !draggedWindow) return;
-
-  draggedWindow.style.left = `${e.clientX - dragOffsetX}px`;
-  draggedWindow.style.top = `${e.clientY - dragOffsetY}px`;
-}
-function stopDrag() {
-  isDragging = false;
-  draggedWindow = null;
-  document.removeEventListener("mousemove", drag);
-  document.removeEventListener("mouseup", stopDrag);
 }
 
 // --- Stats App ---
