@@ -79,30 +79,69 @@ function updateProfileImage(event) {
   }
 }
 
-// ====== Streamer Links ======
-function updateStreamerLinks() {
-  const links = [
-    { id: 'twitch', name: 'Twitch' },
-    { id: 'youtube', name: 'YouTube' },
-    { id: 'kick', name: 'Kick' },
-    { id: 'discord', name: 'Discord' },
-    { id: 'tiktok', name: 'TikTok' },
-    { id: 'donate', name: 'Donate' }
-  ];
-  const container = document.querySelector('.streamer-links');
+// ====== Streamer Links Sync (Main + Popout Panel) ======
+const streamerLinksData = [
+  { id: 'twitch', name: 'Twitch' },
+  { id: 'youtube', name: 'YouTube' },
+  { id: 'kick', name: 'Kick' },
+  { id: 'discord', name: 'Discord' },
+  { id: 'tiktok', name: 'TikTok' },
+  { id: 'donate', name: 'Donate' }
+];
+
+function updateMainStreamerLinks() {
+  const container = document.getElementById('mainStreamerLinks') || document.querySelector('.streamer-links');
+  if (!container) return;
   container.innerHTML = '';
-  links.forEach(link => {
-    const isChecked = document.getElementById(`${link.id}Check`)?.checked;
-    const url = document.getElementById(`${link.id}URL`)?.value;
-    if (isChecked && url?.trim() !== '') {
+  streamerLinksData.forEach(link => {
+    const isChecked = document.getElementById(`${link.id}Check`);
+    const urlInput = document.getElementById(`${link.id}URL`);
+    if (isChecked && urlInput && isChecked.checked && urlInput.value.trim() !== '') {
       const a = document.createElement('a');
-      a.href = url;
-      a.target = "_blank";
+      a.href = urlInput.value.trim();
+      a.target = '_blank';
       a.textContent = link.name;
       container.appendChild(a);
     }
   });
 }
+
+function updatePopoutLinksPanel() {
+  const popoutList = document.getElementById('popoutLinksList');
+  if (!popoutList) return;
+  popoutList.innerHTML = '';
+  streamerLinksData.forEach(link => {
+    const isChecked = document.getElementById(`${link.id}Check`);
+    const urlInput = document.getElementById(`${link.id}URL`);
+    if (isChecked && urlInput && isChecked.checked && urlInput.value.trim() !== '') {
+      const a = document.createElement('a');
+      a.href = urlInput.value.trim();
+      a.target = '_blank';
+      a.textContent = link.name;
+      a.className = 'popout-link';
+      const li = document.createElement('li');
+      li.appendChild(a);
+      popoutList.appendChild(li);
+    }
+  });
+}
+
+function updateStreamerLinks() {
+  updateMainStreamerLinks();
+  updatePopoutLinksPanel();
+}
+
+// Real-time sync whenever link settings change
+streamerLinksData.forEach(link => {
+  document.addEventListener("input", function(e) {
+    if (
+      e.target.id === `${link.id}Check` ||
+      e.target.id === `${link.id}URL`
+    ) {
+      updateStreamerLinks();
+    }
+  });
+});
 
 function toggleLinkSettings() {
   const container = document.getElementById("linkSettingsContainer");
@@ -240,9 +279,7 @@ function closeStatsWindow() {
   }
 }
 
-// If you want to add minimize/restore logic, you can add this:
 function minimizeStatsWindow() {
-  // This is currently the same as close, but you could show a restore button etc.
   closeStatsWindow();
 }
 
@@ -275,7 +312,6 @@ function typeLines(lines, idx = 0, terminalId = "cmdTerminal") {
       setTimeout(typeChar, 30);
     } else {
       terminal.innerHTML += "<br/>";
-      // Add a longer pause after the first line
       const nextDelay = idx === 0 ? 1200 : 250;
       setTimeout(() => typeLines(lines, idx + 1, terminalId), nextDelay);
     }
@@ -293,7 +329,6 @@ const availableStats = [
   { key: "viewerNumber", label: "Viewer Number", line: "> Viewer Number: #27" },
 ];
 
-// Show stats based on preferences
 function showBasicStats() {
   const terminal = document.getElementById("cmdTerminal");
   terminal.innerHTML = "";
@@ -305,6 +340,7 @@ function showBasicStats() {
   ];
   typeLines(lines);
 }
+
 // ====== Streaming App Dock & Panels ======
 
 // Mock Twitch API for demo purposes
@@ -329,7 +365,6 @@ const closeButtons = document.querySelectorAll(".close-btn");
 const panels = document.querySelectorAll(".panel");
 let customizeMode = false;
 
-// Show panel when dock button clicked
 dockButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     if (customizeMode) return;
@@ -338,7 +373,6 @@ dockButtons.forEach(btn => {
   });
 });
 
-// Hide panel when close button clicked
 closeButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     const panelId = btn.dataset.panel;
@@ -346,26 +380,21 @@ closeButtons.forEach(btn => {
   });
 });
 
-// Show panel (with optional restore position)
 function showPanel(panelId) {
   const panel = document.getElementById(panelId);
   if (!panel) return;
   panel.style.display = "block";
-  // Restore saved position
   if (!customizeMode) restorePanelPosition(panel);
-  // Load content if needed
   if (panelId === "streamInfoPanel") renderStreamInfo();
   if (panelId === "pollPanel") renderPolls();
 }
 
-// Hide panel
 function hidePanel(panelId) {
   const panel = document.getElementById(panelId);
   if (!panel) return;
   panel.style.display = "none";
 }
 
-// ------- Customize Layout Mode -------
 const customizeToggle = document.getElementById("customizeToggle");
 let dragPanel = null, offsetX = 0, offsetY = 0;
 
@@ -374,17 +403,14 @@ customizeToggle.addEventListener("click", () => {
   customizeToggle.classList.toggle("active", customizeMode);
   panels.forEach(panel => {
     panel.classList.toggle("customize", customizeMode);
-    // Enable/disable drag
     if (customizeMode) {
       panel.style.display = "block";
     } else {
-      // Hide panels if they weren't open before
       if (!panel.classList.contains("keep-open")) panel.style.display = "none";
     }
   });
 });
 
-// Drag logic for panels
 panels.forEach(panel => {
   const header = panel.querySelector(".panel-header");
   header.addEventListener("mousedown", (e) => {
@@ -410,7 +436,6 @@ document.addEventListener("mouseup", () => {
   document.body.style.userSelect = "";
 });
 
-// Save/restore positions with localStorage
 function savePanelPosition(panel) {
   const pos = { left: panel.style.left, top: panel.style.top, width: panel.style.width, height: panel.style.height };
   localStorage.setItem("panel_" + panel.id, JSON.stringify(pos));
@@ -426,7 +451,6 @@ function restorePanelPosition(panel) {
   }
 }
 
-// ------- Panel Content Rendering -------
 function renderStreamInfo() {
   const info = window.mockTwitch.getStreamInfo();
   document.getElementById("streamInfoBody").innerHTML = `
@@ -456,8 +480,9 @@ function renderPolls() {
 // ------- Restore open panels and layout on load -------
 window.addEventListener("DOMContentLoaded", () => {
   panels.forEach(panel => restorePanelPosition(panel));
-  // Optional: open stream info by default
   showPanel('streamInfoPanel');
+  updateMainStreamerLinks();
+  updatePopoutLinksPanel();
 });
 
 // ====== Window Onload Setup and Event Binding ======
@@ -466,7 +491,6 @@ window.onload = () => {
   updateStreamerLinks();
   updateServerButtons();
 
-  // Setup statsPrefsForm submit handler safely
   const statsPrefsForm = document.getElementById("statsPrefsForm");
   if (statsPrefsForm) {
     statsPrefsForm.onsubmit = function(e) {
