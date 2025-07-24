@@ -1,65 +1,39 @@
-// ====== Info Card Toggle ======
+// ========== Streamer Info UI & Panel Logic ==========
+
+// --- Info Card Toggle ---
 function toggleCard() {
   const card = document.getElementById("infoCard");
   card.style.display = card.style.display === "flex" ? "none" : "flex";
 }
 
-// ====== Drag Functionality for App Windows ======
-let isDragging = false;
-let dragOffsetX = 0;
-let dragOffsetY = 0;
-let draggedWindow = null;
-
-function startDrag(e) {
-  const header = e.target.closest(".app-window-header");
-  if (!header) return;
-  draggedWindow = header.parentElement;
-  if (!draggedWindow) return;
-
-  isDragging = true;
-  draggedWindow.style.position = 'absolute';
-  dragOffsetX = e.clientX - draggedWindow.offsetLeft;
-  dragOffsetY = e.clientY - draggedWindow.offsetTop;
-
-  document.addEventListener("mousemove", drag);
-  document.addEventListener("mouseup", stopDrag);
-}
-function drag(e) {
-  if (!isDragging || !draggedWindow) return;
-  draggedWindow.style.left = `${e.clientX - dragOffsetX}px`;
-  draggedWindow.style.top = `${e.clientY - dragOffsetY}px`;
-}
-function stopDrag() {
-  isDragging = false;
-  draggedWindow = null;
-  document.removeEventListener("mousemove", drag);
-  document.removeEventListener("mouseup", stopDrag);
-}
-
-// ====== Tab Switching ======
+// --- Tab Switching ---
 function showTab(tabId) {
   const tabs = document.querySelectorAll('.tab-content');
   tabs.forEach(tab => tab.style.display = 'none');
   document.getElementById(tabId).style.display = 'flex';
 }
 
-// ====== Color Picker and Theme ======
-function toggleColorPicker() {
-  const picker = document.getElementById("colorPicker");
-  picker.style.display = picker.style.display === "block" ? "none" : "block";
-}
-
-function updateThemeColor(hexColor) {
-  document.documentElement.style.setProperty('--accent-color', hexColor);
-  const buttons = document.querySelectorAll(
-    '.streamer-links a, .internal-nav a, .internal-nav button, .server-entry a, .color-button'
-  );
-  buttons.forEach(btn => {
-    btn.style.backgroundImage = `linear-gradient(#121212, #121212), linear-gradient(to right, ${hexColor}, ${hexColor})`;
+// --- Admin Panel Section Switching ---
+function showAdminSection(sectionId) {
+  document.querySelectorAll('.admin-section').forEach(sec => {
+    sec.style.display = 'none';
   });
+  const target = document.getElementById(sectionId);
+  if (target) target.style.display = 'block';
+
+  document.querySelectorAll('.admin-tab').forEach(tab => tab.classList.remove('active'));
+  document.querySelector(`.admin-tab[onclick*="${sectionId}"]`)?.classList.add('active');
 }
 
-// ====== Streamer Info/Bio/Profile Image ======
+// --- Admin Panel Toggle ---
+function toggleAdminPanel() {
+  const panel = document.querySelector(".admin-panel");
+  if (panel) {
+    panel.style.display = panel.style.display === "flex" ? "none" : "flex";
+  }
+}
+
+// --- Streamer Info/Bio/Profile Image ---
 function updateStreamerInfo() {
   const name = document.getElementById('streamerNameInput')?.value;
   const bio = document.getElementById('streamerBioInput')?.value;
@@ -79,7 +53,19 @@ function updateProfileImage(event) {
   }
 }
 
-// ====== Streamer Links Sync (Main + Popout Panel) ======
+// --- Theme Color Picker ---
+function updateThemeColor(hexColor) {
+  document.documentElement.style.setProperty('--accent-color', hexColor);
+  const buttons = document.querySelectorAll(
+    '.streamer-links a, .internal-nav a, .internal-nav button, .server-entry a, .color-button'
+  );
+  buttons.forEach(btn => {
+    btn.style.backgroundImage = `linear-gradient(#121212, #121212), linear-gradient(to right, ${hexColor}, ${hexColor})`;
+  });
+}
+
+// ========== Streamer Links (Main & Popout Panel) ==========
+
 const streamerLinksData = [
   { id: 'twitch', name: 'Twitch' },
   { id: 'youtube', name: 'YouTube' },
@@ -131,7 +117,6 @@ function updateStreamerLinks() {
   updatePopoutLinksPanel();
 }
 
-// Real-time sync whenever link settings change
 streamerLinksData.forEach(link => {
   document.addEventListener("input", function(e) {
     if (
@@ -148,62 +133,173 @@ function toggleLinkSettings() {
   container.style.display = container.style.display === "none" ? "block" : "none";
 }
 
-// ====== Admin Panel Sections ======
-function showAdminSection(sectionId) {
-  document.querySelectorAll('.admin-section').forEach(sec => {
-    sec.style.display = 'none';
-  });
-  const target = document.getElementById(sectionId);
-  if (target) target.style.display = 'block';
+// ========== Server Buttons (Admin Panel) & Server Info Logic ==========
 
-  document.querySelectorAll('.admin-tab').forEach(tab => tab.classList.remove('active'));
-  document.querySelector(`.admin-tab[onclick*="${sectionId}"]`)?.classList.add('active');
-
-  if (sectionId === 'serverSettingsPanel') {
-    updateServerButtons();
-  }
-}
-
-function toggleAdminPanel() {
-  const panel = document.querySelector(".admin-panel");
-  if (panel) {
-    panel.style.display = panel.style.display === "flex" ? "none" : "flex";
-  }
-}
-
-// ====== Server Buttons (Admin Panel) ======
+// Save server settings and update server type buttons
 function updateServerButtons() {
-  const serverTab = document.getElementById('serversTab');
-  const navContainer = serverTab.querySelector('.internal-nav');
-  navContainer.innerHTML = ''; // Clear previous buttons
-
+  const navContainer = document.getElementById('serverTypeButtons');
+  navContainer.innerHTML = '';
   const typeCards = document.querySelectorAll('.server-type-card');
+  const servers = [];
 
   typeCards.forEach((card, i) => {
     const labelInput = card.querySelector('.server-type-label');
+    const urlInput = card.querySelector('.server-type-url');
+    const logoInput = card.querySelector('.server-type-logo');
+    const logoPreview = card.querySelector('.server-type-logo-preview');
     const checkbox = card.querySelector('.server-type-visible');
     const label = labelInput.value.trim();
+    const url = urlInput.value.trim();
+    const show = checkbox.checked;
+    let logoData = logoPreview.src && logoPreview.style.display !== "none" ? logoPreview.src : "";
 
-    if (label && checkbox.checked) {
+    servers.push({
+      name: label,
+      url: url,
+      logo: logoData,
+      show: show
+    });
+
+    // Create button if visible
+    if (label && show) {
       const btn = document.createElement('button');
       btn.textContent = label;
       btn.classList.add('color-button');
-      // --- FIX: Instead of alert, show the correct server tab ---
-      if (label.toLowerCase().includes('gta')) {
-        btn.onclick = () => showTab('gtaTab');
-      } else if (label.toLowerCase().includes('redm')) {
-        btn.onclick = () => showTab('redmTab');
-      } else {
-        btn.onclick = () => alert(`Open tab for: ${label}`);
-      }
+      btn.onclick = () => {
+        if (label.toLowerCase().includes('gta')) {
+          showTab('gtaTab');
+          renderServerPanel('gtaServerPanel', servers[i]);
+        } else if (label.toLowerCase().includes('redm')) {
+          showTab('redmTab');
+          renderServerPanel('redmServerPanel', servers[i]);
+        } else {
+          showServerPanel(i);
+        }
+      };
       navContainer.appendChild(btn);
     }
   });
+
+  localStorage.setItem("servers", JSON.stringify(servers));
 }
 
-// ====== Modal App Windows (Solitaire, Stats) ======
+// Handle logo uploads & preview in admin panel
+document.querySelectorAll('.server-type-logo').forEach((input, idx) => {
+  input.addEventListener('change', function (e) {
+    const file = e.target.files[0];
+    const preview = input.parentElement.querySelector('.server-type-logo-preview');
+    if (file && preview) {
+      const reader = new FileReader();
+      reader.onload = function (ev) {
+        preview.src = ev.target.result;
+        preview.style.display = "inline";
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+});
 
-// --- Solitaire App ---
+// Server Info Panel (popout, not tab)
+function showServerPanel(index) {
+  const servers = JSON.parse(localStorage.getItem("servers") || "[]");
+  const server = servers[index];
+  if (!server) return;
+  document.getElementById("serverInfoTitle").textContent = server.name;
+  document.getElementById("serverInfoBody").innerHTML = `
+    ${server.logo ? `<img src="${server.logo}" style="max-width:120px; margin-bottom:12px;"/>` : ""}
+    <div style="margin-bottom:12px;">
+      <button class="color-button" style="font-size:1.1em;" onclick="window.open('${server.url}', '_blank')">Join</button>
+    </div>
+  `;
+  showPanel('serverInfoPanel');
+}
+
+// Server Panel in tab
+function renderServerPanel(panelId, server) {
+  const panel = document.getElementById(panelId);
+  panel.innerHTML = `
+    ${server.logo ? `<img src="${server.logo}" style="max-width:120px; margin-bottom:12px;"/>` : ""}
+    <div style="margin-bottom:12px;">
+      <button class="color-button" style="font-size:1.1em;" onclick="window.open('${server.url}', '_blank')">Join</button>
+    </div>
+  `;
+}
+
+// Restore server settings on load
+window.addEventListener("DOMContentLoaded", () => {
+  const servers = JSON.parse(localStorage.getItem("servers") || "[]");
+  document.querySelectorAll('.server-type-card').forEach((card, i) => {
+    if (servers[i]) {
+      card.querySelector('.server-type-label').value = servers[i].name;
+      card.querySelector('.server-type-url').value = servers[i].url;
+      if (servers[i].logo) {
+        const preview = card.querySelector('.server-type-logo-preview');
+        preview.src = servers[i].logo;
+        preview.style.display = "inline";
+      }
+      card.querySelector('.server-type-visible').checked = !!servers[i].show;
+    }
+  });
+  updateServerButtons();
+  updateMainStreamerLinks();
+  updatePopoutLinksPanel();
+});
+
+// ========== Panel Show/Hide ==========
+function showPanel(panelId) {
+  const panel = document.getElementById(panelId);
+  if (!panel) return;
+  panel.style.display = "block";
+}
+function hidePanel(panelId) {
+  const panel = document.getElementById(panelId);
+  if (!panel) return;
+  panel.style.display = "none";
+}
+
+// ========== Dock Visibility Controls ==========
+function toggleAppsVisibilityControls() {
+  const controls = document.querySelector('.apps-visibility-controls');
+  if (controls) {
+    controls.style.display = (controls.style.display === 'none' || controls.style.display === '') ? 'block' : 'none';
+  }
+}
+
+function loadDockVisibilityPrefs() {
+  const prefs = JSON.parse(localStorage.getItem("dockVisibilityPrefs") || "{}");
+  document.querySelectorAll('.dock-toggle').forEach(toggle => {
+    const dockId = toggle.getAttribute('data-dock');
+    toggle.checked = prefs[dockId] === true;
+  });
+  const saveBtn = document.getElementById('saveDockVisibility');
+  if (saveBtn) {
+    saveBtn.onclick = function () {
+      document.querySelectorAll('.dock-toggle').forEach(toggle => {
+        const dockId = toggle.getAttribute('data-dock');
+        updateDockButtonVisibility(dockId, toggle.checked);
+      });
+      saveDockVisibilityPrefs();
+    };
+  }
+}
+
+function updateDockButtonVisibility(dockId, show) {
+  const btn = dockId === "customizeToggle"
+    ? document.getElementById("customizeToggle")
+    : document.querySelector('.dock-btn[data-panel="'+dockId+'"]');
+  if (btn) btn.style.display = show ? "" : "none";
+}
+
+function saveDockVisibilityPrefs() {
+  const prefs = {};
+  document.querySelectorAll('.dock-toggle').forEach(toggle => {
+    const dockId = toggle.getAttribute('data-dock');
+    prefs[dockId] = toggle.checked;
+  });
+  localStorage.setItem("dockVisibilityPrefs", JSON.stringify(prefs));
+}
+
+// ========== Solitaire App Logic (Window, Drag, Restore, Minimize) ==========
 function launchSolitaireApp() {
   const appWindow = document.getElementById("solitaireWindow");
   const container = document.getElementById("solitaireGameContainer");
@@ -250,8 +346,39 @@ function restoreSolitaire() {
   if (restoreBtn) restoreBtn.style.display = "none";
 }
 
-// --- Stats App ---
-// FIXED: Do NOT overwrite the whole stats window, only update the terminal/welcome message!
+// --- Drag Functionality for App Windows ---
+let isDragging = false;
+let dragOffsetX = 0;
+let dragOffsetY = 0;
+let draggedWindow = null;
+
+function startDrag(e) {
+  const header = e.target.closest(".app-window-header");
+  if (!header) return;
+  draggedWindow = header.parentElement;
+  if (!draggedWindow) return;
+
+  isDragging = true;
+  draggedWindow.style.position = 'absolute';
+  dragOffsetX = e.clientX - draggedWindow.offsetLeft;
+  dragOffsetY = e.clientY - draggedWindow.offsetTop;
+
+  document.addEventListener("mousemove", drag);
+  document.addEventListener("mouseup", stopDrag);
+}
+function drag(e) {
+  if (!isDragging || !draggedWindow) return;
+  draggedWindow.style.left = `${e.clientX - dragOffsetX}px`;
+  draggedWindow.style.top = `${e.clientY - dragOffsetY}px`;
+}
+function stopDrag() {
+  isDragging = false;
+  draggedWindow = null;
+  document.removeEventListener("mousemove", drag);
+  document.removeEventListener("mouseup", stopDrag);
+}
+
+// ========== Stats App Logic ==========
 function launchStatsApp() {
   const statsWindow = document.getElementById("statsWindow");
   statsWindow.style.display = "flex";
@@ -266,7 +393,6 @@ function launchStatsApp() {
   }
 }
 
-// ====== Stats Window Controls ======
 function closeStatsWindow() {
   const statsWindow = document.getElementById("statsWindow");
   if (statsWindow) {
@@ -283,7 +409,7 @@ function minimizeStatsWindow() {
   closeStatsWindow();
 }
 
-// ====== Custom Stats Slide-Out Panel ======
+// ========== Custom Stats Panel ==========
 function openCustomStats() {
   const panel = document.getElementById("customStatsPanel");
   const form = document.getElementById("statsPrefsForm");
@@ -302,7 +428,7 @@ function closeCustomStats() {
   if (panel) panel.classList.remove("open");
 }
 
-// ====== Typing Effect for Stats Terminal ======
+// ========== Stats App Typing Effect ==========
 function typeLines(lines, idx = 0, terminalId = "cmdTerminal") {
   if (idx >= lines.length) {
     document.getElementById(terminalId).innerHTML += `<span class="cmd-cursor">_</span>`;
@@ -323,7 +449,7 @@ function typeLines(lines, idx = 0, terminalId = "cmdTerminal") {
   typeChar();
 }
 
-// ====== Customizable Stats ======
+// ========== Customizable Stats ==========
 const availableStats = [
   { key: "followage", label: "Followed Since", line: "> Followed since: 2020-05-06" },
   { key: "channelPoints", label: "Channel Points", line: "> Channel points: 12,350" },
@@ -346,7 +472,7 @@ function showBasicStats() {
   typeLines(lines);
 }
 
-// ====== Streaming App Dock & Panels ======
+// ========== Streaming App Dock & Panels ==========
 
 // Mock Twitch API for demo purposes
 window.mockTwitch = {
@@ -384,21 +510,6 @@ closeButtons.forEach(btn => {
     if (panelId) hidePanel(panelId);
   });
 });
-
-function showPanel(panelId) {
-  const panel = document.getElementById(panelId);
-  if (!panel) return;
-  panel.style.display = "block";
-  if (!customizeMode) restorePanelPosition(panel);
-  if (panelId === "streamInfoPanel") renderStreamInfo();
-  if (panelId === "pollPanel") renderPolls();
-}
-
-function hidePanel(panelId) {
-  const panel = document.getElementById(panelId);
-  if (!panel) return;
-  panel.style.display = "none";
-}
 
 const customizeToggle = document.getElementById("customizeToggle");
 let dragPanel = null, offsetX = 0, offsetY = 0;
@@ -456,6 +567,7 @@ function restorePanelPosition(panel) {
   }
 }
 
+// --- Render Stream Info ---
 function renderStreamInfo() {
   const info = window.mockTwitch.getStreamInfo();
   document.getElementById("streamInfoBody").innerHTML = `
@@ -467,6 +579,7 @@ function renderStreamInfo() {
   `;
 }
 
+// --- Render Polls ---
 function renderPolls() {
   const polls = window.mockTwitch.getPolls();
   if (!polls.length) {
@@ -483,64 +596,13 @@ function renderPolls() {
 }
 
 // ------- Restore open panels and layout on load -------
-// All panels hidden by default; user must click dock button to show
 window.addEventListener("DOMContentLoaded", () => {
   panels.forEach(panel => restorePanelPosition(panel));
-  // showPanel('streamInfoPanel'); // NO DEFAULT PANEL
   updateMainStreamerLinks();
   updatePopoutLinksPanel();
 });
 
-// ====== Viewer Dock Button Visibility Toggles (Apps Tab) with Save Button ======
-
-function loadDockVisibilityPrefs() {
-  const prefs = JSON.parse(localStorage.getItem("dockVisibilityPrefs") || "{}");
-  document.querySelectorAll('.dock-toggle').forEach(toggle => {
-    const dockId = toggle.getAttribute('data-dock');
-    // Only check if user saved last time
-    toggle.checked = prefs[dockId] === true;
-  });
-  // When Save button is clicked, update dock visibility and save to localStorage
-  const saveBtn = document.getElementById('saveDockVisibility');
-  if (saveBtn) {
-    saveBtn.onclick = function () {
-      document.querySelectorAll('.dock-toggle').forEach(toggle => {
-        const dockId = toggle.getAttribute('data-dock');
-        updateDockButtonVisibility(dockId, toggle.checked);
-      });
-      saveDockVisibilityPrefs();
-    };
-  }
-}
-
-function updateDockButtonVisibility(dockId, show) {
-  const btn = dockId === "customizeToggle"
-    ? document.getElementById("customizeToggle")
-    : document.querySelector('.dock-btn[data-panel="'+dockId+'"]');
-  if (btn) btn.style.display = show ? "" : "none";
-}
-
-function saveDockVisibilityPrefs() {
-  const prefs = {};
-  document.querySelectorAll('.dock-toggle').forEach(toggle => {
-    const dockId = toggle.getAttribute('data-dock');
-    prefs[dockId] = toggle.checked;
-  });
-  localStorage.setItem("dockVisibilityPrefs", JSON.stringify(prefs));
-}
-
-// ====== Toggle Apps Visibility Controls (Streaming Icon) ======
-function toggleAppsVisibilityControls() {
-  const controls = document.querySelector('.apps-visibility-controls');
-  if (controls) {
-    controls.style.display = (controls.style.display === 'none' || controls.style.display === '') ? 'block' : 'none';
-  }
-}
-
-// ====== Initialize dock visibility toggles on page load ======
-window.addEventListener("DOMContentLoaded", loadDockVisibilityPrefs);
-
-// ====== Window Onload Setup and Event Binding ======
+// ========== Window Onload Setup and Event Binding ==========
 window.onload = () => {
   showTab('homeTab');
   updateStreamerLinks();
