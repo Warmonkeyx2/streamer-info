@@ -3,27 +3,6 @@ function toggleCard() {
   const card = document.getElementById("infoCard");
   card.style.display = card.style.display === "flex" ? "none" : "flex";
 }
-// ====== Drag Functionality for App Windows ======
-let isDragging = false;
-let dragOffsetX = 0;
-let dragOffsetY = 0;
-let draggedWindow = null;
-
-function startDrag(e) {
-  const header = e.target.closest(".app-window-header");
-  if (!header) return;
-  draggedWindow = header.parentElement;
-  if (!draggedWindow) return;
-
-  isDragging = true;
-  // Make sure the window is absolutely positioned
-  draggedWindow.style.position = 'absolute';
-  dragOffsetX = e.clientX - draggedWindow.offsetLeft;
-  dragOffsetY = e.clientY - draggedWindow.offsetTop;
-
-  document.addEventListener("mousemove", drag);
-  document.addEventListener("mouseup", stopDrag);
-}
 function drag(e) {
   if (!isDragging || !draggedWindow) return;
 
@@ -205,6 +184,39 @@ function restoreSolitaire() {
   if (restoreBtn) restoreBtn.style.display = "none";
 }
 
+// ====== Drag Functionality for App Windows ======
+let isDragging = false;
+let dragOffsetX = 0;
+let dragOffsetY = 0;
+let draggedWindow = null;
+
+function startDrag(e) {
+  const header = e.target.closest(".app-window-header");
+  if (!header) return;
+  draggedWindow = header.parentElement;
+  if (!draggedWindow) return;
+
+  isDragging = true;
+  draggedWindow.style.position = 'absolute';
+  dragOffsetX = e.clientX - draggedWindow.offsetLeft;
+  dragOffsetY = e.clientY - draggedWindow.offsetTop;
+
+  document.addEventListener("mousemove", drag);
+  document.addEventListener("mouseup", stopDrag);
+}
+function drag(e) {
+  if (!isDragging || !draggedWindow) return;
+
+  draggedWindow.style.left = `${e.clientX - dragOffsetX}px`;
+  draggedWindow.style.top = `${e.clientY - dragOffsetY}px`;
+}
+function stopDrag() {
+  isDragging = false;
+  draggedWindow = null;
+  document.removeEventListener("mousemove", drag);
+  document.removeEventListener("mouseup", stopDrag);
+}
+
 // --- Stats App ---
 function launchStatsApp() {
   const statsWindow = document.getElementById("statsWindow");
@@ -214,6 +226,15 @@ function launchStatsApp() {
     <div id="cmdTerminal" style="background: #181818; color: #0f0; font-family: 'Fira Mono', monospace; padding: 20px; border-radius: 8px; min-height: 200px; font-size: 16px;"></div>
     <button onclick="showBasicStats()" style="margin-top: 20px; background: #222; color: #0ff; border: 2px solid #0ff; border-radius: 6px; padding: 8px 18px; font-family: inherit; font-size: 16px; cursor: pointer;">Get Stats</button>
     <button onclick="openCustomStats()" style="margin-top: 20px; margin-left: 10px; background: #222; color: #0ff; border: 2px solid #0ff; border-radius: 6px; padding: 8px 18px; font-family: inherit; font-size: 16px; cursor: pointer;">Custom Stats</button>
+  `;
+
+  // Add a cool welcome message!
+  const terminal = document.getElementById("cmdTerminal");
+  terminal.innerHTML = `
+    <span style="color: #0ff;">███ WELCOME TO THE STATS TERMINAL ███</span><br>
+    <span style="color: #fff;">Type <b>Get Stats</b> or customize your experience.<br>
+    <span style="color: #08f;">Tips: Try "Custom Stats" for more options!</span>
+    <br><br>
   `;
 }
 
