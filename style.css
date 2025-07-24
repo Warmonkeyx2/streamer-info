@@ -1,14 +1,8 @@
 /* === ROOT COLOR VARIABLES === */
 :root {
-  --neon-cyan: #00fff0;
-  --neon-pink: #ff4b8e;
-  --neon-purple: #8f2fff;
-  --panel-bg: #16181b;
-
-  /* Main variables for easy themed use everywhere: */
-  --accent-color: var(--neon-cyan);
-  --gradient-start: var(--neon-cyan);
-  --gradient-end: var(--neon-pink);
+  --accent-color: #00f0ff;
+  --gradient-start: #00f0ff;
+  --gradient-end: #ff00d4;
 }
 
 /* === GLOBAL === */
