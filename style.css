@@ -1,8 +1,9 @@
 /* === ROOT COLOR VARIABLES === */
 :root {
-  --accent-color: #00ffff; /* Use this as the master accent color */
-  --gradient-start: #00f0ff;
-  --gradient-end: #ff00d4;
+  --neon-cyan: #00fff0;
+  --neon-pink: #ff4b8e;
+  --neon-purple: #8f2fff;
+  --panel-bg: #16181b;
 }
 
 /* === GLOBAL === */
@@ -538,18 +539,22 @@ body {
   min-height: 180px;
   max-width: 90vw;
   max-height: 80vh;
-  background: var(--panel-bg);
-  border-radius: 14px 16px 16px 14px;
-  box-shadow: var(--panel-glow);
+  background: #16181b;
+  border-radius: 18px;
+  border: 2px solid #00fff0;
+  box-shadow:
+    0 0 14px 2px #00fff0,
+    0 0 32px 8px #00fff077,
+    0 0 2px #fff;
   z-index: 400;
   overflow: hidden;
-  transition: box-shadow 0.2s, backdrop-filter 0.2s;
+  transition: box-shadow 0.2s, border 0.2s, backdrop-filter 0.2s;
   backdrop-filter: blur(2.5px);
   resize: both;
 }
 .panel-header {
   padding: 8px 12px;
-  background: linear-gradient(90deg, #22263d 65%, #24002d 100%);
+  background: linear-gradient(90deg, #23263c 65%, #24002d 100%);
   font-weight: bold;
   user-select: none;
   display: flex;
@@ -560,15 +565,14 @@ body {
   font-size: 1.18rem;
   letter-spacing: 0.03em;
   text-shadow:
-    0 0 3px #0ff,
-    0 0 7px #0ff,
-    0 0 16px #0ff,
+    0 0 7px #00fff0,
     0 0 18px #8f2fff;
   box-shadow:
-    0 0 16px 2px #00fff055,
+    0 0 14px 2px #00fff055,
     0 0 10px 0 #8f2fff33;
   border-bottom: 1.5px solid #8f2fff;
 }
+
 .close-btn {
   background: none;
   border: none;
@@ -581,6 +585,7 @@ body {
     0 0 14px #ff8edc;
   transition: color 0.18s, text-shadow 0.18s;
 }
+
 .close-btn:hover {
   color: #fff;
   text-shadow:
