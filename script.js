@@ -204,7 +204,7 @@ function launchSolitaireApp() {
   appWindow.style.display = "flex";
   container.innerHTML = `<div id="solitaire-root"></div>`;
 
-  // Load JS
+  // Load JS (must exist at this path!)
   fetch("apps/games/solitaire/solitaire.js")
     .then((res) => res.text())
     .then((scriptText) => {
@@ -244,26 +244,19 @@ function restoreSolitaire() {
 }
 
 // --- Stats App ---
+// FIXED: Do NOT overwrite the whole stats window, only update the terminal/welcome message!
 function launchStatsApp() {
   const statsWindow = document.getElementById("statsWindow");
-  const container = document.getElementById("statsAppContainer");
   statsWindow.style.display = "flex";
-  container.innerHTML = `
-    <div id="cmdTerminal" style="background: #181818; color: #0f0; font-family: 'Fira Mono', monospace; padding: 20px; border-radius: 8px; min-height: 200px; font-size: 16px;"></div>
-    <div style="margin-top: 12px;">
-      <button onclick="showBasicStats()">Get Stats</button>
-      <button onclick="openCustomStats()" style="margin-left: 10px;">Custom Stats</button>
-    </div>
-  `;
-
-  // Add a cool welcome message!
   const terminal = document.getElementById("cmdTerminal");
-  terminal.innerHTML = `
-    <span style="color: #0ff;">███ WELCOME TO THE STATS TERMINAL ███</span><br>
-    <span style="color: #fff;">Type <b>Get Stats</b> or customize your experience.<br>
-    <span style="color: #08f;">Tips: Try "Custom Stats" for more options!</span>
-    <br><br>
-  `;
+  if (terminal) {
+    terminal.innerHTML = `
+      <span style="color: #0ff;">███ WELCOME TO THE STATS TERMINAL ███</span><br>
+      <span style="color: #fff;">Click <b>Get Stats</b> or customize your experience.<br>
+      <span style="color: #08f;">Tips: Try "Custom Stats" for more options!</span>
+      <br><br>
+    `;
+  }
 }
 
 // ====== Stats Window Controls ======
@@ -287,15 +280,19 @@ function minimizeStatsWindow() {
 function openCustomStats() {
   const panel = document.getElementById("customStatsPanel");
   const form = document.getElementById("statsPrefsForm");
+  if (!panel || !form) return;
   const prefs = JSON.parse(localStorage.getItem("statsPrefs") || "{}");
   availableStats.forEach(stat => {
-    form.elements[stat.key].checked = prefs[stat.key] ?? true;
+    if (form.elements[stat.key]) {
+      form.elements[stat.key].checked = prefs[stat.key] ?? true;
+    }
   });
   panel.classList.add("open");
 }
 
 function closeCustomStats() {
-  document.getElementById("customStatsPanel").classList.remove("open");
+  const panel = document.getElementById("customStatsPanel");
+  if (panel) panel.classList.remove("open");
 }
 
 // ====== Typing Effect for Stats Terminal ======
@@ -331,6 +328,7 @@ const availableStats = [
 
 function showBasicStats() {
   const terminal = document.getElementById("cmdTerminal");
+  if (!terminal) return;
   terminal.innerHTML = "";
   const prefs = JSON.parse(localStorage.getItem("statsPrefs") || "{}");
   const lines = [
