@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- INFO BUBBLE AND MAIN NAV -->
   <div class="info-bubble">
     <div class="info-button" onclick="toggleCard()">i</div>
     <div class="info-card" id="infoCard">
@@ -79,7 +80,7 @@
     </div>
   </div>
 
-  <!-- Admin Panel -->
+  <!-- ADMIN PANEL -->
   <div class="admin-panel" style="display: none;">
     <div class="admin-header">
       <div class="admin-profile">
@@ -94,39 +95,32 @@
         <button class="admin-tab" onclick="showAdminSection('appsSettingsPanel')">APPS</button>
       </div>
     </div>
-
     <div class="admin-content">
+      <!-- HOME SETTINGS -->
       <div id="homeSettings" class="admin-section" style="display: block;">
         <h4>Streamer Settings</h4>
-
         <div class="admin-field">
           <label for="streamerNameInput">Streamer Name:</label>
           <input type="text" id="streamerNameInput" placeholder="Enter your streamer name" />
         </div>
-
         <div class="admin-field">
           <label for="streamerBioInput">Streamer Bio:</label>
           <textarea id="streamerBioInput" placeholder="Enter your bio..." rows="4"></textarea>
         </div>
-
         <div class="admin-field">
           <button onclick="updateStreamerInfo()">Save Info</button>
         </div>
-
         <div class="admin-field">
           <label for="profileImageUpload">Upload Profile Image:</label>
           <input type="file" id="profileImageUpload" accept="image/*" onchange="updateProfileImage(event)" />
         </div>
-
         <div class="admin-field">
           <label for="colorPicker">Theme Color:</label>
           <input type="color" id="colorPicker" onchange="updateThemeColor(this.value)" />
         </div>
-
         <div class="admin-field">
           <button id="toggleLinkSettings" onclick="toggleLinkSettings()">Toggle Streamer Links</button>
         </div>
-
         <div id="linkSettingsContainer" style="display: none;">
           <div class="link-setting">
             <label><input type="checkbox" id="twitchCheck" checked /> Twitch:</label>
@@ -157,114 +151,108 @@
           </div>
         </div>
       </div>
-
-      <!-- Server settings and apps settings omitted for brevity (unchanged) -->
-      <!-- ====== Server Settings Panel (Admin) ====== -->
-<div id="serverSettingsPanel" class="admin-section" style="display: none;">
-  <h3>Server Settings</h3>
-  <p>Edit your server types below. Toggle visibility to show/hide them as buttons.</p>
-
-  <div class="server-type-grid">
-    <!-- Server Type Slot 1 -->
-    <div class="server-type-card">
-      <div onclick="toggleCollapse(this)">
-        <span class="card-title">Server Type</span>
+      <!-- SERVER SETTINGS -->
+      <div id="serverSettingsPanel" class="admin-section" style="display: none;">
+        <h3>Server Settings</h3>
+        <p>Edit your server types below. Toggle visibility to show/hide them as buttons.</p>
+        <div class="server-type-grid">
+          <!-- Slot 1 -->
+          <div class="server-type-card">
+            <div onclick="toggleCollapse(this)">
+              <span class="card-title">Server Type</span>
+            </div>
+            <div>
+              <label>Server Name:</label>
+              <input type="text" class="server-type-label" placeholder="e.g. GTA RP" value="GTA RP" />
+              <label>Server Link:</label>
+              <input type="url" class="server-type-url" placeholder="https://yourserver.com" />
+              <label><input type="checkbox" class="server-type-visible" checked /> Show</label>
+            </div>
+          </div>
+          <!-- Slot 2 -->
+          <div class="server-type-card">
+            <div onclick="toggleCollapse(this)">
+              <span class="card-title">Server Type</span>
+            </div>
+            <div>
+              <label>Server Name:</label>
+              <input type="text" class="server-type-label" placeholder="e.g. RedM RP" value="RedM RP" />
+              <label>Server Link:</label>
+              <input type="url" class="server-type-url" placeholder="https://yourserver.com" />
+              <label><input type="checkbox" class="server-type-visible" checked /> Show</label>
+            </div>
+          </div>
+          <!-- Add more server-type-cards as needed -->
+        </div>
+        <button class="color-button" onclick="updateServerButtons()">Save Server Buttons</button>
       </div>
-      <div>
-        <label>Server Name:</label>
-        <input type="text" class="server-type-label" placeholder="e.g. GTA RP" value="GTA RP" />
-        <label>Server Link:</label>
-        <input type="url" class="server-type-url" placeholder="https://yourserver.com" />
-        <label><input type="checkbox" class="server-type-visible" checked /> Show</label>
+      <!-- APPS SETTINGS -->
+      <div id="appsSettingsPanel" class="admin-section" style="display: none;">
+        <h3>Apps Settings</h3>
+        <p>This section will allow you to manage which viewer-facing apps are available. Placeholder for now.</p>
+        <ul>
+          <li>💡 App Slot 1 - Placeholder</li>
+          <li>💡 App Slot 2 - Placeholder</li>
+          <li>💡 App Slot 3 - Placeholder</li>
+        </ul>
       </div>
     </div>
-    <!-- Repeat for more server slots as needed -->
-    <div class="server-type-card">
-      <div onclick="toggleCollapse(this)">
-        <span class="card-title">Server Type</span>
-      </div>
-      <div>
-        <label>Server Name:</label>
-        <input type="text" class="server-type-label" placeholder="e.g. RedM RP" value="RedM RP" />
-        <label>Server Link:</label>
-        <input type="url" class="server-type-url" placeholder="https://yourserver.com" />
-        <label><input type="checkbox" class="server-type-visible" checked /> Show</label>
-      </div>
-    </div>
-    <!-- Add more server-type-cards as needed -->
   </div>
 
-  <button class="color-button" onclick="updateServerButtons()">Save Server Buttons</button>
-</div>
-
-<!-- ====== Apps Settings Panel (Admin) ====== -->
-<div id="appsSettingsPanel" class="admin-section" style="display: none;">
-  <h3>Apps Settings</h3>
-  <p>This section will allow you to manage which viewer-facing apps are available. Placeholder for now.</p>
-  <ul>
-    <li>💡 App Slot 1 - Placeholder</li>
-    <li>💡 App Slot 2 - Placeholder</li>
-    <li>💡 App Slot 3 - Placeholder</li>
-  </ul>
-</div>
-  </div>
-
+  <!-- RESTORE BUTTON FOR SOLITAIRE -->
   <button id="solitaireRestoreBtn" onclick="restoreSolitaire()" style="display: none;">🃏</button>
 
-  <!-- Solitaire App Window and Stats App Window omitted for brevity (unchanged) -->
-<!-- ✅ Solitaire App Window -->
-<div id="solitaireWindow" class="app-window" style="display: none;">
-  <div class="app-window-header" onmousedown="startDrag(event)">
-    <div class="app-window-title">
-      <img src="assets/solitaire-icon.png" alt="Solitaire Icon" style="width: 24px; margin-right: 8px;" />
-      Solitaire
+  <!-- SOLITAIRE APP WINDOW -->
+  <div id="solitaireWindow" class="app-window" style="display: none;">
+    <div class="app-window-header" onmousedown="startDrag(event)">
+      <div class="app-window-title">
+        <img src="assets/solitaire-icon.png" alt="Solitaire Icon" style="width: 24px; margin-right: 8px;" />
+        Solitaire
+      </div>
+      <div class="app-window-actions">
+        <button onclick="closeAppWindow()" title="Minimize">⭘</button>
+        <button onclick="closeAppWindow()" title="Close">✖</button>
+      </div>
     </div>
-    <div class="app-window-actions">
-      <button onclick="closeAppWindow()" title="Minimize">⭘</button>
-      <button onclick="closeAppWindow()" title="Close">✖</button>
+    <div class="app-window-body" id="solitaireGameContainer">
+      <!-- Solitaire game loads here -->
     </div>
-  </div>
-  <div class="app-window-body" id="solitaireGameContainer">
-    <!-- Solitaire game loads here -->
-  </div>
-</div>
-
-<!-- ✅ Stats App Window -->
-<div id="statsWindow" class="app-window" style="display: none; position: absolute; top: 200px; left: 300px;">
-  <div class="app-window-header" onmousedown="startDrag(event)">
-    <span>📊 Stats</span>
-    <div style="margin-left: auto; display: flex; gap: 10px;">
-      <button onclick="closeStatsWindow()" style="color: red;">⭘</button>
-      <button onclick="closeStatsWindow()">✖</button>
-    </div>
-  </div>
-  
-  <!-- Custom Stats Panel (slide-out, left side) -->
-  <div class="custom-stats-panel" id="customStatsPanel">
-    <h4>Choose Your Stats</h4>
-    <form id="statsPrefsForm">
-      <label><input type="checkbox" name="followage" /> Followed Since</label><br>
-      <label><input type="checkbox" name="channelPoints" /> Channel Points</label><br>
-      <label><input type="checkbox" name="messagesSent" /> Messages Sent</label><br>
-      <label><input type="checkbox" name="badges" /> Badges</label><br>
-      <label><input type="checkbox" name="subStatus" /> Sub Status</label><br>
-      <label><input type="checkbox" name="viewerNumber" /> Viewer Number</label><br>
-      <button type="submit">Save & Show</button>
-      <button type="button" onclick="closeCustomStats()">Cancel</button>
-    </form>
   </div>
 
-  <!-- Main App Body -->
-  <div class="app-window-body" id="statsAppContainer" style="background-color: #000; color: #0f0; font-family: 'Fira Mono', monospace;">
-    <div id="welcomeMessage" style="margin-bottom: 12px;"></div>
-    <div id="cmdTerminal"></div>
-    <div style="margin-top: 12px;">
-      <button onclick="showBasicStats()">Get Stats</button>
-      <button onclick="openCustomStats()">Custom Stats</button>
+  <!-- STATS APP WINDOW -->
+  <div id="statsWindow" class="app-window" style="display: none; position: absolute; top: 200px; left: 300px;">
+    <div class="app-window-header" onmousedown="startDrag(event)">
+      <span>📊 Stats</span>
+      <div style="margin-left: auto; display: flex; gap: 10px;">
+        <button onclick="closeStatsWindow()" style="color: red;">⭘</button>
+        <button onclick="closeStatsWindow()">✖</button>
+      </div>
+    </div>
+    <!-- Custom Stats Panel -->
+    <div class="custom-stats-panel" id="customStatsPanel">
+      <h4>Choose Your Stats</h4>
+      <form id="statsPrefsForm">
+        <label><input type="checkbox" name="followage" /> Followed Since</label><br>
+        <label><input type="checkbox" name="channelPoints" /> Channel Points</label><br>
+        <label><input type="checkbox" name="messagesSent" /> Messages Sent</label><br>
+        <label><input type="checkbox" name="badges" /> Badges</label><br>
+        <label><input type="checkbox" name="subStatus" /> Sub Status</label><br>
+        <label><input type="checkbox" name="viewerNumber" /> Viewer Number</label><br>
+        <button type="submit">Save & Show</button>
+        <button type="button" onclick="closeCustomStats()">Cancel</button>
+      </form>
+    </div>
+    <div class="app-window-body" id="statsAppContainer" style="background-color: #000; color: #0f0; font-family: 'Fira Mono', monospace;">
+      <div id="welcomeMessage" style="margin-bottom: 12px;"></div>
+      <div id="cmdTerminal"></div>
+      <div style="margin-top: 12px;">
+        <button onclick="showBasicStats()">Get Stats</button>
+        <button onclick="openCustomStats()">Custom Stats</button>
+      </div>
     </div>
   </div>
-</div>
-  <!-- Dock Bar -->
+
+  <!-- DOCK BAR -->
   <div id="dockBar">
     <button class="dock-btn" data-panel="streamInfoPanel" title="Stream Info">🎬</button>
     <button class="dock-btn" data-panel="chatPanel" title="Chat">💬</button>
@@ -273,7 +261,7 @@
     <button id="customizeToggle" title="Customize Layout">🛠️</button>
   </div>
 
-  <!-- Panels -->
+  <!-- PANELS -->
   <div id="streamInfoPanel" class="panel" style="left: 60px;">
     <div class="panel-header">Stream Info <button class="close-btn" data-panel="streamInfoPanel">✖</button></div>
     <div class="panel-body" id="streamInfoBody"></div>
