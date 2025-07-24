@@ -498,3 +498,113 @@ body {
   color: #fff;
   border-color: #666;
 }
+
+#dockBar {
+  position: fixed;
+  top: 30%;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 300;
+  background: transparent;
+  padding: 2px;
+  align-items: center;
+}
+.dock-btn, #customizeToggle {
+  width: 44px;
+  height: 44px;
+  background: var(--panel-bg);
+  border: none;
+  color: var(--accent);
+  border-radius: 12px;
+  margin: 0 0 2px 0;
+  font-size: 1.6rem;
+  box-shadow: 0 0 7px 0 #000;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.2s;
+}
+.dock-btn:hover, #customizeToggle:hover {
+  background: #23272d;
+  box-shadow: 0 0 12px 2px var(--accent);
+}
+
+.panel {
+  display: none;
+  position: fixed;
+  top: 40px;
+  left: 60px;
+  min-width: 320px;
+  min-height: 180px;
+  max-width: 90vw;
+  max-height: 80vh;
+  background: var(--panel-bg);
+  border-radius: 14px 16px 16px 14px;
+  box-shadow: var(--panel-glow);
+  z-index: 400;
+  overflow: hidden;
+  transition: box-shadow 0.2s, backdrop-filter 0.2s;
+  backdrop-filter: blur(2.5px);
+  resize: both;
+}
+.panel-header {
+  padding: 8px 12px;
+  background: rgba(18,20,22,0.88);
+  font-weight: bold;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: move;
+  color: var(--accent);
+  font-size: 1.15rem;
+}
+.close-btn {
+  background: none;
+  border: none;
+  color: #ff4b8e;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 12px;
+}
+.panel-body {
+  padding: 15px 20px;
+  font-size: 1rem;
+  color: #e5e5e5;
+  overflow-y: auto;
+  max-height: 62vh;
+}
+.links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.links-list li {
+  margin-bottom: 10px;
+}
+.links-list a {
+  color: var(--accent);
+  font-size: 1.07rem;
+  text-decoration: none;
+  transition: color 0.18s;
+}
+.links-list a:hover {
+  color: #fffa;
+  text-shadow: 0 0 7px var(--accent);
+}
+
+.panel.customize {
+  cursor: grab;
+  box-shadow: 0 0 24px 6px #fff7, 0 0 40px 8px var(--accent);
+  border: 1.5px dashed var(--accent);
+}
+.panel.customize .panel-header {
+  cursor: grab;
+}
+
+#customizeToggle.active {
+  background: #15181b;
+  color: #fff;
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 18px 3px var(--accent);
+}
