@@ -5,6 +5,7 @@
   --neon-purple: #8f2fff;
   --panel-bg: #16181b;
 
+  /* Main variables for easy themed use everywhere: */
   --accent-color: var(--neon-cyan);
   --gradient-start: var(--neon-cyan);
   --gradient-end: var(--neon-pink);
