@@ -367,6 +367,40 @@
     </form>
   </div>
 
+<!-- ====== Streaming App Dock Bar ====== -->
+<div id="dockBar">
+  <button class="dock-btn" data-panel="streamInfoPanel" title="Stream Info">🎬</button>
+  <button class="dock-btn" data-panel="chatPanel" title="Chat">💬</button>
+  <button class="dock-btn" data-panel="pollPanel" title="Polls">📊</button>
+  <button class="dock-btn" data-panel="linksPanel" title="Links">🔗</button>
+  <button id="customizeToggle" title="Customize Layout">🛠️</button>
+</div>
+
+<!-- ====== Streaming App Panels ====== -->
+<div id="streamInfoPanel" class="panel" style="left: 60px;">
+  <div class="panel-header">Stream Info <button class="close-btn" data-panel="streamInfoPanel">✖</button></div>
+  <div class="panel-body" id="streamInfoBody"></div>
+</div>
+<div id="chatPanel" class="panel" style="left: 60px;">
+  <div class="panel-header">Chat <button class="close-btn" data-panel="chatPanel">✖</button></div>
+  <div class="panel-body" id="chatBody">(Chat goes here)</div>
+</div>
+<div id="pollPanel" class="panel" style="left: 60px;">
+  <div class="panel-header">Polls <button class="close-btn" data-panel="pollPanel">✖</button></div>
+  <div class="panel-body" id="pollBody">(Polls go here)</div>
+</div>
+<div id="linksPanel" class="panel" style="left: 60px;">
+  <div class="panel-header">Links <button class="close-btn" data-panel="linksPanel">✖</button></div>
+  <div class="panel-body">
+    <ul class="links-list">
+      <li><a href="https://twitch.tv/" target="_blank">Twitch</a></li>
+      <li><a href="https://discord.com/" target="_blank">Discord</a></li>
+      <li><a href="https://youtube.com/" target="_blank">YouTube</a></li>
+      <li><a href="https://twitter.com/" target="_blank">Twitter</a></li>
+    </ul>
+  </div>
+</div>
+
   <script src="script.js"></script>
 </body>
 </html>
