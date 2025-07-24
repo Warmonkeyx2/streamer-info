@@ -250,6 +250,8 @@ function showPanel(panelId) {
   const panel = document.getElementById(panelId);
   if (!panel) return;
   panel.style.display = "block";
+  // Call this after showing the panel!
+  if (panelId === "streamInfoPanel") renderStreamInfo();
 }
 function hidePanel(panelId) {
   const panel = document.getElementById(panelId);
