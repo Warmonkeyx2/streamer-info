@@ -211,18 +211,35 @@ function launchStatsApp() {
   statsWindow.style.display = "flex";
   container.innerHTML = `
     <div id="cmdTerminal" style="background: #181818; color: #0f0; font-family: 'Fira Mono', monospace; padding: 20px; border-radius: 8px; min-height: 200px; font-size: 16px;"></div>
-    <button onclick="showBasicStats()" style="margin-top: 20px; background: #222; color: #0ff; border: 2px solid #0ff; border-radius: 6px; padding: 8px 18px; font-family: inherit; font-size: 16px; cursor: pointer;">Get Stats</button>
-    <button onclick="openCustomStats()" style="margin-top: 20px; margin-left: 10px; background: #222; color: #0ff; border: 2px solid #0ff; border-radius: 6px; padding: 8px 18px; font-family: inherit; font-size: 16px; cursor: pointer;">Custom Stats</button>
+    <div style="margin-top: 12px;">
+      <button onclick="showBasicStats()">Get Stats</button>
+      <button onclick="openCustomStats()" style="margin-left: 10px;">Custom Stats</button>
+    </div>
   `;
 
   // Add a cool welcome message!
   const terminal = document.getElementById("cmdTerminal");
   terminal.innerHTML = `
     <span style="color: #0ff;">███ WELCOME TO THE STATS TERMINAL ███</span><br>
-    <span style="color: #fff;">Click <b>Get Stats</b> or customize your experience.<br>
+    <span style="color: #fff;">Type <b>Get Stats</b> or customize your experience.<br>
     <span style="color: #08f;">Tips: Try "Custom Stats" for more options!</span>
     <br><br>
   `;
+}
+
+// ====== Custom Stats Slide-Out Panel ======
+function openCustomStats() {
+  const panel = document.getElementById("customStatsPanel");
+  const form = document.getElementById("statsPrefsForm");
+  const prefs = JSON.parse(localStorage.getItem("statsPrefs") || "{}");
+  availableStats.forEach(stat => {
+    form.elements[stat.key].checked = prefs[stat.key] ?? true;
+  });
+  panel.classList.add("open");
+}
+
+function closeCustomStats() {
+  document.getElementById("customStatsPanel").classList.remove("open");
 }
 
 // ====== Typing Effect for Stats Terminal ======
@@ -256,22 +273,6 @@ const availableStats = [
   { key: "subStatus", label: "Sub Status", line: "> Sub Status: Tier 1" },
   { key: "viewerNumber", label: "Viewer Number", line: "> Viewer Number: #27" },
 ];
-
-// Show modal for stat selection with preferences loaded
-function openCustomStats() {
-  const modal = document.getElementById("customStatsModal");
-  const form = document.getElementById("statsPrefsForm");
-  const prefs = JSON.parse(localStorage.getItem("statsPrefs") || "{}");
-  availableStats.forEach(stat => {
-    form.elements[stat.key].checked = prefs[stat.key] ?? true;
-  });
-  modal.style.display = "block";
-}
-
-// Hide modal
-function closeCustomStats() {
-  document.getElementById("customStatsModal").style.display = "none";
-}
 
 // Show stats based on preferences
 function showBasicStats() {
