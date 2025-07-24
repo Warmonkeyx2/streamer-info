@@ -179,12 +179,9 @@ function launchStatsApp() {
   statsWindow.style.display = "flex";
   container.innerHTML = `
     <div id="cmdTerminal" style="background: #181818; color: #0f0; font-family: 'Fira Mono', monospace; padding: 20px; border-radius: 8px; min-height: 200px; font-size: 16px;"></div>
-    <button onclick="getStats()" style="margin-top: 20px; background: #222; color: #0ff; border: 2px solid #0ff; border-radius: 6px; padding: 8px 18px; font-family: inherit; font-size: 16px; cursor: pointer;">Get Stats</button>
+    <button onclick="showBasicStats()" style="margin-top: 20px; background: #222; color: #0ff; border: 2px solid #0ff; border-radius: 6px; padding: 8px 18px; font-family: inherit; font-size: 16px; cursor: pointer;">Get Stats</button>
+    <button onclick="openCustomStats()" style="margin-top: 20px; margin-left: 10px; background: #222; color: #0ff; border: 2px solid #0ff; border-radius: 6px; padding: 8px 18px; font-family: inherit; font-size: 16px; cursor: pointer;">Custom Stats</button>
   `;
-}
-
-function closeStatsWindow() {
-  document.getElementById("statsWindow").style.display = "none";
 }
 
 // ====== Typing Effect for Stats Terminal ======
@@ -209,52 +206,63 @@ function typeLines(lines, idx = 0, terminalId = "cmdTerminal") {
   typeChar();
 }
 
-function getStats() {
+// ====== Customizable Stats ======
+const availableStats = [
+  { key: "followage", label: "Followed Since", line: "> Followed since: 2020-05-06" },
+  { key: "channelPoints", label: "Channel Points", line: "> Channel points: 12,350" },
+  { key: "messagesSent", label: "Messages Sent", line: "> Messages sent: 1423" },
+  { key: "badges", label: "Badges", line: "> Badges: VIP, Founder" },
+  { key: "subStatus", label: "Sub Status", line: "> Sub Status: Tier 1" },
+  { key: "viewerNumber", label: "Viewer Number", line: "> Viewer Number: #27" },
+];
+
+// Show modal for stat selection with preferences loaded
+function openCustomStats() {
+  const modal = document.getElementById("customStatsModal");
+  const form = document.getElementById("statsPrefsForm");
+  const prefs = JSON.parse(localStorage.getItem("statsPrefs") || "{}");
+  availableStats.forEach(stat => {
+    form.elements[stat.key].checked = prefs[stat.key] ?? true;
+  });
+  modal.style.display = "block";
+}
+
+// Hide modal
+function closeCustomStats() {
+  document.getElementById("customStatsModal").style.display = "none";
+}
+
+// Show stats based on preferences
+function showBasicStats() {
   const terminal = document.getElementById("cmdTerminal");
   terminal.innerHTML = "";
-  const statsLines = [
+  const prefs = JSON.parse(localStorage.getItem("statsPrefs") || "{}");
+  const lines = [
     "> Checking stats for Warmonkeyx...",
-    "> Followed since: 2020-05-06",
-    "> Messages sent: 1423",
-    "> Channel points: 12,350",
+    ...availableStats.filter(stat => prefs[stat.key] ?? true).map(stat => stat.line),
     "> Thanks for watching!",
   ];
-  typeLines(statsLines);
+  typeLines(lines);
 }
 
-// ====== Drag Functionality for App Windows ======
-let isDragging = false;
-let dragOffsetX = 0;
-let dragOffsetY = 0;
-let draggedWindow = null;
-
-function startDrag(e) {
-  const header = e.target.closest(".app-window-header");
-  draggedWindow = header?.parentElement;
-  if (!draggedWindow) return;
-
-  isDragging = true;
-  dragOffsetX = e.clientX - draggedWindow.offsetLeft;
-  dragOffsetY = e.clientY - draggedWindow.offsetTop;
-
-  document.addEventListener("mousemove", drag);
-  document.addEventListener("mouseup", stopDrag);
-}
-function drag(e) {
-  if (!isDragging || !draggedWindow) return;
-
-  draggedWindow.style.left = `${e.clientX - dragOffsetX}px`;
-  draggedWindow.style.top = `${e.clientY - dragOffsetY}px`;
-}
-function stopDrag() {
-  isDragging = false;
-  document.removeEventListener("mousemove", drag);
-  document.removeEventListener("mouseup", stopDrag);
-}
-
-// ====== Window Onload Setup ======
+// ====== Window Onload Setup and Event Binding ======
 window.onload = () => {
   showTab('homeTab');
   updateStreamerLinks();
   updateServerButtons();
+
+  // Setup statsPrefsForm submit handler safely
+  const statsPrefsForm = document.getElementById("statsPrefsForm");
+  if (statsPrefsForm) {
+    statsPrefsForm.onsubmit = function(e) {
+      e.preventDefault();
+      const prefs = {};
+      availableStats.forEach(stat => {
+        prefs[stat.key] = this.elements[stat.key].checked;
+      });
+      localStorage.setItem("statsPrefs", JSON.stringify(prefs));
+      closeCustomStats();
+      showBasicStats();
+    };
+  }
 };
