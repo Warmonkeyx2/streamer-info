@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Streamer Info</title>
   <link rel="stylesheet" href="style.css" />
-  
-      
 </head>
 <body>
   <div class="info-bubble">
@@ -301,24 +299,24 @@
 </button>
 
 <!-- ✅ Solitaire App Window -->
-<div id="solitaireWindow" class="app-window" style="display: none;">
-  <div class="app-window-header" onmousedown="startDrag(event)">
-    <div class="app-window-title">
-      <img src="assets/solitaire-icon.png" alt="Solitaire Icon" style="width: 24px; margin-right: 8px;" />
-      Solitaire
+  <div id="solitaireWindow" class="app-window" style="display: none;">
+    <div class="app-window-header" onmousedown="startDrag(event)">
+      <div class="app-window-title">
+        <img src="assets/solitaire-icon.png" alt="Solitaire Icon" style="width: 24px; margin-right: 8px;" />
+        Solitaire
+      </div>
+      <div class="app-window-actions">
+        <button onclick="closeAppWindow()" title="Minimize">⭘</button>
+        <button onclick="closeAppWindow()" title="Close">✖</button>
+      </div>
     </div>
-    <div class="app-window-actions">
-      <button onclick="closeAppWindow()" title="Minimize">⭘</button>
-      <button onclick="closeAppWindow()" title="Close">✖</button>
+    <div class="app-window-body" id="solitaireGameContainer">
+      <!-- Solitaire game loads here -->
     </div>
   </div>
-  <div class="app-window-body" id="solitaireGameContainer">
-    <!-- Solitaire game loads here -->
-  </div>
-</div>
 
-<!-- ✅ Stats App Window (move this OUTSIDE solitaire window) -->
-<div id="statsWindow" class="app-window" style="display: none; position: absolute; top: 200px; left: 300px;">
+  <!-- ✅ Stats App Window -->
+  <div id="statsWindow" class="app-window" style="display: none; position: absolute; top: 200px; left: 300px;">
     <div class="app-window-header" onmousedown="startDrag(event)">
       <span>📊 Stats</span>
       <div style="margin-left: auto; display: flex; gap: 10px;">
@@ -333,27 +331,24 @@
         <button onclick="showBasicStats()">Get Stats</button>
         <button onclick="openCustomStats()">Custom Stats</button>
       </div>
-      <!-- Custom Stats Modal -->
-      <div id="customStatsModal" style="display: none; background: #222; color: #fff; padding: 16px; border-radius: 8px; position: absolute; left: 50px; top: 100px; z-index: 10;">
-        <h4>Choose Your Stats</h4>
-        <<form id="statsPrefsForm">
-  <label><input type="checkbox" name="followage" /> Followed Since</label><br>
-  <label><input type="checkbox" name="channelPoints" /> Channel Points</label><br>
-  <label><input type="checkbox" name="messagesSent" /> Messages Sent</label><br>
-  <label><input type="checkbox" name="badges" /> Badges</label><br>
-  <label><input type="checkbox" name="subStatus" /> Sub Status</label><br>
-  <label><input type="checkbox" name="viewerNumber" /> Viewer Number</label><br>
-  <button type="submit">Save & Show</button>
-  <button type="button" onclick="closeCustomStats()">Cancel</button>
-</form>
-      </div>
     </div>
   </div>
 
+  <!-- ✅ Custom Stats Modal OUTSIDE the stats window! -->
+  <div id="customStatsModal" style="display: none; background: #222; color: #fff; padding: 16px; border-radius: 8px; position: absolute; left: 50px; top: 100px; z-index: 2000;">
+    <h4>Choose Your Stats</h4>
+    <form id="statsPrefsForm">
+      <label><input type="checkbox" name="followage" /> Followed Since</label><br>
+      <label><input type="checkbox" name="channelPoints" /> Channel Points</label><br>
+      <label><input type="checkbox" name="messagesSent" /> Messages Sent</label><br>
+      <label><input type="checkbox" name="badges" /> Badges</label><br>
+      <label><input type="checkbox" name="subStatus" /> Sub Status</label><br>
+      <label><input type="checkbox" name="viewerNumber" /> Viewer Number</label><br>
+      <button type="submit">Save & Show</button>
+      <button type="button" onclick="closeCustomStats()">Cancel</button>
+    </form>
+  </div>
 
-<script src="script.js"></script>
-</body>
-</html>
-
+  <script src="script.js"></script>
 </body>
 </html>
