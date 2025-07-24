@@ -164,6 +164,39 @@
 function closeStatsWindow() {
   document.getElementById("statsWindow").style.display = "none";
 }
+// Typing effect for terminal output
+function typeLines(lines, idx = 0, terminalId = "cmdTerminal") {
+  if (idx >= lines.length) {
+    document.getElementById(terminalId).innerHTML += `<span class="cmd-cursor">_</span>`;
+    return;
+  }
+  const terminal = document.getElementById(terminalId);
+  let i = 0;
+  function typeChar() {
+    if (i < lines[idx].length) {
+      terminal.innerHTML += lines[idx][i++];
+      setTimeout(typeChar, 30);
+    } else {
+      terminal.innerHTML += "<br/>";
+      setTimeout(() => typeLines(lines, idx + 1, terminalId), 250);
+    }
+  }
+  typeChar();
+}
+
+function getStats() {
+  const terminal = document.getElementById("cmdTerminal");
+  terminal.innerHTML = ""; // clear previous output
+  // Use mock data for now; replace with Twitch API data later
+  const statsLines = [
+    "> Checking stats for Warmonkeyx...",
+    "> Followed since: 2020-05-06",
+    "> Messages sent: 1423",
+    "> Channel points: 12,350",
+    "> Thanks for watching!",
+  ];
+  typeLines(statsLines);
+}
   function launchSolitaireApp() {
   const appWindow = document.getElementById("solitaireWindow");
   const container = document.getElementById("solitaireGameContainer");
