@@ -292,6 +292,54 @@ function launchSolitaireApp() {
       console.error("Solitaire Load Error:", err);
     });
 }
+function launchStatsApp() {
+  const statsWindow = document.getElementById("statsWindow");
+  const container = document.getElementById("statsAppContainer");
+  statsWindow.style.display = "flex";
+  container.innerHTML = `
+    <div id="cmdTerminal" style="background: #181818; color: #0f0; font-family: 'Fira Mono', monospace; padding: 20px; border-radius: 8px; min-height: 200px; font-size: 16px;"></div>
+    <button onclick="getStats()" style="margin-top: 20px; background: #222; color: #0ff; border: 2px solid #0ff; border-radius: 6px; padding: 8px 18px; font-family: inherit; font-size: 16px; cursor: pointer;">Get Stats</button>
+  `;
+}
+
+function closeStatsWindow() {
+  document.getElementById("statsWindow").style.display = "none";
+}
+
+// Typing effect for terminal output
+function typeLines(lines, idx = 0, terminalId = "cmdTerminal") {
+  if (idx >= lines.length) {
+    document.getElementById(terminalId).innerHTML += `<span class="cmd-cursor">_</span>`;
+    return;
+  }
+  const terminal = document.getElementById(terminalId);
+  let i = 0;
+  function typeChar() {
+    if (i < lines[idx].length) {
+      terminal.innerHTML += lines[idx][i++];
+      setTimeout(typeChar, 30);
+    } else {
+      terminal.innerHTML += "<br/>";
+      setTimeout(() => typeLines(lines, idx + 1, terminalId), 250);
+    }
+  }
+  typeChar();
+}
+
+function getStats() {
+  const terminal = document.getElementById("cmdTerminal");
+  terminal.innerHTML = ""; // clear
+  // TODO: Replace with actual API call and dynamic data
+  // For now, use mock data:
+  const statsLines = [
+    "> Checking stats for Warmonkeyx...",
+    "> Followed since: 2020-05-06",
+    "> Messages sent: 1423",
+    "> Channel points: 12,350",
+    "> Thanks for watching!",
+  ];
+  typeLines(statsLines);
+}
 
   window.onload = () => {
   showTab('homeTab');
