@@ -476,9 +476,10 @@ function renderPolls() {
 }
 
 // ------- Restore open panels and layout on load -------
+// All panels hidden by default; user must click dock button to show
 window.addEventListener("DOMContentLoaded", () => {
   panels.forEach(panel => restorePanelPosition(panel));
-  showPanel('streamInfoPanel');
+  // showPanel('streamInfoPanel'); // NO DEFAULT PANEL
   updateMainStreamerLinks();
   updatePopoutLinksPanel();
 });
