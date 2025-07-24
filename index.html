@@ -178,7 +178,9 @@ function typeLines(lines, idx = 0, terminalId = "cmdTerminal") {
       setTimeout(typeChar, 30);
     } else {
       terminal.innerHTML += "<br/>";
-      setTimeout(() => typeLines(lines, idx + 1, terminalId), 250);
+      // Add a longer pause after the first line
+      const nextDelay = idx === 0 ? 1200 : 250; // 1.2s after first line, 0.25s after others
+      setTimeout(() => typeLines(lines, idx + 1, terminalId), nextDelay);
     }
   }
   typeChar();
