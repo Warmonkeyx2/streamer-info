@@ -633,3 +633,16 @@ body {
   border: 2px solid var(--accent);
   box-shadow: 0 0 18px 3px var(--accent);
 }
+.popout-link {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.08rem;
+  transition: color 0.18s, text-shadow 0.18s;
+}
+.popout-link:hover {
+  color: var(--gradient-end);
+  text-shadow: 0 0 7px var(--gradient-end);
+}
+
+
