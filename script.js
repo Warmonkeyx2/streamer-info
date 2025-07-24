@@ -227,6 +227,25 @@ function launchStatsApp() {
   `;
 }
 
+// ====== Stats Window Controls ======
+function closeStatsWindow() {
+  const statsWindow = document.getElementById("statsWindow");
+  if (statsWindow) {
+    statsWindow.style.display = "none";
+  }
+  // Optionally close/hide custom stats panel if open
+  const customPanel = document.getElementById("customStatsPanel");
+  if (customPanel) {
+    customPanel.classList.remove("open");
+  }
+}
+
+// If you want to add minimize/restore logic, you can add this:
+function minimizeStatsWindow() {
+  // This is currently the same as close, but you could show a restore button etc.
+  closeStatsWindow();
+}
+
 // ====== Custom Stats Slide-Out Panel ======
 function openCustomStats() {
   const panel = document.getElementById("customStatsPanel");
