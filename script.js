@@ -305,6 +305,160 @@ function showBasicStats() {
   ];
   typeLines(lines);
 }
+// ====== Streaming App Dock & Panels ======
+
+// Mock Twitch API for demo purposes
+window.mockTwitch = {
+  getStreamInfo: () => ({
+    title: "Let's Build a Streaming App!",
+    game: "Software & Game Dev",
+    viewers: 127,
+    uptime: "2h 17m",
+    category: "Just Chatting",
+    streamer: "Warmonkeyx2",
+    startedAt: new Date(Date.now() - 2 * 3600 * 1000 - 17 * 60 * 1000),
+  }),
+  getPolls: () => ([
+    { question: "Which feature next?", options: ["Schedule", "Mini-games", "Custom Chat"], votes: [7,9,3] }
+  ])
+};
+
+// ------- Panel Show/Hide -------
+const dockButtons = document.querySelectorAll(".dock-btn");
+const closeButtons = document.querySelectorAll(".close-btn");
+const panels = document.querySelectorAll(".panel");
+let customizeMode = false;
+
+// Show panel when dock button clicked
+dockButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    if (customizeMode) return;
+    const panelId = btn.dataset.panel;
+    if (panelId) showPanel(panelId);
+  });
+});
+
+// Hide panel when close button clicked
+closeButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const panelId = btn.dataset.panel;
+    if (panelId) hidePanel(panelId);
+  });
+});
+
+// Show panel (with optional restore position)
+function showPanel(panelId) {
+  const panel = document.getElementById(panelId);
+  if (!panel) return;
+  panel.style.display = "block";
+  // Restore saved position
+  if (!customizeMode) restorePanelPosition(panel);
+  // Load content if needed
+  if (panelId === "streamInfoPanel") renderStreamInfo();
+  if (panelId === "pollPanel") renderPolls();
+}
+
+// Hide panel
+function hidePanel(panelId) {
+  const panel = document.getElementById(panelId);
+  if (!panel) return;
+  panel.style.display = "none";
+}
+
+// ------- Customize Layout Mode -------
+const customizeToggle = document.getElementById("customizeToggle");
+let dragPanel = null, offsetX = 0, offsetY = 0;
+
+customizeToggle.addEventListener("click", () => {
+  customizeMode = !customizeMode;
+  customizeToggle.classList.toggle("active", customizeMode);
+  panels.forEach(panel => {
+    panel.classList.toggle("customize", customizeMode);
+    // Enable/disable drag
+    if (customizeMode) {
+      panel.style.display = "block";
+    } else {
+      // Hide panels if they weren't open before
+      if (!panel.classList.contains("keep-open")) panel.style.display = "none";
+    }
+  });
+});
+
+// Drag logic for panels
+panels.forEach(panel => {
+  const header = panel.querySelector(".panel-header");
+  header.addEventListener("mousedown", (e) => {
+    if (!customizeMode) return;
+    dragPanel = panel;
+    offsetX = e.clientX - panel.offsetLeft;
+    offsetY = e.clientY - panel.offsetTop;
+    document.body.style.userSelect = "none";
+  });
+});
+
+document.addEventListener("mousemove", (e) => {
+  if (!dragPanel || !customizeMode) return;
+  dragPanel.style.left = (e.clientX - offsetX) + "px";
+  dragPanel.style.top = (e.clientY - offsetY) + "px";
+});
+
+document.addEventListener("mouseup", () => {
+  if (dragPanel && customizeMode) {
+    savePanelPosition(dragPanel);
+  }
+  dragPanel = null;
+  document.body.style.userSelect = "";
+});
+
+// Save/restore positions with localStorage
+function savePanelPosition(panel) {
+  const pos = { left: panel.style.left, top: panel.style.top, width: panel.style.width, height: panel.style.height };
+  localStorage.setItem("panel_" + panel.id, JSON.stringify(pos));
+}
+function restorePanelPosition(panel) {
+  const pos = localStorage.getItem("panel_" + panel.id);
+  if (pos) {
+    const { left, top, width, height } = JSON.parse(pos);
+    if (left) panel.style.left = left;
+    if (top) panel.style.top = top;
+    if (width) panel.style.width = width;
+    if (height) panel.style.height = height;
+  }
+}
+
+// ------- Panel Content Rendering -------
+function renderStreamInfo() {
+  const info = window.mockTwitch.getStreamInfo();
+  document.getElementById("streamInfoBody").innerHTML = `
+    <div style="font-size:1.2rem; font-weight:bold;">${info.title}</div>
+    <div style="margin: 2px 0 8px 0; color:#0ff;">${info.streamer} — <span style="color:#faf;">${info.category}</span></div>
+    <div>Game: <b>${info.game}</b></div>
+    <div>Viewers: <b>${info.viewers}</b></div>
+    <div>Uptime: <b>${info.uptime}</b></div>
+  `;
+}
+
+function renderPolls() {
+  const polls = window.mockTwitch.getPolls();
+  if (!polls.length) {
+    document.getElementById("pollBody").innerHTML = `<em>No polls running</em>`;
+    return;
+  }
+  document.getElementById("pollBody").innerHTML = polls.map(p =>
+    `<div><b>${p.question}</b><ul style="margin-top:4px;">${
+      p.options.map((opt, i) =>
+        `<li>${opt} <span style="color:#0ff;font-weight:bold;">${p.votes[i]}</span></li>`
+      ).join('')
+    }</ul></div>`
+  ).join("<hr>");
+}
+
+// ------- Restore open panels and layout on load -------
+window.addEventListener("DOMContentLoaded", () => {
+  panels.forEach(panel => restorePanelPosition(panel));
+  // Optional: open stream info by default
+  showPanel('streamInfoPanel');
+});
 
 // ====== Window Onload Setup and Event Binding ======
 window.onload = () => {
