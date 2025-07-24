@@ -665,16 +665,14 @@ function restoreSolitaire() {
     <!-- Solitaire game loads here -->
   <div id="statsWindow" class="app-window" style="display: none; position: absolute; top: 200px; left: 300px;">
   <div class="app-window-header" onmousedown="startDrag(event)">
-    <img src="assets/stats-icon.png" alt="icon" style="width: 20px; margin-right: 6px;" />
-    <span>Stats</span>
+    <span>📊 Stats</span>
     <div style="margin-left: auto; display: flex; gap: 10px;">
       <button onclick="closeStatsWindow()" style="color: red;">⭘</button>
       <button onclick="closeStatsWindow()">✖</button>
     </div>
   </div>
-  <div id="statsAppContainer" class="app-window-body" style="background-color: #000; color: #0f0; font-family: 'Fira Mono', monospace;">
-    <!-- Terminal will be injected here -->
-  </div>
+  <div id="statsAppContainer" class="app-window-body" style="background-color: #000; color: #0f0; font-family: 'Fira Mono', monospace;"></div>
+</div>
 </div>
 
 
