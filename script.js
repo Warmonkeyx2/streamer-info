@@ -188,7 +188,14 @@ function updateServerButtons() {
       const btn = document.createElement('button');
       btn.textContent = label;
       btn.classList.add('color-button');
-      btn.onclick = () => alert(`Open tab for: ${label}`);
+      // --- FIX: Instead of alert, show the correct server tab ---
+      if (label.toLowerCase().includes('gta')) {
+        btn.onclick = () => showTab('gtaTab');
+      } else if (label.toLowerCase().includes('redm')) {
+        btn.onclick = () => showTab('redmTab');
+      } else {
+        btn.onclick = () => alert(`Open tab for: ${label}`);
+      }
       navContainer.appendChild(btn);
     }
   });
@@ -532,6 +539,7 @@ function toggleAppsVisibilityControls() {
 
 // ====== Initialize dock visibility toggles on page load ======
 window.addEventListener("DOMContentLoaded", loadDockVisibilityPrefs);
+
 // ====== Window Onload Setup and Event Binding ======
 window.onload = () => {
   showTab('homeTab');
