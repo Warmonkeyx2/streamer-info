@@ -453,3 +453,48 @@ body {
   0% { opacity: 0; transform: scale(0.98);}
   100% { opacity: 1; transform: scale(1);}
 }
+
+.custom-stats-panel {
+  position: absolute;
+  top: 20px;
+  left: -260px; /* hidden by default, slide in to 0 */
+  width: 240px;
+  background: #191c1f;
+  color: #fff;
+  border-radius: 10px 0 0 10px;
+  padding: 18px 14px 14px 18px;
+  box-shadow:
+    0 0 14px 2px #00ffff, /* left */
+    0 -2px 14px 2px #00ffff, /* top */
+    0 10px 20px -8px #00ffff; /* bottom */
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: left 0.3s cubic-bezier(.6,.6,.2,1), opacity 0.2s;
+}
+
+/* When active (open) */
+.custom-stats-panel.open {
+  left: -5px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Checkbox and button color tweaks */
+.custom-stats-panel input[type="checkbox"]:checked {
+  accent-color: #00ffff;
+}
+.custom-stats-panel button {
+  background: #181818;
+  color: #00ffff;
+  border: 1px solid #00ffff;
+  border-radius: 4px;
+  margin: 6px 4px 0 0;
+  padding: 2px 12px;
+  font-family: inherit;
+  cursor: pointer;
+}
+.custom-stats-panel button[type="button"] {
+  color: #fff;
+  border-color: #666;
+}
