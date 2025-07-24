@@ -484,20 +484,26 @@ window.addEventListener("DOMContentLoaded", () => {
   updatePopoutLinksPanel();
 });
 
-// ====== Viewer Dock Button Visibility Toggles (Apps Tab) ======
-// This allows viewers to show/hide dock buttons using checkboxes in the Apps tab
+// ====== Viewer Dock Button Visibility Toggles (Apps Tab) with Save Button ======
 
 function loadDockVisibilityPrefs() {
   const prefs = JSON.parse(localStorage.getItem("dockVisibilityPrefs") || "{}");
   document.querySelectorAll('.dock-toggle').forEach(toggle => {
     const dockId = toggle.getAttribute('data-dock');
-    toggle.checked = prefs[dockId] !== false;
-    updateDockButtonVisibility(dockId, toggle.checked);
-    toggle.addEventListener('change', function () {
-      updateDockButtonVisibility(dockId, toggle.checked);
-      saveDockVisibilityPrefs();
-    });
+    // Only check if user saved last time
+    toggle.checked = prefs[dockId] === true;
   });
+  // When Save button is clicked, update dock visibility and save to localStorage
+  const saveBtn = document.getElementById('saveDockVisibility');
+  if (saveBtn) {
+    saveBtn.onclick = function () {
+      document.querySelectorAll('.dock-toggle').forEach(toggle => {
+        const dockId = toggle.getAttribute('data-dock');
+        updateDockButtonVisibility(dockId, toggle.checked);
+      });
+      saveDockVisibilityPrefs();
+    };
+  }
 }
 
 function updateDockButtonVisibility(dockId, show) {
@@ -517,8 +523,6 @@ function saveDockVisibilityPrefs() {
 }
 
 // ====== Toggle Apps Visibility Controls (Streaming Icon) ======
-// This allows the Streaming app icon to show/hide the dock button controls
-
 function toggleAppsVisibilityControls() {
   const controls = document.querySelector('.apps-visibility-controls');
   if (controls) {
@@ -528,7 +532,6 @@ function toggleAppsVisibilityControls() {
 
 // ====== Initialize dock visibility toggles on page load ======
 window.addEventListener("DOMContentLoaded", loadDockVisibilityPrefs);
-
 // ====== Window Onload Setup and Event Binding ======
 window.onload = () => {
   showTab('homeTab');
