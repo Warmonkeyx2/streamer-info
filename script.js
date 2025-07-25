@@ -1300,7 +1300,12 @@ function playSound(id) {
     audio.play();
   }
 }
-
+reveal.innerHTML = `<div class="crate-reveal-item crate-${item.rarity.toLowerCase()} ${item.rarity === "Legendary" || item.rarity === "Collector" ? "confetti" : ""}">
+  <span class="reel-icon" style="font-size:2em;">${item.icon}</span><br>
+  <b>${item.name}</b><br>
+  <span style="font-size:1.1em;">${item.rarity}</span>
+  <div class="crate-reveal-flash"></div>
+</div>`;
 // Call this when modal shows
 document.getElementById("crateAnimationModal").addEventListener("transitionend", startCrateParticles);
 // Add a way to open the slot test panel for devs, e.g. in console:
