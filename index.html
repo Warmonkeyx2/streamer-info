@@ -283,13 +283,14 @@
     <div class="panel-header">Links <button class="close-btn" data-panel="linksPanel">✖</button></div>
     <div class="panel-body">
       <ul class="links-list" id="popoutLinksList">
-   <div id="freeModePanel" class="panel" style="display:none; left:100px; top:100px; width:640px;">
-    <div class="panel-header">FreeMode <button class="close-btn" data-panel="freeModePanel">✖</button></div>
-    <div class="panel-body" id="freeModeBody">
-    <button onclick="toggleTwitchEmbed()" style="margin-bottom:8px;">Toggle Stream/VOD</button>
-       <div id="twitchEmbedPanel" style="display:none;"></div>
-       <p style="margin-top: 12px;">Drag and resize this panel! Build your own layout.<br>
-    You can also drag and resize the Twitch player below.</p>
+   <div id="freeModePanel" class="panel" style="display:none; left:140px; top:80px; min-width:360px;">
+  <div class="panel-header" onmousedown="startDrag(event)">FreeMode
+    <button class="close-btn" data-panel="freeModePanel">✖</button>
+  </div>
+  <div class="panel-body" id="freeModeBody">
+    <div style="margin-bottom:10px;">Drag and resize this panel! Click "Show Stream" below to open your Twitch stream.</div>
+    <button id="showTwitchEmbedBtn" onclick="toggleTwitchEmbed()" style="margin-bottom:8px;">Show Stream</button>
+    <div id="twitchEmbedPanel" style="display:none; resize:both; overflow:auto; min-width:320px; min-height:180px; border-radius:12px; box-shadow:0 0 8px #00fff7;"></div>
   </div>
 </div>
         <!-- Links will be dynamically inserted here -->
