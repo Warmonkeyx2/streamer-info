@@ -670,175 +670,177 @@ body {
 }
 
 /* --- Neon Gaming Panel Styles --- */
-/* (already included above) */
-
-/* ===========================
-   SLOT MACHINE APP WINDOW
-   =========================== */
-.slot-machine {
-  width: 440px;
-  padding: 28px 20px 20px 20px;
-  background: #181927;
-  border-radius: 22px;
-  box-shadow: 0 0 44px #00fff7, 0 0 22px #ff00ea;
-  color: #fff;
+/* --- Neon Gaming Panel Styles --- */
+.overlay {
   position: fixed;
-  top: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10001;
-  display: none;
-}
-.slot-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 14px;
-}
-.slot-balance {
-  font-size: 1.32rem;
-  font-weight: 600;
-  color: #00fff7;
-  text-shadow: 0 0 10px #00fff7;
-}
-.slot-close {
-  background: none;
-  border: none;
-  color: #ff00ea;
-  font-size: 2rem;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-.slot-close:hover {
-  color: #fff;
-}
-.slot-reels-container {
-  position: relative;
-  width: 420px;
-  height: 420px;
-  margin: 0 auto 20px auto;
-}
-.slot-reels {
-  display: flex;
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  z-index: 2;
-}
-.slot-reel {
-  width: 140px;
-  height: 420px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: hidden;
-  border-radius: 12px;
-  margin: 0 2px;
-  background: #0d0e16;
-  box-shadow: 0 0 14px #00fff7 inset;
-  z-index: 2;
-}
-.slot-symbol {
-  width: 120px;
-  height: 120px;
-  margin: 8px 0;
-  border-radius: 16px;
-  background: #23263c;
-  box-shadow: 0 0 14px #00fff7;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.88);
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  transition: box-shadow 0.18s;
 }
-.slot-symbol img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 0 8px #fff9);
+.game-panel-modal {
+  background: #191923;
+  border-radius: 22px;
+  box-shadow: 0 0 36px #00fff7, 0 0 24px #ff00ea;
+  padding: 38px 40px 54px 40px;
+  max-width: 650px;
+  width: 95vw;
+  min-width: 300px;
+  max-height: 96vh;
+  overflow-y: auto;
+  position: relative;
 }
-.slot-controls {
+.gaming-panel-title {
+  color: #00fff7;
+  margin-bottom: 34px;
+  font-size: 2.1rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-shadow: 0 0 18px #00fff7, 0 0 4px #ff00ea;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.panel-icon {
+  font-size: 2.3rem;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.close-btn {
+  position: absolute;
+  top: 22px;
+  right: 28px;
+  background: none;
+  color: #fff;
+  font-size: 2rem;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  padding: 0 8px;
+  transition: color 0.2s;
+  text-shadow: 0 0 12px #ff00ea;
+}
+.close-btn:hover {
+  color: #ff00ea;
+  text-shadow: 0 0 24px #ff00ea;
+}
+.games-list {
   display: flex;
   flex-direction: column;
+  gap: 35px;
+}
+.games-section h3 {
+  color: #d5ffe6;
+  margin-bottom: 16px;
+  text-shadow: 0 0 12px #00fff7, 0 0 6px #ff00ea;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-emoji {
+  font-size: 1.2em;
+  margin-right: 4px;
+}
+.section-title {
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+.games-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 8px;
+}
+.game-list-btn.neon-btn {
+  background: linear-gradient(90deg, #0ff 0%, #ff00ea 100%);
+  color: #fff;
+  padding: 16px 27px;
+  border-radius: 14px;
+  border: none;
+  font-size: 1.15rem;
+  box-shadow: 0 0 18px #00fff7, 0 0 8px #ff00ea;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.18s, background 0.2s, filter 0.2s;
+  font-weight: 700;
+  letter-spacing: 2px;
+  outline: none;
+  margin-bottom: 0;
+  margin-top: 0;
+  display: flex;
   align-items: center;
   gap: 12px;
+  position: relative;
+  border: 2px solid transparent;
+  filter: drop-shadow(0 0 8px #00fff7);
 }
-.neon-btn {
+.game-list-btn .btn-icon {
+  font-size: 1.35em;
+  margin-right: 4px;
+  vertical-align: middle;
+  filter: drop-shadow(0 0 6px #ff00ea);
+}
+.game-list-btn.neon-pink {
+  background: linear-gradient(90deg, #ff00ea 0%, #0ff 100%);
+  box-shadow: 0 0 18px #ff00ea, 0 0 10px #00fff7;
+  filter: drop-shadow(0 0 8px #ff00ea);
+}
+.game-list-btn.neon-cyan {
+  background: linear-gradient(90deg, #00fff7 0%, #191923 100%);
+  box-shadow: 0 0 18px #00fff7, 0 0 10px #ff00ea;
+  filter: drop-shadow(0 0 8px #00fff7);
+}
+.game-list-btn.neon-gradient {
   background: linear-gradient(90deg, #00fff7 0%, #ff00ea 100%);
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-size: 1.2rem;
-  font-weight: 700;
-  padding: 14px 32px;
-  margin: 0 8px;
-  box-shadow: 0 0 20px #00fff7, 0 0 12px #ff00ea;
-  cursor: pointer;
-  letter-spacing: 2px;
-  transition: box-shadow 0.2s, transform 0.15s;
+  box-shadow: 0 0 22px #00fff7, 0 0 14px #ff00ea;
+  filter: drop-shadow(0 0 8px #fff);
 }
-.neon-btn:active {
-  transform: scale(0.94);
+.game-list-btn.neon-btn:hover {
+  box-shadow: 0 0 36px #ff00ea, 0 0 22px #00fff7;
+  transform: translateY(-3px) scale(1.08);
+  filter: brightness(1.18);
+  background: linear-gradient(90deg, #ff00ea 0%, #0ff 100%);
 }
-.slot-message {
-  margin-top: 8px;
-  min-height: 24px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #ffea00;
-  text-shadow: 0 0 10px #ffea00, 0 0 6px #ff00ea;
-  text-align: center;
+.game-list-btn.neon-btn:active {
+  outline: 2px solid #fff;
+  background: linear-gradient(90deg, #00fff7 0%, #23263c 100%);
 }
-.slot-freespins {
-  color: #0ff;
-  font-weight: 700;
-  font-size: 1.18rem;
-  margin-top: 4px;
-  text-shadow: 0 0 8px #00fff7;
+.game-list-btn.neon-btn:focus {
+  outline: 2px solid #ff00ea;
 }
-#slot-winlines {
-  position: absolute;
-  top: 0; left: 0;
-  width: 420px; height: 420px;
-  pointer-events: none;
-  z-index: 10;
+/* Animate game list entrance */
+@keyframes fadeInGameBtn {
+  0% { opacity: 0; transform: translateY(20px);}
+  100% { opacity: 1; transform: translateY(0);}
 }
+.game-list-btn.neon-btn {
+  opacity: 0;
+  animation: fadeInGameBtn 0.7s cubic-bezier(.72,.26,.19,1.01) forwards;
+}
+.games-row .game-list-btn.neon-btn:nth-child(1) { animation-delay: 0.05s; }
+.games-row .game-list-btn.neon-btn:nth-child(2) { animation-delay: 0.11s; }
+.games-row .game-list-btn.neon-btn:nth-child(3) { animation-delay: 0.17s; }
+.games-row .game-list-btn.neon-btn:nth-child(4) { animation-delay: 0.23s; }
 
-/* ===========================
-   RESPONSIVE & MOBILE
-   =========================== */
-@media (max-width: 700px) {
-  .info-card {
-    min-width: 210px;
-    max-width: 97vw;
-    padding: 24px 6px 14px 6px;
+/* Responsive for mobile */
+@media (max-width: 600px) {
+  .game-panel-modal {
+    padding: 14px 2px 22px 2px;
+    min-width: 0;
   }
-  .slot-machine {
-    width: 99vw;
-    left: 0;
-    transform: none;
-    border-radius: 0;
-    padding: 12px 0 12px 0;
+  .games-row {
+    flex-direction: column;
+    gap: 10px;
   }
-  .slot-reels-container {
-    width: 98vw;
-    min-width: 260px;
-    max-width: 99vw;
-    height: 320px;
-  }
-  .slot-reel {
-    width: 33vw;
-    min-width: 80px;
-    max-width: 130px;
-    height: 320px;
-  }
-  .slot-symbol {
-    width: 85px;
-    height: 85px;
-    margin: 4px 0;
-    border-radius: 8px;
-  }
-  #slot-winlines {
-    width: 98vw !important;
-    height: 320px !important;
+  .game-list-btn.neon-btn {
+    width: 100%;
+    padding: 14px 0;
+    font-size: 1.07rem;
   }
 }
