@@ -670,40 +670,7 @@ window.onload = () => {
 // ===============================
 // This feature lets viewers activate a mode, open a Twitch embed in a draggable/resizable window, and build out their own layout.
 
-// Creates the Twitch embed with the current panel size
-function createTwitchEmbed() {
-  const container = document.getElementById("twitchEmbedPanel");
-  if (!container) return;
-  container.innerHTML = '<div id="twitch-embed"></div>';
-  const width = container.offsetWidth;
-  const height = container.offsetHeight;
-  if (window.Twitch && window.Twitch.Embed) {
-    new Twitch.Embed("twitch-embed", {
-      width: width,
-      height: height,
-      channel: "warmonkeyx2",
-      layout: "video",
-      autoplay: false
-    });
-  } else {
-    // Load Twitch embed script only if not present
-    if (!document.getElementById("twitch-embed-script")) {
-      const script = document.createElement("script");
-      script.id = "twitch-embed-script";
-      script.src = "https://embed.twitch.tv/embed/v1.js";
-      script.onload = function() {
-        new Twitch.Embed("twitch-embed", {
-          width: width,
-          height: height,
-          channel: "goochy",
-          layout: "video",
-          autoplay: false
-        });
-      };
-      document.body.appendChild(script);
-    }
-  }
-}
+
 
 // Toggle the Twitch embed panel and (re-)create the embed
 function toggleTwitchEmbed() {
@@ -711,19 +678,16 @@ function toggleTwitchEmbed() {
   if (!panel) return;
   if (panel.style.display === "none" || panel.style.display === "") {
     panel.style.display = "block";
-    createTwitchEmbed();
-    // Set up resize observer for responsive Twitch embed
-    if (window.ResizeObserver && !panel._resizeObserved) {
-      const observer = new ResizeObserver(() => {
-        if (panel.style.display !== "none" && panel.innerHTML) {
-          createTwitchEmbed();
-        }
-      });
-      observer.observe(panel);
-      panel._resizeObserved = true;
-    }
+    panel.innerHTML = `<iframe
+      src="https://player.twitch.tv/?channel=goochy2&parent=localhost"
+      frameborder="0"
+      allowfullscreen="true"
+      scrolling="no"
+      style="width:100%;height:100%;display:block;"
+      allow="autoplay"
+    ></iframe>`;
   } else {
     panel.style.display = "none";
-    panel.innerHTML = ""; // Optionally cleanup
+    panel.innerHTML = "";
   }
 }
