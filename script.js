@@ -1,19 +1,29 @@
-// ========== Streamer Info UI & Panel Logic ==========
+// ===============================
+// Streamer Info App JS
+// ===============================
+// This file contains all logic for streamer info, admin panel, server panels, streamer links, dock, app windows, drag/resize,
+// Twitch mock API, stats app, chat/poll panels, Solitaire, and FreeMode mode for viewer custom layouts.
 
+// ===============================
 // --- Info Card Toggle ---
+// ===============================
 function toggleCard() {
   const card = document.getElementById("infoCard");
   card.style.display = card.style.display === "flex" ? "none" : "flex";
 }
 
+// ===============================
 // --- Tab Switching ---
+// ===============================
 function showTab(tabId) {
   const tabs = document.querySelectorAll('.tab-content');
   tabs.forEach(tab => tab.style.display = 'none');
   document.getElementById(tabId).style.display = 'flex';
 }
 
+// ===============================
 // --- Admin Panel Section Switching ---
+// ===============================
 function showAdminSection(sectionId) {
   document.querySelectorAll('.admin-section').forEach(sec => {
     sec.style.display = 'none';
@@ -25,7 +35,9 @@ function showAdminSection(sectionId) {
   document.querySelector(`.admin-tab[onclick*="${sectionId}"]`)?.classList.add('active');
 }
 
+// ===============================
 // --- Admin Panel Toggle ---
+// ===============================
 function toggleAdminPanel() {
   const panel = document.querySelector(".admin-panel");
   if (panel) {
@@ -33,7 +45,9 @@ function toggleAdminPanel() {
   }
 }
 
+// ===============================
 // --- Streamer Info/Bio/Profile Image ---
+// ===============================
 function updateStreamerInfo() {
   const name = document.getElementById('streamerNameInput')?.value;
   const bio = document.getElementById('streamerBioInput')?.value;
@@ -53,7 +67,9 @@ function updateProfileImage(event) {
   }
 }
 
+// ===============================
 // --- Theme Color Picker ---
+// ===============================
 function updateThemeColor(hexColor) {
   document.documentElement.style.setProperty('--accent-color', hexColor);
   const buttons = document.querySelectorAll(
@@ -64,8 +80,9 @@ function updateThemeColor(hexColor) {
   });
 }
 
-// ========== Streamer Links (Main & Popout Panel) ==========
-
+// ===============================
+// --- Streamer Links (Main & Popout Panel) ---
+// ===============================
 const streamerLinksData = [
   { id: 'twitch', name: 'Twitch' },
   { id: 'youtube', name: 'YouTube' },
@@ -117,6 +134,7 @@ function updateStreamerLinks() {
   updatePopoutLinksPanel();
 }
 
+// Listen for changes in link settings and sync both panels
 streamerLinksData.forEach(link => {
   document.addEventListener("input", function(e) {
     if (
@@ -133,7 +151,9 @@ function toggleLinkSettings() {
   container.style.display = container.style.display === "none" ? "block" : "none";
 }
 
-// ========== Server Buttons (Admin Panel) & Server Info Logic ==========
+// ===============================
+// --- Server Buttons (Admin Panel) & Server Info Logic ---
+// ===============================
 
 // Save server settings and update server type buttons
 function updateServerButtons() {
@@ -245,13 +265,17 @@ window.addEventListener("DOMContentLoaded", () => {
   updatePopoutLinksPanel();
 });
 
-// ========== Panel Show/Hide ==========
+// ===============================
+// --- Panel Show/Hide ---
+// ===============================
 function showPanel(panelId) {
   const panel = document.getElementById(panelId);
   if (!panel) return;
   panel.style.display = "block";
-  // Call this after showing the panel!
+  // Render mock info if opening Stream Info panel
   if (panelId === "streamInfoPanel") renderStreamInfo();
+  // Render FreeMode Twitch embed if opening FreeMode panel
+  if (panelId === "freeModePanel") renderFreeModePanel();
 }
 function hidePanel(panelId) {
   const panel = document.getElementById(panelId);
@@ -259,7 +283,9 @@ function hidePanel(panelId) {
   panel.style.display = "none";
 }
 
-// ========== Dock Visibility Controls ==========
+// ===============================
+// --- Dock Visibility Controls ---
+// ===============================
 function toggleAppsVisibilityControls() {
   const controls = document.querySelector('.apps-visibility-controls');
   if (controls) {
@@ -301,7 +327,9 @@ function saveDockVisibilityPrefs() {
   localStorage.setItem("dockVisibilityPrefs", JSON.stringify(prefs));
 }
 
-// ========== Solitaire App Logic (Window, Drag, Restore, Minimize) ==========
+// ===============================
+// --- Solitaire App Logic (Window, Drag, Restore, Minimize) ---
+// ===============================
 function launchSolitaireApp() {
   const appWindow = document.getElementById("solitaireWindow");
   const container = document.getElementById("solitaireGameContainer");
@@ -348,14 +376,17 @@ function restoreSolitaire() {
   if (restoreBtn) restoreBtn.style.display = "none";
 }
 
+// ===============================
 // --- Drag Functionality for App Windows ---
+// ===============================
+// Used for app windows and panels
 let isDragging = false;
 let dragOffsetX = 0;
 let dragOffsetY = 0;
 let draggedWindow = null;
 
 function startDrag(e) {
-  const header = e.target.closest(".app-window-header");
+  const header = e.target.closest(".app-window-header, .panel-header");
   if (!header) return;
   draggedWindow = header.parentElement;
   if (!draggedWindow) return;
@@ -380,7 +411,9 @@ function stopDrag() {
   document.removeEventListener("mouseup", stopDrag);
 }
 
-// ========== Stats App Logic ==========
+// ===============================
+// --- Stats App Logic ---
+// ===============================
 function launchStatsApp() {
   const statsWindow = document.getElementById("statsWindow");
   statsWindow.style.display = "flex";
@@ -411,7 +444,9 @@ function minimizeStatsWindow() {
   closeStatsWindow();
 }
 
-// ========== Custom Stats Panel ==========
+// ===============================
+// --- Custom Stats Panel ---
+// ===============================
 function openCustomStats() {
   const panel = document.getElementById("customStatsPanel");
   const form = document.getElementById("statsPrefsForm");
@@ -430,7 +465,9 @@ function closeCustomStats() {
   if (panel) panel.classList.remove("open");
 }
 
-// ========== Stats App Typing Effect ==========
+// ===============================
+// --- Stats App Typing Effect ---
+// ===============================
 function typeLines(lines, idx = 0, terminalId = "cmdTerminal") {
   if (idx >= lines.length) {
     document.getElementById(terminalId).innerHTML += `<span class="cmd-cursor">_</span>`;
@@ -451,7 +488,9 @@ function typeLines(lines, idx = 0, terminalId = "cmdTerminal") {
   typeChar();
 }
 
-// ========== Customizable Stats ==========
+// ===============================
+// --- Customizable Stats ---
+// ===============================
 const availableStats = [
   { key: "followage", label: "Followed Since", line: "> Followed since: 2020-05-06" },
   { key: "channelPoints", label: "Channel Points", line: "> Channel points: 12,350" },
@@ -474,25 +513,11 @@ function showBasicStats() {
   typeLines(lines);
 }
 
-// ========== Streaming App Dock & Panels ==========
+// ===============================
+// --- Streaming App Dock & Panels ---
+// ===============================
+// Registers dock buttons, close buttons, and panel drag/restore logic
 
-// Mock Twitch API for demo purposes
-window.mockTwitch = {
-  getStreamInfo: () => ({
-    title: "Let's Build a Streaming App!",
-    game: "Software & Game Dev",
-    viewers: 127,
-    uptime: "2h 17m",
-    category: "Just Chatting",
-    streamer: "Warmonkeyx2",
-    startedAt: new Date(Date.now() - 2 * 3600 * 1000 - 17 * 60 * 1000),
-  }),
-  getPolls: () => ([
-    { question: "Which feature next?", options: ["Schedule", "Mini-games", "Custom Chat"], votes: [7,9,3] }
-  ])
-};
-
-// ------- Panel Show/Hide -------
 const dockButtons = document.querySelectorAll(".dock-btn");
 const closeButtons = document.querySelectorAll(".close-btn");
 const panels = document.querySelectorAll(".panel");
@@ -513,6 +538,9 @@ closeButtons.forEach(btn => {
   });
 });
 
+// ===============================
+// --- Layout Customize Mode ---
+// ===============================
 const customizeToggle = document.getElementById("customizeToggle");
 let dragPanel = null, offsetX = 0, offsetY = 0;
 
@@ -531,13 +559,7 @@ customizeToggle.addEventListener("click", () => {
 
 panels.forEach(panel => {
   const header = panel.querySelector(".panel-header");
-  header.addEventListener("mousedown", (e) => {
-    if (!customizeMode) return;
-    dragPanel = panel;
-    offsetX = e.clientX - panel.offsetLeft;
-    offsetY = e.clientY - panel.offsetTop;
-    document.body.style.userSelect = "none";
-  });
+  if (header) header.addEventListener("mousedown", startDrag);
 });
 
 document.addEventListener("mousemove", (e) => {
@@ -569,7 +591,27 @@ function restorePanelPosition(panel) {
   }
 }
 
+// ===============================
+// --- Mock Twitch API ---
+// ===============================
+window.mockTwitch = {
+  getStreamInfo: () => ({
+    title: "Let's Build a Streaming App!",
+    game: "Software & Game Dev",
+    viewers: 127,
+    uptime: "2h 17m",
+    category: "Just Chatting",
+    streamer: "Warmonkeyx2",
+    startedAt: new Date(Date.now() - 2 * 3600 * 1000 - 17 * 60 * 1000),
+  }),
+  getPolls: () => ([
+    { question: "Which feature next?", options: ["Schedule", "Mini-games", "Custom Chat"], votes: [7,9,3] }
+  ])
+};
+
+// ===============================
 // --- Render Stream Info ---
+// ===============================
 function renderStreamInfo() {
   const info = window.mockTwitch.getStreamInfo();
   document.getElementById("streamInfoBody").innerHTML = `
@@ -581,7 +623,9 @@ function renderStreamInfo() {
   `;
 }
 
+// ===============================
 // --- Render Polls ---
+// ===============================
 function renderPolls() {
   const polls = window.mockTwitch.getPolls();
   if (!polls.length) {
@@ -597,18 +641,24 @@ function renderPolls() {
   ).join("<hr>");
 }
 
-// ------- Restore open panels and layout on load -------
+// ===============================
+// --- Restore open panels and layout on load ---
+// ===============================
 window.addEventListener("DOMContentLoaded", () => {
   panels.forEach(panel => restorePanelPosition(panel));
   updateMainStreamerLinks();
   updatePopoutLinksPanel();
+  loadDockVisibilityPrefs();
 });
 
-// ========== Window Onload Setup and Event Binding ==========
+// ===============================
+// --- Window Onload Setup and Event Binding ---
+// ===============================
 window.onload = () => {
   showTab('homeTab');
   updateStreamerLinks();
   updateServerButtons();
+  renderStreamInfo();
 
   const statsPrefsForm = document.getElementById("statsPrefsForm");
   if (statsPrefsForm) {
@@ -624,3 +674,26 @@ window.onload = () => {
     };
   }
 };
+
+// ===============================
+// --- FreeMode (Viewer Customization Mode) ---
+// ===============================
+// This feature lets viewers activate a mode, open a Twitch embed in a draggable/resizable window, and build out their own layout.
+
+function renderFreeModePanel() {
+  // Only embed Twitch once for performance
+  if (document.getElementById("twitchEmbedPanel").innerHTML) return;
+  document.getElementById("twitchEmbedPanel").innerHTML = `<div id="twitch-embed"></div>`;
+  const script = document.createElement("script");
+  script.src = "https://embed.twitch.tv/embed/v1.js";
+  script.onload = function() {
+    new Twitch.Embed("twitch-embed", {
+      width: 560,
+      height: 315,
+      channel: "warmonkeyx2",
+      layout: "video",
+      autoplay: false
+    });
+  };
+  document.body.appendChild(script);
+}
