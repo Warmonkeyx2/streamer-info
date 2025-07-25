@@ -1226,20 +1226,18 @@ function populateReel(finalItem) {
 function startReelAnimation(finalItem, cb) {
   const reel = document.getElementById("crateReel");
   const itemWidth = 48; // or 64, match your CSS!
-  const visible = 9;    // number of visible items
+  const visible = 9;    // number of visible items in the reel
   const centerIndex = Math.floor(visible / 2);
 
-  // Build reel: lots of randoms, winner at centerIndex
+  // Build reel as before, with winner at centerIndex
   let items = [];
-  const total = 30; // total items in the DOM at once (can be more than visible)
+  const total = 30;
   for (let i = 0; i < total; i++) {
     items.push(ITEM_POOL[Math.floor(Math.random() * ITEM_POOL.length)]);
   }
-  // Place the winner at the index where you want to stop (center)
   let winIdx = Math.floor(total / 2);
   items[winIdx] = finalItem;
 
-  // Render items
   reel.innerHTML = "";
   items.forEach(item => {
     const div = document.createElement("div");
@@ -1248,48 +1246,56 @@ function startReelAnimation(finalItem, cb) {
     reel.appendChild(div);
   });
 
-  // Animation state
   let offset = 0;
   let speed = 36;
-  let decel = 0.14;
+  let minSpeed = 7;
   let frame = 0;
   let stopped = false;
-  let pointerPos = centerIndex * itemWidth; // px offset where pointer is
+  let pointerPos = centerIndex * itemWidth;
 
-  function animate() {
+  // Timing logic
+  const spinDuration = 9000; // 9 seconds
+  const startTime = performance.now();
+
+  function animate(now) {
     if (stopped) return;
+    const elapsed = now - startTime;
+
+    // Decelerate smoothly over the last 2 seconds
+    let remaining = spinDuration - elapsed;
+    if (remaining < 2000) {
+      // Ease speed down to minSpeed
+      speed = Math.max(minSpeed, speed * 0.98);
+    }
+
     offset -= speed;
-    // Loop: move first to end
     if (offset <= -itemWidth) {
       offset += itemWidth;
       reel.appendChild(reel.firstElementChild);
     }
-    // Slow down
-    frame++;
-    if (frame > 40) speed -= decel;
-    if (speed < 7) {
-      // Remove blur if you use it
-      reel.classList.remove("blurred");
 
-      // Check: is the winner aligned at center under pointer?
-      // To check, see if the item at centerIndex is the "finalItem"
-      const currentItems = reel.children;
-      if (
-        currentItems[centerIndex] &&
-        currentItems[centerIndex].innerText === finalItem.icon
-      ) {
-        stopped = true;
-        // Snap to perfect alignment
-        offset = -centerIndex * itemWidth;
-        reel.style.transform = `translateX(${offset}px)`;
-        playSound('crateWinSound');
-        setTimeout(cb, 850);
-        return;
-      }
+    // At 9s, align winner under pointer and stop
+    if (elapsed >= spinDuration) {
+      // Snap so winner is under pointer
+      let currentItems = reel.children;
+      // Find the index of the winner (could have shifted due to looping)
+      let winnerIndex = Array.from(currentItems).findIndex(
+        child => child.innerText === finalItem.icon
+      );
+      let shift = winnerIndex - centerIndex;
+      offset -= shift * itemWidth;
+      reel.style.transform = `translateX(${offset}px)`;
+      stopped = true;
+      playSound('crateWinSound');
+      setTimeout(cb, 850);
+      return;
     }
+
     reel.style.transform = `translateX(${offset}px)`;
     requestAnimationFrame(animate);
   }
+  requestAnimationFrame(animate);
+}
   animate();
 }
 
