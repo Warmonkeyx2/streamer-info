@@ -1186,12 +1186,23 @@ function populateReel(finalItem) {
 }
 
 // Animate reel to land the winner under the pointer, for exactly 9s
+function playSound(id) {
+  const audio = document.getElementById(id);
+  if (audio) {
+    audio.currentTime = 0;
+    audio.play();
+  }
+}
+
+// This function will spin the wheel for exactly the length of the music (spinSound),
+// and stop precisely at the winning item.
 function startReelAnimation(finalItem, cb) {
   const reel = document.getElementById("crateReel");
-  const itemWidth = 48;
-  const visible = 9;
+  const itemWidth = 48; // Set to your actual CSS item width
+  const visible = 9;    // Number of visible items in the reel
   const centerIndex = Math.floor(visible / 2);
 
+  // Build the reel with the winner at the correct spot
   let items = [];
   const total = 30;
   for (let i = 0; i < total; i++) {
@@ -1212,13 +1223,26 @@ function startReelAnimation(finalItem, cb) {
   let speed = 36;
   let minSpeed = 7;
   let stopped = false;
-  const spinDuration = 9000;
+  let spinDuration = 9000; // fallback in ms
+
+  // --- Sync spin duration with spin sound actual length ---
+  const spinAudio = document.getElementById('crateSpinSound');
+  if (spinAudio && spinAudio.duration && !isNaN(spinAudio.duration)) {
+    spinDuration = spinAudio.duration * 1000;
+  } else if (spinAudio) {
+    // If metadata hasn't loaded, listen for it
+    spinAudio.onloadedmetadata = function() {
+      spinDuration = spinAudio.duration * 1000;
+    };
+  }
+
+  // Play spin sound and start animation together
+  playSound('crateSpinSound');
   let startTime = null;
 
   function animate(now) {
     if (!startTime) startTime = now;
     const elapsed = now - startTime;
-
     let remaining = spinDuration - elapsed;
     if (remaining < 2000) {
       speed = Math.max(minSpeed, speed * 0.98);
@@ -1231,6 +1255,7 @@ function startReelAnimation(finalItem, cb) {
     }
 
     if (elapsed >= spinDuration) {
+      // Align winner under pointer
       let currentItems = reel.children;
       let winnerIndex = Array.from(currentItems).findIndex(
         child => child.innerText === finalItem.icon
@@ -1239,7 +1264,10 @@ function startReelAnimation(finalItem, cb) {
       offset -= shift * itemWidth;
       reel.style.transform = `translateX(${offset}px)`;
       stopped = true;
-      playSound('crateSpinSound');
+      // Stop spin sound and play win sound
+      spinAudio.pause();
+      spinAudio.currentTime = 0;
+      playSound('crateWinSound');
       setTimeout(cb, 850);
       return;
     }
@@ -1249,6 +1277,7 @@ function startReelAnimation(finalItem, cb) {
   }
   requestAnimationFrame(animate);
 }
+
 
 // Show the final item with a flash/sparkle
 function showCrateFinalReveal(item, cb) {
