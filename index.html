@@ -352,7 +352,37 @@
       <div id="twitchEmbedPanel" style="display:none; resize:both; overflow:auto; min-width:320px; min-height:180px; border-radius:12px; box-shadow:0 0 8px #00fff7;"></div>
     </div>
   </div>
-
+  <!-- SLOT TEST PANEL (DEV/TEST) -->
+  <div id="slotTestPanel" class="panel" style="left:180px; top:70px; display:none; min-width:420px; min-height:540px;">
+    <div class="panel-header">
+      <span>🎰 Slot Machine Test Panel</span>
+      <button class="close-btn" data-panel="slotTestPanel">✖</button>
+    </div>
+    <div class="panel-body slot-test-body">
+      <div class="slot-top-bar">
+        <div class="slot-bits">
+          <span class="slot-label">Bits:</span>
+          <span id="slotBitsBalance">1000</span>
+        </div>
+        <div class="slot-win">
+          <span class="slot-label">Win:</span>
+          <span id="slotWinAmount">0</span>
+        </div>
+      </div>
+      <div class="slot-machine-frame">
+        <div class="slot-grid" id="slotGrid">
+          <!-- 3x3 grid, filled by JS -->
+        </div>
+        <div class="slot-buttons">
+          <button id="slotSpinBtn" class="slot-spin-btn">SPIN</button>
+          <button id="slotBonusBtn" class="slot-bonus-btn">BONUS</button>
+        </div>
+      </div>
+      <div class="slot-help-link">
+        <a href="#" onclick="showPanel('helpPanel');return false;">Odds & Game Info</a>
+      </div>
+    </div>
+  </div>
   <script src="script.js"></script>
   <!-- --- INLINE SCRIPT SECTION: Streaming Button, Dock Toggle Controls, Gaming Panel Logic --- -->
   <script>
