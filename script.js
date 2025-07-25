@@ -695,7 +695,7 @@ function createTwitchEmbed() {
         new Twitch.Embed("twitch-embed", {
           width: width,
           height: height,
-          channel: "warmonkeyx",
+          channel: "goochy",
           layout: "video",
           autoplay: false
         });
