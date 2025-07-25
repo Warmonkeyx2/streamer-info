@@ -1249,22 +1249,17 @@ function startReelAnimation(finalItem, cb) {
   let offset = 0;
   let speed = 36;
   let minSpeed = 7;
-  let frame = 0;
   let stopped = false;
-  let pointerPos = centerIndex * itemWidth;
-
-  // Timing logic
   const spinDuration = 9000; // 9 seconds
-  const startTime = performance.now();
+  let startTime = null;
 
   function animate(now) {
-    if (stopped) return;
+    if (!startTime) startTime = now;
     const elapsed = now - startTime;
 
     // Decelerate smoothly over the last 2 seconds
     let remaining = spinDuration - elapsed;
     if (remaining < 2000) {
-      // Ease speed down to minSpeed
       speed = Math.max(minSpeed, speed * 0.98);
     }
 
@@ -1278,7 +1273,6 @@ function startReelAnimation(finalItem, cb) {
     if (elapsed >= spinDuration) {
       // Snap so winner is under pointer
       let currentItems = reel.children;
-      // Find the index of the winner (could have shifted due to looping)
       let winnerIndex = Array.from(currentItems).findIndex(
         child => child.innerText === finalItem.icon
       );
@@ -1292,6 +1286,8 @@ function startReelAnimation(finalItem, cb) {
     }
 
     reel.style.transform = `translateX(${offset}px)`;
+    requestAnimationFrame(animate);
+  }
   requestAnimationFrame(animate);
 }
   animate();
