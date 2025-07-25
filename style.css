@@ -289,6 +289,7 @@ body {
   z-index: 1000;
   box-shadow: 0 0 20px var(--accent-color);
   color: white;
+  cursor: move;
 }
 .admin-header {
   display: flex;
@@ -865,6 +866,12 @@ body {
   color: #00fff7;
   text-shadow: 0 0 8px #1919ff99, 0 0 6px #ff00ea77;
 }
+.slot-level-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 15px;
+}
 .slot-label {
   font-weight: 900;
   margin-right: 5px;
@@ -930,12 +937,30 @@ body {
   50% { filter: blur(2px) brightness(1.15); }
   100% { filter: blur(1px) brightness(1.07);}
 }
-.slot-buttons {
+slot-buttons {
   display: flex;
-  justify-content: center;
-  gap: 34px;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  margin-top: -12px;
+  gap: 10px;
+  margin-top: 20px;
+}
+.slot-buttons-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+  margin: 20px 0 0 0;
+}
+.slot-turbo-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1b1632;
+  border-radius: 8px;
+  padding: 4px 12px;
+  box-shadow: 0 0 10px #00fff7bb;
 }
 .slot-spin-btn, .slot-bonus-btn {
   font-family: 'Orbitron', 'Segoe UI', Arial, sans-serif;
@@ -982,36 +1007,7 @@ body {
   .slot-cell, .slot-cell img { width: 40px; height: 40px; }
   .slot-spin-btn, .slot-bonus-btn { font-size: 1em; padding: 9px 14px; }
 }
-/* --- Streak Meter --- */
-.slot-streak-meter {
-  width: 90%;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1.08rem;
-  margin-bottom: 12px;
-  margin-top: 2px;
-  color: #6dfcff;
-  text-shadow: 0 0 7px #00fff7cc;
-}
-.slot-streak-bar-bg {
-  flex: 1;
-  height: 15px;
-  background: #201544;
-  border-radius: 8px;
-  margin-left: 10px;
-  overflow: hidden;
-  box-shadow: 0 0 6px #00fff733;
-  border: 1.5px solid #00fff7aa;
-}
-.slot-streak-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #00fff7 0%, #ff00ea 100%);
-  border-radius: 8px;
-  transition: width 0.35s cubic-bezier(.81,.05,.27,.98), background 0.5s;
-  box-shadow: 0 0 12px #00fff7cc;
-}
+/* --- XP Meter (Level Bar) --- */
 .slot-top-bar {
   width: 90%;
   display: flex;
@@ -1067,4 +1063,33 @@ body {
   border-radius: 8px;
   transition: width 0.35s cubic-bezier(.81,.05,.27,.98), background 0.5s;
   box-shadow: 0 0 12px #00fff7cc;
+}
+.admin-flex-row {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+#levelRewardTable input {
+  width: 90%;
+}
+#leaderboardTable td, #leaderboardTable th {
+  text-align: center;
+  padding: 6px 2px;
+  border-bottom: 1px solid #23263c;
+}
+#leaderboardTable {
+  border-collapse: collapse;
+  background: #1b1632;
+  border-radius: 10px;
+  overflow: hidden;
+}
+#levelRewardTable {
+  border-collapse: collapse;
+  background: #1b1632;
+  border-radius: 10px;
+  overflow: hidden;
+}
+#levelRewardTable th, #levelRewardTable td {
+  padding: 6px 6px;
+  text-align: center;
 }
