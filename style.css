@@ -844,3 +844,133 @@ body {
     font-size: 1.07rem;
   }
 }
+/* --- SLOT TEST PANEL --- */
+.slot-test-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 480px;
+  min-width: 360px;
+  background: linear-gradient(135deg, #1b1632 0%, #2b1b4b 100%);
+}
+.slot-top-bar {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  margin: 18px 0 8px 0;
+  font-size: 1.19rem;
+  font-family: 'Orbitron', 'Segoe UI', Arial, sans-serif;
+  letter-spacing: 1px;
+  color: #00fff7;
+  text-shadow: 0 0 8px #1919ff99, 0 0 6px #ff00ea77;
+}
+.slot-label {
+  font-weight: 900;
+  margin-right: 5px;
+}
+.slot-machine-frame {
+  background: url('assets/slot-bg.png'), linear-gradient(135deg, #23214a 60%, #4b1b3a 100%);
+  background-size: cover, cover;
+  background-repeat: no-repeat;
+  border-radius: 32px 32px 38px 38px;
+  box-shadow: 0 0 40px 8px #00fff788, 0 0 28px 7px #ff00ea88;
+  padding: 32px 25px 40px 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 72px);
+  grid-template-rows: repeat(3, 72px);
+  gap: 10px;
+  margin-bottom: 30px;
+  margin-top: 12px;
+  background: rgba(16,14,28,0.90);
+  border-radius: 18px;
+  box-shadow: 0 0 16px #00fff788, 0 0 8px #ff00ea55;
+  padding: 12px 12px 12px 12px;
+}
+.slot-cell {
+  width: 72px;
+  height: 72px;
+  background: #181a2b;
+  border-radius: 12px;
+  box-shadow: 0 0 12px #00f0ff55, 0 0 3px #ff00ea55;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  border: 2px solid #1b1f2b;
+}
+.slot-cell img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px #00fff7cc);
+  transition: transform 0.2s cubic-bezier(.72,.26,.19,1.01);
+}
+.slot-cell.win {
+  box-shadow: 0 0 24px 4px #fff, 0 0 30px 9px #ff00ea;
+  border-color: #ff00ea;
+  animation: slotWinPulse 0.9s ease;
+}
+@keyframes slotWinPulse {
+  0%, 100% { filter: brightness(1.2); }
+  40% { filter: brightness(2.5); }
+  70% { filter: brightness(1.6); }
+}
+.slot-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 34px;
+  width: 100%;
+  margin-top: -12px;
+}
+.slot-spin-btn, .slot-bonus-btn {
+  font-family: 'Orbitron', 'Segoe UI', Arial, sans-serif;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  font-size: 1.37rem;
+  padding: 15px 42px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(90deg, #00f0ff 0%, #ff00ea 100%);
+  color: #fff;
+  text-shadow: 0 0 8px #00f0ff, 0 0 15px #ff00ea;
+  box-shadow: 0 0 34px 8px #00f0ff88, 0 0 24px 8px #ff00ea55;
+  transition: box-shadow 0.17s, background 0.13s, transform 0.15s;
+}
+.slot-spin-btn:active, .slot-bonus-btn:active {
+  background: linear-gradient(90deg, #ff00ea 0%, #00f0ff 100%);
+  box-shadow: 0 0 50px #ff00ea, 0 0 34px #00fff7;
+  color: #fff;
+}
+.slot-bonus-btn {
+  background: linear-gradient(90deg, #ffbf00 0%, #ff00ea 100%);
+  color: #fffbe6;
+  text-shadow: 0 0 6px #ffbf00, 0 0 12px #ff00ea;
+}
+.slot-spin-btn:disabled, .slot-bonus-btn:disabled {
+  opacity: 0.5;
+  filter: grayscale(0.35);
+  cursor: not-allowed;
+}
+.slot-help-link {
+  margin-top: 20px;
+  font-size: 1em;
+}
+.slot-help-link a {
+  color: #00fff7;
+  text-decoration: underline;
+  font-weight: 700;
+}
+@media (max-width: 500px) {
+  .slot-machine-frame { padding: 10px 2px 18px 2px; }
+  .slot-grid { grid-template-columns: repeat(3, 46px); grid-template-rows: repeat(3, 46px); padding: 4px; }
+  .slot-cell, .slot-cell img { width: 40px; height: 40px; }
+  .slot-spin-btn, .slot-bonus-btn { font-size: 1em; padding: 9px 14px; }
+}
