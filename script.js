@@ -1052,6 +1052,14 @@ function renderLeaderboardTable() {
 }
 window.addEventListener('DOMContentLoaded', renderLeaderboardTable);
 
-
+function showSlotTestPanel() {
+  const panel = document.getElementById('slotTestPanel');
+  if (panel) {
+    panel.style.display = 'block';
+    updateSlotUI();
+    renderSlotGrid();
+  }
+}
+window.showSlotTestPanel = showSlotTestPanel; // Make it accessible globally for inline HTML onclick
 // Add a way to open the slot test panel for devs, e.g. in console:
 // showSlotTestPanel();
