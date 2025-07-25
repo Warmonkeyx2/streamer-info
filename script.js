@@ -154,8 +154,6 @@ function toggleLinkSettings() {
 // ===============================
 // --- Server Buttons (Admin Panel) & Server Info Logic ---
 // ===============================
-
-// Save server settings and update server type buttons
 function updateServerButtons() {
   const navContainer = document.getElementById('serverTypeButtons');
   navContainer.innerHTML = '';
@@ -180,7 +178,6 @@ function updateServerButtons() {
       show: show
     });
 
-    // Create button if visible
     if (label && show) {
       const btn = document.createElement('button');
       btn.textContent = label;
@@ -219,7 +216,6 @@ document.querySelectorAll('.server-type-logo').forEach((input, idx) => {
   });
 });
 
-// Server Info Panel (popout, not tab)
 function showServerPanel(index) {
   const servers = JSON.parse(localStorage.getItem("servers") || "[]");
   const server = servers[index];
@@ -234,7 +230,6 @@ function showServerPanel(index) {
   showPanel('serverInfoPanel');
 }
 
-// Server Panel in tab
 function renderServerPanel(panelId, server) {
   const panel = document.getElementById(panelId);
   panel.innerHTML = `
@@ -272,9 +267,7 @@ function showPanel(panelId) {
   const panel = document.getElementById(panelId);
   if (!panel) return;
   panel.style.display = "block";
-  // Render mock info if opening Stream Info panel
   if (panelId === "streamInfoPanel") renderStreamInfo();
-  // Render FreeMode Twitch embed if opening FreeMode panel
   if (panelId === "freeModePanel") {
     document.getElementById("twitchEmbedPanel").style.display = "none";
   }
@@ -339,7 +332,6 @@ function launchSolitaireApp() {
   appWindow.style.display = "flex";
   container.innerHTML = `<div id="solitaire-root"></div>`;
 
-  // Load JS (must exist at this path!)
   fetch("apps/games/solitaire/solitaire.js")
     .then((res) => res.text())
     .then((scriptText) => {
@@ -381,7 +373,6 @@ function restoreSolitaire() {
 // ===============================
 // --- Drag Functionality for App Windows ---
 // ===============================
-// Used for app windows and panels
 let isDragging = false;
 let dragOffsetX = 0;
 let dragOffsetY = 0;
@@ -435,7 +426,6 @@ function closeStatsWindow() {
   if (statsWindow) {
     statsWindow.style.display = "none";
   }
-  // Optionally close/hide custom stats panel if open
   const customPanel = document.getElementById("customStatsPanel");
   if (customPanel) {
     customPanel.classList.remove("open");
@@ -518,8 +508,6 @@ function showBasicStats() {
 // ===============================
 // --- Streaming App Dock & Panels ---
 // ===============================
-// Registers dock buttons, close buttons, and panel drag/restore logic
-
 const dockButtons = document.querySelectorAll(".dock-btn");
 const closeButtons = document.querySelectorAll(".close-btn");
 const panels = document.querySelectorAll(".panel");
@@ -678,47 +666,64 @@ window.onload = () => {
 };
 
 // ===============================
-// --- FreeMode Panel Logic (Twitch Embed Toggle) ---
+// --- FreeMode Panel Logic (Twitch Embed Toggle & Responsive Resize) ---
 // ===============================
 // This feature lets viewers activate a mode, open a Twitch embed in a draggable/resizable window, and build out their own layout.
 
-// Toggle the Twitch embed panel and load Twitch's embed API only once
+// Creates the Twitch embed with the current panel size
+function createTwitchEmbed() {
+  const container = document.getElementById("twitchEmbedPanel");
+  if (!container) return;
+  container.innerHTML = '<div id="twitch-embed"></div>';
+  const width = container.offsetWidth;
+  const height = container.offsetHeight;
+  if (window.Twitch && window.Twitch.Embed) {
+    new Twitch.Embed("twitch-embed", {
+      width: width,
+      height: height,
+      channel: "warmonkeyx2",
+      layout: "video",
+      autoplay: false
+    });
+  } else {
+    // Load Twitch embed script only if not present
+    if (!document.getElementById("twitch-embed-script")) {
+      const script = document.createElement("script");
+      script.id = "twitch-embed-script";
+      script.src = "https://embed.twitch.tv/embed/v1.js";
+      script.onload = function() {
+        new Twitch.Embed("twitch-embed", {
+          width: width,
+          height: height,
+          channel: "warmonkeyx",
+          layout: "video",
+          autoplay: false
+        });
+      };
+      document.body.appendChild(script);
+    }
+  }
+}
+
+// Toggle the Twitch embed panel and (re-)create the embed
 function toggleTwitchEmbed() {
   const panel = document.getElementById("twitchEmbedPanel");
   if (!panel) return;
   if (panel.style.display === "none" || panel.style.display === "") {
     panel.style.display = "block";
-    if (!panel.innerHTML) {
-      panel.innerHTML = `<div id="twitch-embed"></div>`;
-      // Only load Twitch embed script ONCE
-      if (!document.getElementById("twitch-embed-script")) {
-        const script = document.createElement("script");
-        script.id = "twitch-embed-script";
-        script.src = "https://embed.twitch.tv/embed/v1.js";
-        script.onload = function() {
-          new Twitch.Embed("twitch-embed", {
-            width: 560,
-            height: 315,
-            channel: "warmonkeyx2", // your Twitch channel
-            layout: "video",
-            autoplay: false
-          });
-        };
-        document.body.appendChild(script);
-      } else {
-        // If script already loaded, just create the embed
-        if (window.Twitch && window.Twitch.Embed) {
-          new Twitch.Embed("twitch-embed", {
-            width: 560,
-            height: 315,
-            channel: "warmonkeyx2",
-            layout: "video",
-            autoplay: false
-          });
+    createTwitchEmbed();
+    // Set up resize observer for responsive Twitch embed
+    if (window.ResizeObserver && !panel._resizeObserved) {
+      const observer = new ResizeObserver(() => {
+        if (panel.style.display !== "none" && panel.innerHTML) {
+          createTwitchEmbed();
         }
-      }
+      });
+      observer.observe(panel);
+      panel._resizeObserved = true;
     }
   } else {
     panel.style.display = "none";
+    panel.innerHTML = ""; // Optionally cleanup
   }
 }
