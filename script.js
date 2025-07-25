@@ -739,12 +739,14 @@ const slotImageCount = 9; // 9 images: slot1.png - slot9.png (slot9 = free spin)
 const slotImgPath = "assets/slot";
 const slotGridRows = 3;
 const slotGridCols = 3;
+const slotStreakMax = 10; // e.g., reward every 10 streak spins (customize as needed)
 
 // Slot test state
 let slotBits = 1000;
 let slotWin = 0;
 let slotSpinning = false;
 let slotFreeSpins = 0;
+let slotStreak = 0;
 
 // Preload slot images
 const slotImages = [];
@@ -791,6 +793,7 @@ function updateSlotUI() {
   document.getElementById('slotWinAmount').textContent = slotWin;
   document.getElementById('slotSpinBtn').disabled = slotSpinning || slotBits < 10; // Example cost: 10 bits
   document.getElementById('slotBonusBtn').disabled = slotSpinning;
+updateSlotStreakUI();
 }
 
 // Animate slot spin (basic version)
@@ -866,6 +869,29 @@ document.getElementById('slotSpinBtn').onclick = function() {
   if (slotBits < 10 && slotFreeSpins === 0) return;
   slotSpinning = true;
   updateSlotUI();
+  // After spin result
+  slotStreak += 1;
+  if (slotStreak >= slotStreakMax) {
+    // Reward for streak!
+    slotFreeSpins += 5; // Example: 5 free spins for hitting streak max
+    // Optional: Play animation, sound, or show message
+    alert("🔥 Streak Bonus! +5 Free Spins for your streak!");
+    slotStreak = 0; // Reset streak, or keep counting if you want multi-bonuses
+  }
+  updateSlotStreakUI();
+
+// Streak UI 
+function updateSlotStreakUI() {
+  document.getElementById('slotStreakCount').textContent = slotStreak;
+  // Bar width percent
+  const pct = Math.min(100, Math.round((slotStreak / slotStreakMax) * 100));
+  const bar = document.getElementById('slotStreakBar');
+  bar.style.width = pct + '%';
+  // Animate color at max
+  bar.style.background = (slotStreak === slotStreakMax)
+    ? 'linear-gradient(90deg,#ffbf00 0%,#ff00ea 100%)'
+    : 'linear-gradient(90deg,#00fff7 0%,#ff00ea 100%)';
+}
 
   // Bits or free spin
   if (slotFreeSpins > 0) {
