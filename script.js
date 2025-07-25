@@ -893,6 +893,12 @@ function updateSlotStreakUI() {
     : 'linear-gradient(90deg,#00fff7 0%,#ff00ea 100%)';
 }
 
+  document.getElementById('slotSpinBtn').onclick = function() {
+  if (slotSpinning) return;
+  if (slotBits < 10 && slotFreeSpins === 0) return;
+  slotSpinning = true;
+  updateSlotUI();
+
   // Bits or free spin
   if (slotFreeSpins > 0) {
     slotFreeSpins--;
@@ -905,7 +911,16 @@ function updateSlotStreakUI() {
     slotWin = win;
     highlightWinCells(winCells);
 
-    // TODO: Trigger win animation, sound, chat msg, etc.
+    // Increment streak here, after spin result
+    slotStreak += 1;
+    if (slotStreak >= slotStreakMax) {
+      // Reward for streak!
+      slotFreeSpins += 5; // Example: 5 free spins for hitting streak max
+      alert("🔥 Streak Bonus! +5 Free Spins for your streak!");
+      slotStreak = 0;
+    }
+    updateSlotStreakUI();
+
     updateSlotUI();
     slotSpinning = false;
     setTimeout(() => highlightWinCells([]), 1500);
