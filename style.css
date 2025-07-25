@@ -1093,3 +1093,18 @@ slot-buttons {
   padding: 6px 6px;
   text-align: center;
 }
+/* --- Crate Clash styles --- */
+.crate-clash-body { padding: 18px 9px; background:rgba(30,34,43,0.85); border-radius:16px; }
+.crate-status-row { display:flex; align-items:center; gap:18px; margin-bottom:18px; }
+.crate-action-row { margin-bottom:20px; }
+.crate-spinner { min-height:40px; font-size:1.3em; text-align:center; margin-bottom:12px; transition:all 0.2s; }
+.crate-result { min-height:40px; text-align:center; font-size:1.1em; }
+.crate-inventory { display:flex; flex-wrap:wrap; gap:9px; margin-top:10px; }
+.crate-item { padding:7px 12px; border-radius:7px; margin:2px; background:rgba(255,255,255,0.08); border:1px solid #222; transition:box-shadow 0.2s; }
+.crate-common { box-shadow:0 0 6px #aaa3; background:linear-gradient(90deg,#444,#333); }
+.crate-uncommon { box-shadow:0 0 6px #31af330a; background:linear-gradient(90deg,#43a04733,#333); }
+.crate-rare { box-shadow:0 0 10px #ffd54f88; background:linear-gradient(90deg,#ffe08244,#333); }
+.crate-epic { box-shadow:0 0 12px #ba68c888; background:linear-gradient(90deg,#ba68c844,#333); }
+.crate-legendary { box-shadow:0 0 16px #fff176aa; background:linear-gradient(90deg,#fff17644,#333); }
+.crate-collector { box-shadow:0 0 22px #00e5ffcc; background:linear-gradient(90deg,#00e5ff44,#333); border:2px solid #00e5ff; }
+.crate-odds { margin-top:18px; font-size:0.98em; color:#ccc; }
