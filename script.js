@@ -1061,5 +1061,17 @@ function showSlotTestPanel() {
   }
 }
 window.showSlotTestPanel = showSlotTestPanel; // Make it accessible globally for inline HTML onclick
+
+// Always bring slotTestPanel to front and show when requested
+window.showSlotTestPanel = function() {
+  const panel = document.getElementById('slotTestPanel');
+  if (panel) {
+    panel.style.display = 'block';
+    // Optionally bring to front
+    panel.style.zIndex = 2001;
+    updateSlotUI();
+    renderSlotGrid();
+  }
+}
 // Add a way to open the slot test panel for devs, e.g. in console:
 // showSlotTestPanel();
