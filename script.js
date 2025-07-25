@@ -809,6 +809,8 @@ function updateSlotStreakUI() {
 function spinSlotGrid(callback) {
   slotSpinning = true;
   updateSlotUI();
+  const grid = document.getElementById('slotGrid');
+  grid.querySelectorAll('.slot-cell').forEach(cell => cell.classList.add('spinning'));
 
   const steps = 18;
   let curStep = 0;
@@ -822,10 +824,11 @@ function spinSlotGrid(callback) {
       renderSlotGrid(result);
       setTimeout(() => {
         slotSpinning = false;
+        grid.querySelectorAll('.slot-cell').forEach(cell => cell.classList.remove('spinning'));
         callback && callback(result);
-      }, 200);
+      }, 350);
     }
-  }, 40);
+  }, getSpinSpeed());
 }
 
 // Calculate win lines (basic)
