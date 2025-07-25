@@ -670,9 +670,6 @@ window.onload = () => {
 // ===============================
 // This feature lets viewers activate a mode, open a Twitch embed in a draggable/resizable window, and build out their own layout.
 
-
-
-// Toggle the Twitch embed panel and (re-)create the embed
 function toggleTwitchEmbed() {
   const panel = document.getElementById("twitchEmbedPanel");
   if (!panel) return;
@@ -691,3 +688,45 @@ function toggleTwitchEmbed() {
     panel.innerHTML = "";
   }
 }
+
+// ===============================
+// --- Gaming Panel Popup Logic ---
+// ===============================
+// Handles opening and closing the gaming panel overlay (pop-up) and hooking up game buttons.
+
+// Open the Gaming Panel (when Gaming app icon is clicked)
+document.getElementById('gamingAppIcon').onclick = function() {
+  document.getElementById('gamingPanelOverlay').style.display = 'flex';
+};
+// Close the Gaming Panel (when X button is clicked)
+document.getElementById('closeGamingPanel').onclick = function() {
+  document.getElementById('gamingPanelOverlay').style.display = 'none';
+};
+// Optional: Close when clicking outside the modal
+document.getElementById('gamingPanelOverlay').onclick = function(e) {
+  if (e.target === document.getElementById('gamingPanelOverlay')) {
+    document.getElementById('gamingPanelOverlay').style.display = 'none';
+  }
+};
+
+// ===============================
+// --- Game Logic: Slots ---
+// ===============================
+// Basic frontend demo for Slots. Add more advanced logic and Bits integration later.
+const slotSymbols = ['🍒', '🍋', '🔔', '⭐', '💎'];
+function getRandomSymbol() {
+  return slotSymbols[Math.floor(Math.random() * slotSymbols.length)];
+}
+function isWin(result) {
+  return result[0] === result[1] && result[1] === result[2];
+}
+document.getElementById('slotsBtn').onclick = function() {
+  const result = [getRandomSymbol(), getRandomSymbol(), getRandomSymbol()];
+  const win = isWin(result);
+  alert(
+    `Slots Result:\n${result.join(' | ')}\n\n${win ? "🎉 You win!" : "😢 Try again!"}`
+  );
+  // TODO: Replace alert with modal/panel, add Bits integration
+};
+
+// TODO: Add logic for Dice Roll, Wheel Spin, Soundboard, etc.
