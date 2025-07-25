@@ -1004,3 +1004,59 @@ body {
   transition: width 0.35s cubic-bezier(.81,.05,.27,.98), background 0.5s;
   box-shadow: 0 0 12px #00fff7cc;
 }
+.slot-top-bar {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  margin: 18px 0 5px 0;
+  font-family: 'Orbitron', 'Segoe UI', Arial, sans-serif;
+}
+.slot-info-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 15px;
+}
+.slot-info-label {
+  color: #00fff7;
+  font-weight: 900;
+  font-size: 1.0rem;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px #1919ff99, 0 0 3px #ff00ea77;
+}
+.slot-info-value {
+  color: #fff;
+  font-size: 1.21rem;
+  font-weight: 700;
+  margin-top: 2px;
+  text-shadow: 0 0 8px #00fff7cc;
+}
+.slot-streak-meter {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.08rem;
+  margin-bottom: 12px;
+  margin-top: 2px;
+  color: #6dfcff;
+  text-shadow: 0 0 7px #00fff7cc;
+}
+.slot-streak-bar-bg {
+  flex: 1;
+  height: 15px;
+  background: #201544;
+  border-radius: 8px;
+  margin-left: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 6px #00fff733;
+  border: 1.5px solid #00fff7aa;
+}
+.slot-streak-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #00fff7 0%, #ff00ea 100%);
+  border-radius: 8px;
+  transition: width 0.35s cubic-bezier(.81,.05,.27,.98), background 0.5s;
+  box-shadow: 0 0 12px #00fff7cc;
+}
