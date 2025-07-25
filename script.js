@@ -1257,5 +1257,44 @@ function showCrateFinalReveal(item, cb) {
   // Animate effect (add shimmer, confetti for high rarity)
   setTimeout(cb, 1200);
 }
+function startCrateParticles() {
+  const canvas = document.getElementById('crateParticles');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = canvas.offsetWidth;
+  let h = canvas.height = canvas.offsetHeight;
+
+  let particles = Array.from({length: 44}, () => ({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    r: 1.9 + Math.random()*2.8,
+    dx: -0.22 + Math.random()*0.44,
+    dy: -0.12 + Math.random()*0.33,
+    color: `rgba(${100+Math.random()*155|0},${230+Math.random()*25|0},255,${0.21+Math.random()*0.29})`
+  }));
+
+  function draw() {
+    ctx.clearRect(0,0,w,h);
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, 2*Math.PI);
+      ctx.fillStyle = p.color;
+      ctx.shadowColor = "#00fff7cc";
+      ctx.shadowBlur = 5 + p.r*2;
+      ctx.fill();
+      p.x += p.dx;
+      p.y += p.dy;
+      if (p.x < 0) p.x = w;
+      if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h;
+      if (p.y > h) p.y = 0;
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// Call this when modal shows
+document.getElementById("crateAnimationModal").addEventListener("transitionend", startCrateParticles);
 // Add a way to open the slot test panel for devs, e.g. in console:
 // showSlotTestPanel();
