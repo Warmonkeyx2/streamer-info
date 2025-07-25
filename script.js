@@ -1073,5 +1073,113 @@ window.showSlotTestPanel = function() {
     renderSlotGrid();
   }
 }
+
+// ===============================
+// --- Crate Clash Mini-Game (MVP) ---
+// ===============================
+
+const ITEM_POOL = [
+  { name: "Streamer Sticker", rarity: "Common", icon: "🟦" },
+  { name: "Monkey Hat", rarity: "Uncommon", icon: "🟩" },
+  { name: "Golden Banana", rarity: "Rare", icon: "🟧" },
+  { name: "Neon Mic", rarity: "Epic", icon: "🟪" },
+  { name: "Crown of Hype", rarity: "Legendary", icon: "🟨" },
+  { name: "First Edition Badge", rarity: "Collector", icon: "🔷" }
+];
+
+const RARITY_RATES = {
+  "Common": 0.50,
+  "Uncommon": 0.25,
+  "Rare": 0.15,
+  "Epic": 0.07,
+  "Legendary": 0.025,
+  "Collector": 0.005
+};
+
+let crateCount = 5;
+let keyCount = 2;
+let inventory = [];
+
+document.getElementById("crateClashBtn").onclick = function() {
+  document.getElementById("gamingPanelOverlay").style.display = "none";
+  document.getElementById("crateClashPanel").style.display = "block";
+  renderCrateClashUI();
+};
+document.querySelector('#crateClashPanel .close-btn').onclick = function() {
+  document.getElementById("crateClashPanel").style.display = "none";
+};
+
+function renderCrateClashUI() {
+  document.getElementById("crateCount").textContent = crateCount;
+  document.getElementById("keyCount").textContent = keyCount;
+  renderInventory();
+}
+
+function renderInventory() {
+  const invDiv = document.getElementById("crateInventory");
+  if (!inventory.length) {
+    invDiv.innerHTML = "<em>No items yet. Open crates to collect items!</em>";
+    return;
+  }
+  invDiv.innerHTML = inventory.map(item =>
+    `<div class="crate-item crate-${item.rarity.toLowerCase()}">${item.icon} <b>${item.name}</b> <span style="font-size:0.85em;">(${item.rarity})</span> <span style="color:#aaa;">${item.date}</span></div>`
+  ).join('');
+}
+
+document.getElementById("buyKeyBtn").onclick = function() {
+  keyCount++;
+  renderCrateClashUI();
+};
+
+document.getElementById("openCrateBtn").onclick = function() {
+  if (crateCount < 1 || keyCount < 1) {
+    alert("You need at least 1 crate and 1 key!");
+    return;
+  }
+  crateCount--;
+  keyCount--;
+  const item = getRandomItem();
+  animateCrateSpinner(item, function() {
+    showCrateResult(item);
+    inventory.push({ ...item, date: new Date().toLocaleTimeString() });
+    renderCrateClashUI();
+  });
+};
+
+function getRandomItem() {
+  let r = Math.random();
+  let acc = 0;
+  for (let i = 0; i < ITEM_POOL.length; i++) {
+    acc += RARITY_RATES[ITEM_POOL[i].rarity];
+    if (r < acc) return ITEM_POOL[i];
+  }
+  return ITEM_POOL[0];
+}
+
+function animateCrateSpinner(finalItem, cb) {
+  const spinner = document.getElementById("crateSpinner");
+  spinner.innerHTML = "";
+  const spinItems = [];
+  for (let i = 0; i < 20; i++) {
+    const idx = Math.floor(Math.random() * ITEM_POOL.length);
+    spinItems.push(ITEM_POOL[idx]);
+  }
+  spinItems.push(finalItem);
+  let idx = 0;
+  let interval = setInterval(() => {
+    spinner.innerHTML = `<div class="crate-item crate-${spinItems[idx].rarity.toLowerCase()}">${spinItems[idx].icon} <b>${spinItems[idx].name}</b></div>`;
+    idx++;
+    if (idx >= spinItems.length) {
+      clearInterval(interval);
+      setTimeout(() => { spinner.innerHTML = ""; cb(); }, 500);
+    }
+  }, 70 + idx * 3);
+}
+
+function showCrateResult(item) {
+  const res = document.getElementById("crateResult");
+  res.innerHTML = `<div class="crate-item crate-${item.rarity.toLowerCase()}" style="font-size:1.2em;padding:10px;border-radius:8px;box-shadow:0 0 12px #fff4; background:rgba(0,0,0,0.4);margin-bottom:10px;">${item.icon} <b>${item.name}</b> <span>(${item.rarity})</span></div>`;
+  setTimeout(() => { res.innerHTML = ""; }, 3000);
+}
 // Add a way to open the slot test panel for devs, e.g. in console:
 // showSlotTestPanel();
