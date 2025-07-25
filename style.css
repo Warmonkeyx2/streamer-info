@@ -922,6 +922,14 @@ body {
   40% { filter: brightness(2.5); }
   70% { filter: brightness(1.6); }
 }
+.slot-cell.spinning img {
+  animation: slotSpinAnim 0.4s linear infinite;
+}
+@keyframes slotSpinAnim {
+  0% { filter: blur(1px) brightness(1.07); }
+  50% { filter: blur(2px) brightness(1.15); }
+  100% { filter: blur(1px) brightness(1.07);}
+}
 .slot-buttons {
   display: flex;
   justify-content: center;
