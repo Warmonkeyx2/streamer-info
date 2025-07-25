@@ -109,6 +109,7 @@
         <button class="admin-tab active" onclick="showAdminSection('homeSettings')">HOME</button>
         <button class="admin-tab" onclick="showAdminSection('serverSettingsPanel')">SERVERS</button>
         <button class="admin-tab" onclick="showAdminSection('appsSettingsPanel')">APPS</button>
+        <button class="admin-tab" onclick="showAdminSection('gameControlPanel')">GAME CONTROL</button>
       </div>
     </div>
     <div class="admin-content">
@@ -205,6 +206,29 @@
         </ul>
       </div>
     </div>
+    <div id="gameControlPanel" class="admin-section" style="display: none;">
+  <h3>Slot Machine Game Control</h3>
+  <div>
+    <label>Streak Level Rewards:</label>
+    <table id="streakLevelTable">
+      <tr>
+        <th>Level</th>
+        <th>Spins Needed</th>
+        <th>Reward (placeholder)</th>
+      </tr>
+      <!-- JS will fill this in -->
+    </table>
+  </div>
+  <div style="margin-top:20px;">
+    <label>Streak Reset Options:</label>
+    <select id="streakResetType">
+      <option value="daily">Daily</option>
+      <option value="weekly">Weekly</option>
+      <option value="event">Custom Days</option>
+    </select>
+    <input id="streakCustomDays" type="number" style="width:60px;display:none;" min="1" max="365" placeholder="Days"/>
+  </div>
+</div>
   </div>
 
   <!-- RESTORE BUTTON FOR SOLITAIRE -->
