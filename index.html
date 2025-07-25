@@ -302,8 +302,18 @@
             <button class="game-list-btn neon-btn neon-pink" id="soundAlertsBtn"><span class="btn-icon">🔔</span> Sound Alerts</button>
             <button class="game-list-btn neon-btn neon-gradient" id="bitArcadeBtn"><span class="btn-icon">🕹️</span> Bit Arcade</button>
             <button class="game-list-btn neon-btn neon-cyan" id="kappaCasinoBtn"><span class="btn-icon">🎰</span> Kappa Casino</button>
-          </div>
+            
         </div>
+        </div>
+        <!-- Global Games -->
+        <div class="games-section">
+          <h3><span class="section-emoji">🌐</span> <span class="section-title">Global Games</span></h3>
+           <div class="games-row">
+             <button class="game-list-btn neon-btn neon-gradient" id="crateClashBtn">
+                  <span class="btn-icon">🧰</span> Crate Clash
+            </button>
+        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -435,6 +445,38 @@
       </div>
     </div>
   </div>
+  <!-- Crate Clash Panel -->
+<div id="crateClashPanel" class="panel" style="display:none; left:220px; top:110px; min-width:440px; min-height:480px;">
+  <div class="panel-header">
+    <span>🧰 Crate Clash — Crate Opening Game</span>
+    <button class="close-btn" data-panel="crateClashPanel">✖</button>
+  </div>
+  <div class="panel-body crate-clash-body">
+    <div class="crate-status-row">
+      <div>Crates: <span id="crateCount">5</span></div>
+      <div>Keys: <span id="keyCount">2</span></div>
+      <button id="buyKeyBtn" class="color-button" style="margin-left:12px;">Buy Key (Mock)</button>
+    </div>
+    <div class="crate-action-row">
+      <button id="openCrateBtn" class="color-button">Open Crate</button>
+    </div>
+    <div id="crateSpinner" class="crate-spinner"></div>
+    <div id="crateResult" class="crate-result"></div>
+    <h4 style="margin-top:24px;">Your Inventory</h4>
+    <div id="crateInventory" class="crate-inventory"></div>
+    <div class="crate-odds">
+      <h5>Drop Rates:</h5>
+      <ul>
+        <li>Common: 50%</li>
+        <li>Uncommon: 25%</li>
+        <li>Rare: 15%</li>
+        <li>Epic: 7%</li>
+        <li>Legendary: 2.5%</li>
+        <li>Collector’s: 0.5%</li>
+      </ul>
+    </div>
+  </div>
+</div>
   <script src="script.js"></script>
 </body>
 </html>
