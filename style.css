@@ -1196,3 +1196,21 @@ slot-buttons {
   0% { opacity: 0.7; }
   100% { opacity: 1; }
 }
+/* Confetti for legendary and collector */
+.crate-reveal-item.rare::after,
+.crate-reveal-item.epic::after,
+.crate-reveal-item.legendary::after,
+.crate-reveal-item.collector::after {
+  content: '';
+  position: absolute; inset:0;
+  pointer-events:none;
+  background: url('assets/effects/confetti.gif') center/cover no-repeat, transparent;
+  opacity: .7;
+  z-index: 30;
+  animation: confettiBurst 1.2s ease;
+}
+@keyframes confettiBurst {
+  0% { opacity: 0.1; }
+  80% { opacity: 1;}
+  100% { opacity: 0;}
+}
