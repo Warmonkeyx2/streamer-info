@@ -733,21 +733,78 @@ document.getElementById('slotsBtn').onclick = function() {
 // =====================
 // --- Slot Test Panel Logic ---
 // =====================
+// ===============================
+// --- SLOT MACHINE LEVEL/XP LOGIC ---
+// ===============================
 
-// Slot test panel constants
-const slotImageCount = 9;
-const slotImgPath = "assets/slot";
-const slotGridRows = 3;
-const slotGridCols = 3;
-const slotStreakMax = 10;
+// Slot state
+let slotLevel = 0;
+let slotXP = 0;
+let slotXPMax = 100;
+let slotLevelMax = 10; // Admin default, can be set in admin panel
+let slotLevelRewards = {}; // {level: reward}
+
+// Placeholder for global XP logic (future)
+let globalXP = 0;
+
+// HTML element references (cache once DOM is loaded)
+let slotLevelValue, slotXPCount, slotXPBar, slotBitsBalance, slotWinAmount;
+
+// --- XP & Level functions ---
+
+function addXP(amount) {
+  // Player XP
+  slotXP += amount;
+  // Global XP (future use)
+  globalXP += amount;
+
+  let leveledUp = false;
+  while (slotXP >= slotXPMax && slotLevel < slotLevelMax) {
+    slotXP -= slotXPMax;
+    slotLevel++;
+    slotXPMax = (slotLevel + 1) * 100;
+    leveledUp = true;
+
+    // Reward logic
+    let reward = slotLevelRewards[slotLevel] || "No reward";
+    showLevelUpNotification(slotLevel, reward);
+  }
+  updateSlotLevelUI();
+  return leveledUp;
+}
+
+function showLevelUpNotification(level, reward) {
+  // Replace with fancy modal/toast in production
+  alert(`🎉 Level up! Now level ${level}. Reward: ${reward}`);
+}
+
+function updateSlotLevelUI() {
+  if (!slotLevelValue) {
+    slotLevelValue = document.getElementById('slotLevelValue');
+    slotXPCount = document.getElementById('slotXPCount');
+    slotXPBar = document.getElementById('slotXPBar');
+  }
+  slotLevelValue.textContent = slotLevel;
+  slotXPCount.textContent = `${slotXP}/${slotXPMax}`;
+  const pct = Math.min(100, Math.round((slotXP / slotXPMax) * 100));
+  slotXPBar.style.width = pct + '%';
+  // Optionally animate the XP bar color based on level
+  slotXPBar.style.background = (slotLevel % 2 === 0)
+    ? 'linear-gradient(90deg,#00fff7 0%,#ff00ea 100%)'
+    : 'linear-gradient(90deg,#ffbf00 0%,#ff00ea 100%)';
+}
+
+// --- SLOT BUTTON LOGIC ---
 
 let slotBits = 1000;
 let slotWin = 0;
 let slotSpinning = false;
 let slotFreeSpins = 0;
-let slotStreak = 0;
+let slotImageCount = 9;
+let slotImgPath = "assets/slot";
+let slotGridRows = 3;
+let slotGridCols = 3;
 
-// Preload slot images
 const slotImages = [];
 for (let i = 1; i <= slotImageCount; i++) {
   const img = new Image();
@@ -755,15 +812,6 @@ for (let i = 1; i <= slotImageCount; i++) {
   slotImages.push(img);
 }
 
-// Open the Slot Test Panel (DEV)
-function showSlotTestPanel() {
-  showPanel('slotTestPanel');
-  renderSlotGrid();
-  updateSlotUI();
-}
-window.showSlotTestPanel = showSlotTestPanel;
-
-// Render 3x3 slot grid with images (either random or static)
 function renderSlotGrid(gridVals) {
   const grid = document.getElementById('slotGrid');
   grid.innerHTML = '';
@@ -785,53 +833,16 @@ function renderSlotGrid(gridVals) {
   });
 }
 
-// Update Bit balance and win display
 function updateSlotUI() {
-  document.getElementById('slotBitsBalance').textContent = slotBits;
-  document.getElementById('slotWinAmount').textContent = slotWin;
-  document.getElementById('slotSpinBtn').disabled = slotSpinning || slotBits < 10 && slotFreeSpins === 0;
+  if (!slotBitsBalance) slotBitsBalance = document.getElementById('slotBitsBalance');
+  if (!slotWinAmount) slotWinAmount = document.getElementById('slotWinAmount');
+  slotBitsBalance.textContent = slotBits;
+  slotWinAmount.textContent = slotWin;
+  document.getElementById('slotSpinBtn').disabled = slotSpinning || (slotBits < 10 && slotFreeSpins === 0);
   document.getElementById('slotBonusBtn').disabled = slotSpinning;
-  updateSlotStreakUI();
+  updateSlotLevelUI();
 }
 
-// Streak UI
-function updateSlotStreakUI() {
-  document.getElementById('slotStreakCount').textContent = slotStreak;
-  const pct = Math.min(100, Math.round((slotStreak / slotStreakMax) * 100));
-  const bar = document.getElementById('slotStreakBar');
-  bar.style.width = pct + '%';
-  bar.style.background = (slotStreak === slotStreakMax)
-    ? 'linear-gradient(90deg,#ffbf00 0%,#ff00ea 100%)'
-    : 'linear-gradient(90deg,#00fff7 0%,#ff00ea 100%)';
-}
-
-// Animate slot spin (basic version)
-function spinSlotGrid(callback) {
-  slotSpinning = true;
-  updateSlotUI();
-  const grid = document.getElementById('slotGrid');
-  grid.querySelectorAll('.slot-cell').forEach(cell => cell.classList.add('spinning'));
-
-  const steps = 18;
-  let curStep = 0;
-  const spinAnim = setInterval(() => {
-    renderSlotGrid();
-    curStep++;
-    if (curStep >= steps) {
-      clearInterval(spinAnim);
-      const result = [];
-      for (let i = 0; i < 9; i++) result.push(Math.floor(Math.random() * slotImageCount));
-      renderSlotGrid(result);
-      setTimeout(() => {
-        slotSpinning = false;
-        grid.querySelectorAll('.slot-cell').forEach(cell => cell.classList.remove('spinning'));
-        callback && callback(result);
-      }, 350);
-    }
-  }, getSpinSpeed());
-}
-
-// Calculate win lines (basic)
 function checkSlotWin(result) {
   let win = 0;
   const winCells = [];
@@ -868,67 +879,20 @@ function highlightWinCells(winCells) {
   });
 }
 
-// SPIN button handler (only define ONCE)
-document.getElementById('slotSpinBtn').onclick = function() {
-  if (slotSpinning) return;
-  if (slotBits < 10 && slotFreeSpins === 0) return;
-  slotSpinning = true;
-  updateSlotUI();
+// --- SPIN/TURBO/BONUS BUTTONS ---
 
-  // Bits or free spin
-  if (slotFreeSpins > 0) {
-    slotFreeSpins--;
-  } else {
-    slotBits -= 10;
-  }
-
-  spinSlotGrid((result) => {
-    const {win, winCells, gotBonus} = checkSlotWin(result);
-    slotWin = win;
-    highlightWinCells(winCells);
-
-    // Increment streak after spin result
-    slotStreak += 1;
-    if (slotStreak >= slotStreakMax) {
-      slotFreeSpins += 5;
-      alert("🔥 Streak Bonus! +5 Free Spins for your streak!");
-      slotStreak = 0;
-    }
-    updateSlotStreakUI();
-
-    updateSlotUI();
-    slotSpinning = false;
-    setTimeout(() => highlightWinCells([]), 1500);
-
-    if (gotBonus) {
-      alert("🎉 BONUS: You got 10 Free Spins!");
-    }
-  });
-};
-
-document.getElementById('slotBonusBtn').onclick = function() {
-  if (slotSpinning) return;
-  if (slotBits < 100) return alert("Not enough Bits!");
-  slotBits -= 100;
-  slotSpinning = true;
-  updateSlotUI();
-
-  const result = Array(9).fill(8);
-  renderSlotGrid(result);
-  setTimeout(() => {
-    slotWin = 1000;
-    highlightWinCells([0,1,2,3,4,5,6,7,8]);
-    updateSlotUI();
-    slotSpinning = false;
-    setTimeout(() => highlightWinCells([]), 1800);
-  }, 600);
-};
 function getSpinSpeed() {
+  // Turbo = fast, else normal
   return document.getElementById('slotTurboCheckbox').checked ? 12 : 40;
 }
+
 function spinSlotGrid(callback) {
   slotSpinning = true;
   updateSlotUI();
+
+  // Animate with blur effect
+  const grid = document.getElementById('slotGrid');
+  grid.querySelectorAll('.slot-cell').forEach(cell => cell.classList.add('spinning'));
 
   const steps = 18;
   let curStep = 0;
@@ -942,37 +906,152 @@ function spinSlotGrid(callback) {
       renderSlotGrid(result);
       setTimeout(() => {
         slotSpinning = false;
+        grid.querySelectorAll('.slot-cell').forEach(cell => cell.classList.remove('spinning'));
         callback && callback(result);
-      }, 350); // Slightly slower reveal
+      }, 350);
     }
   }, getSpinSpeed());
 }
 
-function renderStreakLevelTable() {
-  const table = document.getElementById('streakLevelTable');
-  if (!table) return;
-  // Remove old rows
-  table.innerHTML = `
-    <tr>
-      <th>Level</th>
-      <th>Spins Needed</th>
-      <th>Reward (placeholder)</th>
-    </tr>
-  `;
-  for (let lvl = 1; lvl <= 5; lvl++) { // show 5 levels for example
-    const spins = lvl * 10;
-    const reward = `+${lvl*5} Free Spins`; // Placeholder reward
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${lvl}</td><td>${spins}</td><td><input type="text" value="${reward}"/></td>`;
-    table.appendChild(tr);
-  }
-}
-document.addEventListener('DOMContentLoaded', renderStreakLevelTable);
+function handleSpin(isBonusSpin=false) {
+  if (slotSpinning) return;
+  if (!isBonusSpin && slotBits < 10 && slotFreeSpins === 0) return;
+  slotSpinning = true;
+  updateSlotUI();
 
-// Show/hide custom day input
-document.getElementById('streakResetType').onchange = function() {
-  document.getElementById('streakCustomDays').style.display =
-    (this.value === 'event') ? 'inline-block' : 'none';
-};
+  if (!isBonusSpin) {
+    if (slotFreeSpins > 0) {
+      slotFreeSpins--;
+    } else {
+      slotBits -= 10;
+    }
+  }
+
+  spinSlotGrid((result) => {
+    const {win, winCells, gotBonus} = checkSlotWin(result);
+    slotWin = win;
+    highlightWinCells(winCells);
+
+    if (!isBonusSpin) {
+      addXP(10); // Each spin: 10xp for player & global (future)
+    }
+    // (You can track bonus usage/wins here for leaderboard later)
+
+    updateSlotUI();
+    slotSpinning = false;
+    setTimeout(() => highlightWinCells([]), 1500);
+
+    if (gotBonus) alert("🎉 BONUS: You got 10 Free Spins!");
+  });
+}
+
+// Attach handlers on page load
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('slotSpinBtn').onclick = () => handleSpin(false);
+  document.getElementById('slotTurboCheckbox').onclick = () => {}; // For state, handled in getSpinSpeed
+  document.getElementById('slotBonusBtn').onclick = () => handleSpin(true);
+
+  // Initialize panel UI
+  updateSlotUI();
+  renderSlotGrid();
+
+  // If admin sets max level or rewards, re-render reward table etc.
+  if (typeof renderLevelRewardTable === "function") renderLevelRewardTable();
+});
+
+// ===============================
+// --- ADMIN: LEVEL REWARD CONTROL ---
+// ===============================
+
+function renderLevelRewardTable() {
+  const table = document.getElementById('levelRewardTable');
+  if (!table) return;
+  table.innerHTML = '<tr><th>Level</th><th>XP Needed</th><th>Reward</th></tr>';
+  for (let lvl = 0; lvl < slotLevelMax; lvl++) {
+    const xpNeeded = (lvl+1)*100;
+    const reward = slotLevelRewards[lvl] || '';
+    table.innerHTML += `<tr>
+      <td>${lvl}</td>
+      <td>${xpNeeded}</td>
+      <td><input type="text" value="${reward}" data-level="${lvl}" class="level-reward-input"></td>
+    </tr>`;
+  }
+  Array.from(document.querySelectorAll('.level-reward-input')).forEach(input => {
+    input.onchange = function() {
+      slotLevelRewards[this.dataset.level] = this.value;
+    };
+  });
+}
+
+// Max level input handler
+window.addEventListener('DOMContentLoaded', () => {
+  const maxLevelInput = document.getElementById('slotLevelMaxInput');
+  if (maxLevelInput) {
+    maxLevelInput.onchange = function() {
+      slotLevelMax = Number(this.value);
+      renderLevelRewardTable();
+    };
+  }
+});
+
+// XP Reset Type
+window.addEventListener('DOMContentLoaded', () => {
+  const xpResetType = document.getElementById('xpResetType');
+  if (xpResetType) {
+    xpResetType.onchange = function() {
+      document.getElementById('xpCustomDays').style.display = (this.value === 'event') ? 'inline-block' : 'none';
+    };
+  }
+});
+
+// ===============================
+// --- ADMIN PANEL DRAGGABLE ---
+// ===============================
+
+let adminDragging = false, adminOffsetX = 0, adminOffsetY = 0, adminDraggedPanel = null;
+window.addEventListener('DOMContentLoaded', () => {
+  const adminPanel = document.querySelector('.admin-panel');
+  const adminHeader = adminPanel?.querySelector('.admin-header');
+  if (adminHeader) {
+    adminHeader.style.cursor = 'move';
+    adminHeader.onmousedown = function(e) {
+      adminDragging = true;
+      adminDraggedPanel = adminPanel;
+      adminOffsetX = e.clientX - adminPanel.offsetLeft;
+      adminOffsetY = e.clientY - adminPanel.offsetTop;
+      document.addEventListener('mousemove', adminDragMove);
+      document.addEventListener('mouseup', adminDragStop);
+    };
+  }
+});
+function adminDragMove(e) {
+  if (!adminDragging || !adminDraggedPanel) return;
+  adminDraggedPanel.style.position = 'fixed';
+  adminDraggedPanel.style.left = (e.clientX - adminOffsetX) + "px";
+  adminDraggedPanel.style.top = (e.clientY - adminOffsetY) + "px";
+}
+function adminDragStop() {
+  adminDragging = false;
+  adminDraggedPanel = null;
+  document.removeEventListener('mousemove', adminDragMove);
+  document.removeEventListener('mouseup', adminDragStop);
+}
+
+// ===============================
+// --- LEADERBOARD PLACEHOLDER ---
+// ===============================
+
+function renderLeaderboardTable() {
+  const table = document.getElementById('leaderboardTable');
+  if (!table) return;
+  table.innerHTML = `<tr><th>Name</th><th>Spins</th><th>Wins</th><th>Bonus</th><th>XP Level</th></tr>
+    <tr><td>MonkeyKing</td><td>124</td><td>18</td><td>12</td><td>5</td></tr>
+    <tr><td>ChaosGamer</td><td>110</td><td>11</td><td>8</td><td>4</td></tr>
+    <tr><td>NeonQueen</td><td>98</td><td>9</td><td>7</td><td>3</td></tr>
+    <tr><td>FakeUser</td><td>80</td><td>7</td><td>5</td><td>2</td></tr>`;
+}
+window.addEventListener('DOMContentLoaded', renderLeaderboardTable);
+
+
 // Add a way to open the slot test panel for devs, e.g. in console:
 // showSlotTestPanel();
