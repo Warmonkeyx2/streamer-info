@@ -1225,21 +1225,57 @@ function populateReel(finalItem) {
 // Animate reel to land the winner under the pointer
 function startReelAnimation(finalItem, cb) {
   const reel = document.getElementById("crateReel");
-  let px = 0, speed = 32, t = 0, decel = 0.12, winIdx = 16;
-  const itemWidth = 64; // px, adjust to match CSS
+  let speed = 32, decel = 0.13;
+  let frame = 0;
+  let stopRequested = false;
+  let stopped = false;
+
+  // Make a long reel with random items and the winner at the winning index
+  const itemWidth = 64;
+  let items = [];
+  const visible = 10, total = 30;
+  for (let i = 0; i < total; i++) {
+    items.push(ITEM_POOL[Math.floor(Math.random() * ITEM_POOL.length)]);
+  }
+  // Place the winner so it will end under the pointer
+  let winIdx = Math.floor(total / 2);
+  items[winIdx] = finalItem;
+
+  // Render
+  reel.innerHTML = "";
+  items.forEach(item => {
+    const div = document.createElement("div");
+    div.className = `crate-reel-item crate-${item.rarity.toLowerCase()}`;
+    div.innerHTML = `<span class="reel-icon">${item.icon}</span>`;
+    reel.appendChild(div);
+  });
+  let offset = 0;
+
+  reel.classList.add("blurred");
+  playSound('crateSpinSound');
 
   function animate() {
-    t++;
-    px -= speed;
-    if (speed > 2) speed -= decel;
-    if (t > 36 && Math.abs(px + winIdx * itemWidth) < 6) {
-      // Stop when winner is under pointer
-      px = -winIdx * itemWidth;
-      reel.style.transform = `translateX(${px}px)`;
-      setTimeout(cb, 600);
-      return;
+    if (stopped) return;
+    offset -= speed;
+    // Looping logic: once we've scrolled one item, move the first to the end and reset offset
+    if (offset <= -itemWidth) {
+      offset += itemWidth;
+      reel.appendChild(reel.firstElementChild);
     }
-    reel.style.transform = `translateX(${px}px)`;
+    // Start slowing after N frames
+    frame++;
+    if (frame > 40) speed -= decel;
+    if (speed < 7) {
+      reel.classList.remove("blurred");
+      if (!stopRequested && Math.abs(offset) < 8) {
+        // Stop the animation with the winner under the pointer
+        stopped = true;
+        playSound('crateWinSound');
+        setTimeout(cb, 850);
+        return;
+      }
+    }
+    reel.style.transform = `translateX(${offset}px)`;
     requestAnimationFrame(animate);
   }
   animate();
