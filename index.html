@@ -267,23 +267,36 @@
   </div>
 
   <!-- PANELS -->
-  <div id="streamInfoPanel" class="panel" style="left: 60px; display: none;">
+<!-- Stream Info Panel -->
+<div id="streamInfoPanel" class="panel" style="left: 60px; display: none;">
   <div class="panel-header">Stream Info <button class="close-btn" data-panel="streamInfoPanel">✖</button></div>
   <div class="panel-body" id="streamInfoBody"></div>
+</div>
+
+<!-- Chat Panel -->
+<div id="chatPanel" class="panel" style="left: 60px; display: none;">
+  <div class="panel-header">Chat <button class="close-btn" data-panel="chatPanel">✖</button></div>
+  <div class="panel-body" id="chatBody">(Chat goes here)</div>
+</div>
+
+<!-- Poll Panel -->
+<div id="pollPanel" class="panel" style="left: 60px; display: none;">
+  <div class="panel-header">Polls <button class="close-btn" data-panel="pollPanel">✖</button></div>
+  <div class="panel-body" id="pollBody">(Polls go here)</div>
+</div>
+
+<!-- Links Panel -->
+<div id="linksPanel" class="panel" style="left: 60px; display: none;">
+  <div class="panel-header">Links <button class="close-btn" data-panel="linksPanel">✖</button></div>
+  <div class="panel-body">
+    <ul class="links-list" id="popoutLinksList">
+      <!-- Links will be dynamically inserted here -->
+    </ul>
   </div>
-  <div id="chatPanel" class="panel" style="left: 60px; display: none;">
-    <div class="panel-header">Chat <button class="close-btn" data-panel="chatPanel">✖</button></div>
-    <div class="panel-body" id="chatBody">(Chat goes here)</div>
-  </div>
-  <div id="pollPanel" class="panel" style="left: 60px; display: none;">
-    <div class="panel-header">Polls <button class="close-btn" data-panel="pollPanel">✖</button></div>
-    <div class="panel-body" id="pollBody">(Polls go here)</div>
-  </div>
-  <div id="linksPanel" class="panel" style="left: 60px; display: none;">
-    <div class="panel-header">Links <button class="close-btn" data-panel="linksPanel">✖</button></div>
-    <div class="panel-body">
-      <ul class="links-list" id="popoutLinksList">
-   <div id="freeModePanel" class="panel" style="display:none; left:140px; top:80px; min-width:360px;">
+</div>
+
+<!-- FreeMode Panel (MUST be outside linksPanel, at root level) -->
+<div id="freeModePanel" class="panel" style="display:none; left:140px; top:80px; min-width:360px;">
   <div class="panel-header" onmousedown="startDrag(event)">FreeMode
     <button class="close-btn" data-panel="freeModePanel">✖</button>
   </div>
