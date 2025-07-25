@@ -920,6 +920,31 @@ document.getElementById('slotBonusBtn').onclick = function() {
     setTimeout(() => highlightWinCells([]), 1800);
   }, 600);
 };
+function getSpinSpeed() {
+  return document.getElementById('slotTurboCheckbox').checked ? 12 : 40;
+}
+function spinSlotGrid(callback) {
+  slotSpinning = true;
+  updateSlotUI();
+
+  const steps = 18;
+  let curStep = 0;
+  const spinAnim = setInterval(() => {
+    renderSlotGrid();
+    curStep++;
+    if (curStep >= steps) {
+      clearInterval(spinAnim);
+      const result = [];
+      for (let i = 0; i < 9; i++) result.push(Math.floor(Math.random() * slotImageCount));
+      renderSlotGrid(result);
+      setTimeout(() => {
+        slotSpinning = false;
+        callback && callback(result);
+      }, 350); // Slightly slower reveal
+    }
+  }, getSpinSpeed());
+}
+
 function renderStreakLevelTable() {
   const table = document.getElementById('streakLevelTable');
   if (!table) return;
