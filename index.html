@@ -228,106 +228,51 @@
   </div>
 
   <!-- GAMING PANEL OVERLAY (POPUP) -->
-  <!-- This overlay will be triggered by clicking the Gaming app icon -->
-  <div id="gamingPanelOverlay" class="overlay" style="display:none;">
-    <div class="game-panel-modal">
-      <button id="closeGamingPanel" class="close-btn">&times;</button>
-      <!-- Gaming Tab - Twitch Bits Games -->
-      <div id="gamingTab" class="tab-content">
-        <!-- Tab Title -->
-        <h2>Gaming</h2>
-        <div class="game-panels">
-
-          <!-- ===== Mini-Games Section ===== -->
-          <div class="game-section">
-            <h3>Mini-Games</h3>
-            <div class="game-grid">
-              <div class="game-panel neon">
-                <button class="game-btn neon-btn" id="slotsBtn">Slots</button>
-                <p>Spin for prizes using Bits!</p>
-              </div>
-              <div class="game-panel neon">
-                <button class="game-btn neon-btn" id="diceBtn">Dice Roll</button>
-                <p>Roll for random rewards using Bits!</p>
-              </div>
-              <div class="game-panel neon">
-                <button class="game-btn neon-btn" id="wheelBtn">Wheel Spin</button>
-                <p>Spin the wheel for bonuses or shoutouts!</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- ===== Interactions Section ===== -->
-          <div class="game-section">
-            <h3>Interactions</h3>
-            <div class="game-grid">
-              <div class="game-panel neon">
-                <button class="game-btn neon-btn" id="soundboardBtn">Soundboard</button>
-                <p>Play sounds on stream with Bits!</p>
-              </div>
-              <div class="game-panel neon">
-                <button class="game-btn neon-btn" id="screenAnimBtn">Screen Animations</button>
-                <p>Trigger fireworks, memes, emotes with Bits!</p>
-              </div>
-              <div class="game-panel neon">
-                <button class="game-btn neon-btn" id="pollsBtn">Polls</button>
-                <p>Vote in special polls using Bits!</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- ===== Battle/PvP Section ===== -->
-          <div class="game-section">
-            <h3>Battle / PvP</h3>
-            <div class="game-grid">
-              <div class="game-panel neon">
-                <button class="game-btn neon-btn" id="battleRoyaleBtn">Bits Battle Royale</button>
-                <p>Spend Bits to enter; last one standing wins!</p>
-              </div>
-              <div class="game-panel neon">
-                <button class="game-btn neon-btn" id="bossFightBtn">Boss Fight</button>
-                <p>Use Bits to team up and defeat a boss!</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- ===== Official Extensions Section ===== -->
-          <div class="game-section">
-            <h3>Official Extensions</h3>
-            <div class="game-grid">
-              <div class="game-panel neon">
-                <button class="game-btn neon-btn" id="crowdControlBtn">Crowd Control</button>
-                <p>Bits change gameplay -- spawn enemies, rules, etc.</p>
-              </div>
-              <div class="game-panel neon">
-                <button class="game-btn neon-btn" id="soundAlertsBtn">Sound Alerts</button>
-                <p>Bits play custom sounds on stream.</p>
-              </div>
-              <div class="game-panel neon">
-                <button class="game-btn neon-btn" id="bitArcadeBtn">Bit Arcade</button>
-                <p>Classic arcade mini-games for Bits.</p>
-              </div>
-              <div class="game-panel neon">
-                <button class="game-btn neon-btn" id="kappaCasinoBtn">Kappa Casino</button>
-                <p>Casino-style Bits games.</p>
-              </div>
-            </div>
-          </div>
-          <!-- Example custom game slot for future expansion
-          <div class="game-section">
-            <h3>Custom Games</h3>
-            <div class="game-grid">
-              <div class="game-panel neon">
-                <button class="game-btn neon-btn" id="bitPetBtn">Bit-Pet</button>
-                <p>Care for your virtual pet with Bits! (Coming Soon)</p>
-              </div>
-            </div>
-          </div>
-          -->
+  <!-- Neon Gaming Panel Overlay: Final Polished Version -->
+<div id="gamingPanelOverlay" class="overlay" style="display:none;">
+  <div class="game-panel-modal">
+    <button id="closeGamingPanel" class="close-btn">&times;</button>
+    <h2 class="gaming-panel-title"><span class="panel-icon">🎮</span> Select a Game</h2>
+    <div class="games-list">
+      <!-- Mini-Games -->
+      <div class="games-section">
+        <h3><span class="section-emoji">🕹️</span> <span class="section-title">Mini-Games</span></h3>
+        <div class="games-row">
+          <button class="game-list-btn neon-btn neon-pink" id="slotsBtn"><span class="btn-icon">🍒</span> Slots</button>
+          <button class="game-list-btn neon-btn neon-cyan" id="diceBtn"><span class="btn-icon">🎲</span> Dice Roll</button>
+          <button class="game-list-btn neon-btn neon-gradient" id="wheelBtn"><span class="btn-icon">❄️</span> Wheel Spin</button>
+        </div>
+      </div>
+      <!-- Interactions -->
+      <div class="games-section">
+        <h3><span class="section-emoji">🎤</span> <span class="section-title">Interactions</span></h3>
+        <div class="games-row">
+          <button class="game-list-btn neon-btn neon-cyan" id="soundboardBtn"><span class="btn-icon">🎼</span> Soundboard</button>
+          <button class="game-list-btn neon-btn neon-gradient" id="screenAnimBtn"><span class="btn-icon">💥</span> Screen Animations</button>
+          <button class="game-list-btn neon-btn neon-pink" id="pollsBtn"><span class="btn-icon">🗳️</span> Polls</button>
+        </div>
+      </div>
+      <!-- Battle/PvP -->
+      <div class="games-section">
+        <h3><span class="section-emoji">⚔️</span> <span class="section-title">Battle / PvP</span></h3>
+        <div class="games-row">
+          <button class="game-list-btn neon-btn neon-cyan" id="battleRoyaleBtn"><span class="btn-icon">🏆</span> Bits Battle Royale</button>
+          <button class="game-list-btn neon-btn neon-pink" id="bossFightBtn"><span class="btn-icon">👹</span> Boss Fight</button>
+        </div>
+      </div>
+      <!-- Official Extensions -->
+      <div class="games-section">
+        <h3><span class="section-emoji">💎</span> <span class="section-title">Official Extensions</span></h3>
+        <div class="games-row">
+          <button class="game-list-btn neon-btn neon-cyan" id="crowdControlBtn"><span class="btn-icon">🪄</span> Crowd Control</button>
+          <button class="game-list-btn neon-btn neon-pink" id="soundAlertsBtn"><span class="btn-icon">🔔</span> Sound Alerts</button>
+          <button class="game-list-btn neon-btn neon-gradient" id="bitArcadeBtn"><span class="btn-icon">🕹️</span> Bit Arcade</button>
+          <button class="game-list-btn neon-btn neon-cyan" id="kappaCasinoBtn"><span class="btn-icon">🎰</span> Kappa Casino</button>
         </div>
       </div>
     </div>
   </div>
+</div>
 
   <!-- STATS APP WINDOW -->
   <div id="statsWindow" class="app-window" style="display: none; position: absolute; top: 200px; left: 300px;">
