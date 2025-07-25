@@ -644,5 +644,18 @@ body {
   color: var(--gradient-end);
   text-shadow: 0 0 7px var(--gradient-end);
 }
+#freeModePanel {
+  box-shadow: 0 0 16px #00fff7, 0 0 32px #00fff7;
+  border-radius: 14px;
+}
+#twitchEmbedPanel {
+  resize: both;
+  overflow: auto;
+  min-width: 320px;
+  min-height: 180px;
+  border-radius: 12px;
+  box-shadow: 0 0 8px #00fff7;
+}
+
 
 
