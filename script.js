@@ -735,13 +735,12 @@ document.getElementById('slotsBtn').onclick = function() {
 // =====================
 
 // Slot test panel constants
-const slotImageCount = 9; // 9 images: slot1.png - slot9.png (slot9 = free spin)
+const slotImageCount = 9;
 const slotImgPath = "assets/slot";
 const slotGridRows = 3;
 const slotGridCols = 3;
-const slotStreakMax = 10; // e.g., reward every 10 streak spins (customize as needed)
+const slotStreakMax = 10;
 
-// Slot test state
 let slotBits = 1000;
 let slotWin = 0;
 let slotSpinning = false;
@@ -762,7 +761,7 @@ function showSlotTestPanel() {
   renderSlotGrid();
   updateSlotUI();
 }
-window.showSlotTestPanel = showSlotTestPanel; // Optional: make global for dev
+window.showSlotTestPanel = showSlotTestPanel;
 
 // Render 3x3 slot grid with images (either random or static)
 function renderSlotGrid(gridVals) {
@@ -770,7 +769,6 @@ function renderSlotGrid(gridVals) {
   grid.innerHTML = '';
   let symbols = gridVals;
   if (!symbols) {
-    // If not provided, randomize for initial render
     symbols = [];
     for (let i = 0; i < slotGridRows * slotGridCols; i++) {
       symbols.push(Math.floor(Math.random() * slotImageCount));
@@ -791,18 +789,27 @@ function renderSlotGrid(gridVals) {
 function updateSlotUI() {
   document.getElementById('slotBitsBalance').textContent = slotBits;
   document.getElementById('slotWinAmount').textContent = slotWin;
-  document.getElementById('slotSpinBtn').disabled = slotSpinning || slotBits < 10; // Example cost: 10 bits
+  document.getElementById('slotSpinBtn').disabled = slotSpinning || slotBits < 10 && slotFreeSpins === 0;
   document.getElementById('slotBonusBtn').disabled = slotSpinning;
-updateSlotStreakUI();
+  updateSlotStreakUI();
+}
+
+// Streak UI
+function updateSlotStreakUI() {
+  document.getElementById('slotStreakCount').textContent = slotStreak;
+  const pct = Math.min(100, Math.round((slotStreak / slotStreakMax) * 100));
+  const bar = document.getElementById('slotStreakBar');
+  bar.style.width = pct + '%';
+  bar.style.background = (slotStreak === slotStreakMax)
+    ? 'linear-gradient(90deg,#ffbf00 0%,#ff00ea 100%)'
+    : 'linear-gradient(90deg,#00fff7 0%,#ff00ea 100%)';
 }
 
 // Animate slot spin (basic version)
-// Later: replace with per-reel smooth animation
 function spinSlotGrid(callback) {
   slotSpinning = true;
   updateSlotUI();
 
-  // Animate: quickly randomize grid a few times, then settle
   const steps = 18;
   let curStep = 0;
   const spinAnim = setInterval(() => {
@@ -810,7 +817,6 @@ function spinSlotGrid(callback) {
     curStep++;
     if (curStep >= steps) {
       clearInterval(spinAnim);
-      // Final result
       const result = [];
       for (let i = 0; i < 9; i++) result.push(Math.floor(Math.random() * slotImageCount));
       renderSlotGrid(result);
@@ -822,9 +828,8 @@ function spinSlotGrid(callback) {
   }, 40);
 }
 
-// Calculate win lines (basic, just for display)
+// Calculate win lines (basic)
 function checkSlotWin(result) {
-  // Example: win if any horizontal line matches
   let win = 0;
   const winCells = [];
   for (let row = 0; row < 3; row++) {
@@ -836,7 +841,6 @@ function checkSlotWin(result) {
       winCells.push(row*3, row*3+1, row*3+2);
     }
   }
-  // Diagonals
   if (result[0] === result[4] && result[4] === result[8]) {
     win += 200;
     winCells.push(0,4,8);
@@ -845,7 +849,6 @@ function checkSlotWin(result) {
     win += 200;
     winCells.push(2,4,6);
   }
-  // Bonus: 5+ free spin icons ("slot9")
   const freeSpinCount = result.filter(idx => idx === 8).length;
   let gotBonus = false;
   if (freeSpinCount >= 5) {
@@ -855,7 +858,6 @@ function checkSlotWin(result) {
   return {win, winCells: [...new Set(winCells)], gotBonus};
 }
 
-// Highlight winning cells (simple)
 function highlightWinCells(winCells) {
   document.querySelectorAll('#slotGrid .slot-cell').forEach((cell, i) => {
     if (winCells.includes(i)) cell.classList.add('win');
@@ -863,37 +865,8 @@ function highlightWinCells(winCells) {
   });
 }
 
-// SPIN button handler
+// SPIN button handler (only define ONCE)
 document.getElementById('slotSpinBtn').onclick = function() {
-  if (slotSpinning) return;
-  if (slotBits < 10 && slotFreeSpins === 0) return;
-  slotSpinning = true;
-  updateSlotUI();
-  // After spin result
-  slotStreak += 1;
-  if (slotStreak >= slotStreakMax) {
-    // Reward for streak!
-    slotFreeSpins += 5; // Example: 5 free spins for hitting streak max
-    // Optional: Play animation, sound, or show message
-    alert("🔥 Streak Bonus! +5 Free Spins for your streak!");
-    slotStreak = 0; // Reset streak, or keep counting if you want multi-bonuses
-  }
-  updateSlotStreakUI();
-
-// Streak UI 
-function updateSlotStreakUI() {
-  document.getElementById('slotStreakCount').textContent = slotStreak;
-  // Bar width percent
-  const pct = Math.min(100, Math.round((slotStreak / slotStreakMax) * 100));
-  const bar = document.getElementById('slotStreakBar');
-  bar.style.width = pct + '%';
-  // Animate color at max
-  bar.style.background = (slotStreak === slotStreakMax)
-    ? 'linear-gradient(90deg,#ffbf00 0%,#ff00ea 100%)'
-    : 'linear-gradient(90deg,#00fff7 0%,#ff00ea 100%)';
-}
-
-  document.getElementById('slotSpinBtn').onclick = function() {
   if (slotSpinning) return;
   if (slotBits < 10 && slotFreeSpins === 0) return;
   slotSpinning = true;
@@ -903,7 +876,7 @@ function updateSlotStreakUI() {
   if (slotFreeSpins > 0) {
     slotFreeSpins--;
   } else {
-    slotBits -= 10; // Example: 10 bits per spin (update as needed)
+    slotBits -= 10;
   }
 
   spinSlotGrid((result) => {
@@ -911,11 +884,10 @@ function updateSlotStreakUI() {
     slotWin = win;
     highlightWinCells(winCells);
 
-    // Increment streak here, after spin result
+    // Increment streak after spin result
     slotStreak += 1;
     if (slotStreak >= slotStreakMax) {
-      // Reward for streak!
-      slotFreeSpins += 5; // Example: 5 free spins for hitting streak max
+      slotFreeSpins += 5;
       alert("🔥 Streak Bonus! +5 Free Spins for your streak!");
       slotStreak = 0;
     }
@@ -931,17 +903,14 @@ function updateSlotStreakUI() {
   });
 };
 
-// BONUS button handler (cost and logic TBD)
 document.getElementById('slotBonusBtn').onclick = function() {
   if (slotSpinning) return;
-  // Example: spend 100 bits for bonus spin with higher odds
   if (slotBits < 100) return alert("Not enough Bits!");
   slotBits -= 100;
   slotSpinning = true;
   updateSlotUI();
 
-  // For now: Just spin, with all reels set to slot9 for demo!
-  const result = Array(9).fill(8); // All "free spin" for demo
+  const result = Array(9).fill(8);
   renderSlotGrid(result);
   setTimeout(() => {
     slotWin = 1000;
@@ -951,6 +920,5 @@ document.getElementById('slotBonusBtn').onclick = function() {
     setTimeout(() => highlightWinCells([]), 1800);
   }, 600);
 };
-
 // Add a way to open the slot test panel for devs, e.g. in console:
 // showSlotTestPanel();
