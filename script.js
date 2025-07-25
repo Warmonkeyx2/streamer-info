@@ -1,29 +1,23 @@
 // ===============================
-// Streamer Info App JS
+// Streamer Info App JS (Cleaned/FIXED)
 // ===============================
-// This file contains all logic for streamer info, admin panel, server panels, streamer links, dock, app windows, drag/resize,
-// Twitch mock API, stats app, chat/poll panels, Solitaire, and FreeMode mode for viewer custom layouts.
 
-// ===============================
 // --- Info Card Toggle ---
-// ===============================
 function toggleCard() {
   const card = document.getElementById("infoCard");
   card.style.display = card.style.display === "flex" ? "none" : "flex";
 }
+window.toggleCard = toggleCard;
 
-// ===============================
 // --- Tab Switching ---
-// ===============================
 function showTab(tabId) {
   const tabs = document.querySelectorAll('.tab-content');
   tabs.forEach(tab => tab.style.display = 'none');
   document.getElementById(tabId).style.display = 'flex';
 }
+window.showTab = showTab;
 
-// ===============================
 // --- Admin Panel Section Switching ---
-// ===============================
 function showAdminSection(sectionId) {
   document.querySelectorAll('.admin-section').forEach(sec => {
     sec.style.display = 'none';
@@ -34,16 +28,16 @@ function showAdminSection(sectionId) {
   document.querySelectorAll('.admin-tab').forEach(tab => tab.classList.remove('active'));
   document.querySelector(`.admin-tab[onclick*="${sectionId}"]`)?.classList.add('active');
 }
+window.showAdminSection = showAdminSection;
 
-// ===============================
 // --- Admin Panel Toggle ---
-// ===============================
 function toggleAdminPanel() {
   const panel = document.querySelector(".admin-panel");
   if (panel) {
     panel.style.display = panel.style.display === "flex" ? "none" : "flex";
   }
 }
+window.toggleAdminPanel = toggleAdminPanel;
 
 // ===============================
 // --- Streamer Info/Bio/Profile Image ---
@@ -1139,7 +1133,7 @@ document.getElementById("openCrateBtn").onclick = function() {
   crateCount--;
   keyCount--;
   const item = getRandomItem();
-  openCrateWithAnimation(item); // <<-- use the new modal!
+  openCrateWithAnimation(item);
   inventory.push({ ...item, date: new Date().toLocaleTimeString() });
 };
 
@@ -1153,44 +1147,15 @@ function getRandomItem() {
   return ITEM_POOL[0];
 }
 
-function animateCrateSpinner(finalItem, cb) {
-  const spinner = document.getElementById("crateSpinner");
-  spinner.innerHTML = "";
-  const spinItems = [];
-  for (let i = 0; i < 20; i++) {
-    const idx = Math.floor(Math.random() * ITEM_POOL.length);
-    spinItems.push(ITEM_POOL[idx]);
-  }
-  spinItems.push(finalItem);
-  let idx = 0;
-  let interval = setInterval(() => {
-    spinner.innerHTML = `<div class="crate-item crate-${spinItems[idx].rarity.toLowerCase()}">${spinItems[idx].icon} <b>${spinItems[idx].name}</b></div>`;
-    idx++;
-    if (idx >= spinItems.length) {
-      clearInterval(interval);
-      setTimeout(() => { spinner.innerHTML = ""; cb(); }, 500);
-    }
-  }, 70 + idx * 3);
-}
-
-function showCrateResult(item) {
-  const res = document.getElementById("crateResult");
-  res.innerHTML = `<div class="crate-item crate-${item.rarity.toLowerCase()}" style="font-size:1.2em;padding:10px;border-radius:8px;box-shadow:0 0 12px #fff4; background:rgba(0,0,0,0.4);margin-bottom:10px;">${item.icon} <b>${item.name}</b> <span>(${item.rarity})</span></div>`;
-  setTimeout(() => { res.innerHTML = ""; }, 3000);
-}
 // ===============================
 // --- Crate Clash Cinematic Animation ---
 // ===============================
 function openCrateWithAnimation(finalItem) {
-  // Show modal
   document.getElementById("crateAnimationModal").style.display = "flex";
   document.getElementById("crateReveal").innerHTML = "";
-  // Prepare the reel
   populateReel(finalItem);
   startReelAnimation(finalItem, function() {
-    // Show final item
     showCrateFinalReveal(finalItem, function() {
-      // Slide to inventory (optional: animate)
       setTimeout(() => {
         document.getElementById("crateAnimationModal").style.display = "none";
         renderCrateClashUI();
@@ -1203,15 +1168,13 @@ function openCrateWithAnimation(finalItem) {
 function populateReel(finalItem) {
   const reel = document.getElementById("crateReel");
   reel.innerHTML = "";
-  // Build a sequence: random, random, ..., finalItem, random, random
   const reelLen = 32, winPos = 16;
   let items = [];
   for (let i = 0; i < reelLen; i++) {
     let item = ITEM_POOL[Math.floor(Math.random() * ITEM_POOL.length)];
     items.push(item);
   }
-  items[winPos] = finalItem; // Winner in center
-  // Render
+  items[winPos] = finalItem;
   for (let i = 0; i < items.length; i++) {
     const div = document.createElement("div");
     div.className = `crate-reel-item crate-${items[i].rarity.toLowerCase()}`;
@@ -1222,14 +1185,13 @@ function populateReel(finalItem) {
   }
 }
 
-// Animate reel to land the winner under the pointer
+// Animate reel to land the winner under the pointer, for exactly 9s
 function startReelAnimation(finalItem, cb) {
   const reel = document.getElementById("crateReel");
-  const itemWidth = 48; // or 64, match your CSS!
-  const visible = 9;    // number of visible items in the reel
+  const itemWidth = 48;
+  const visible = 9;
   const centerIndex = Math.floor(visible / 2);
 
-  // Build reel as before, with winner at centerIndex
   let items = [];
   const total = 30;
   for (let i = 0; i < total; i++) {
@@ -1250,14 +1212,13 @@ function startReelAnimation(finalItem, cb) {
   let speed = 36;
   let minSpeed = 7;
   let stopped = false;
-  const spinDuration = 9000; // 9 seconds
+  const spinDuration = 9000;
   let startTime = null;
 
   function animate(now) {
     if (!startTime) startTime = now;
     const elapsed = now - startTime;
 
-    // Decelerate smoothly over the last 2 seconds
     let remaining = spinDuration - elapsed;
     if (remaining < 2000) {
       speed = Math.max(minSpeed, speed * 0.98);
@@ -1269,9 +1230,7 @@ function startReelAnimation(finalItem, cb) {
       reel.appendChild(reel.firstElementChild);
     }
 
-    // At 9s, align winner under pointer and stop
     if (elapsed >= spinDuration) {
-      // Snap so winner is under pointer
       let currentItems = reel.children;
       let winnerIndex = Array.from(currentItems).findIndex(
         child => child.innerText === finalItem.icon
@@ -1290,21 +1249,20 @@ function startReelAnimation(finalItem, cb) {
   }
   requestAnimationFrame(animate);
 }
-  animate();
-}
 
 // Show the final item with a flash/sparkle
 function showCrateFinalReveal(item, cb) {
   const reveal = document.getElementById("crateReveal");
-  reveal.innerHTML = `<div class="crate-reveal-item crate-${item.rarity.toLowerCase()}">
+  reveal.innerHTML = `<div class="crate-reveal-item crate-${item.rarity.toLowerCase()} ${item.rarity === "Legendary" || item.rarity === "Collector" ? "confetti" : ""}">
     <span class="reel-icon" style="font-size:2em;">${item.icon}</span><br>
     <b>${item.name}</b><br>
     <span style="font-size:1.1em;">${item.rarity}</span>
     <div class="crate-reveal-flash"></div>
   </div>`;
-  // Animate effect (add shimmer, confetti for high rarity)
   setTimeout(cb, 1200);
 }
+
+// Particle background for crate animation
 function startCrateParticles() {
   const canvas = document.getElementById('crateParticles');
   if (!canvas) return;
@@ -1341,6 +1299,8 @@ function startCrateParticles() {
   }
   draw();
 }
+
+// Play sound by id (make sure your audio tag exists in HTML)
 function playSound(id) {
   const audio = document.getElementById(id);
   if (audio) {
@@ -1349,7 +1309,16 @@ function playSound(id) {
   }
 }
 
-// Call this when modal shows
+// Start crate particles on modal open
 document.getElementById("crateAnimationModal").addEventListener("transitionend", startCrateParticles);
-// Add a way to open the slot test panel for devs, e.g. in console:
-// showSlotTestPanel();
+
+// Make showSlotTestPanel globally accessible for dev/test
+window.showSlotTestPanel = function() {
+  const panel = document.getElementById('slotTestPanel');
+  if (panel) {
+    panel.style.display = 'block';
+    panel.style.zIndex = 2001;
+    updateSlotUI && updateSlotUI();
+    renderSlotGrid && renderSlotGrid();
+  }
+};
