@@ -437,7 +437,9 @@
       <div id="twitchEmbedPanel" style="display:none; resize:both; overflow:auto; min-width:320px; min-height:180px; border-radius:12px; box-shadow:0 0 8px #00fff7;"></div>
     </div>
   </div>
+
   <script src="script.js"></script>
+  <!-- --- INLINE SCRIPT SECTION: Streaming Button, Dock Toggle Controls, Gaming Panel Logic --- -->
   <script>
     // --- Toggle Apps Visibility Controls when Streaming button is clicked ---
     function toggleAppsVisibilityControls() {
@@ -446,6 +448,8 @@
         controls.style.display = (controls.style.display === 'none' || controls.style.display === '') ? 'block' : 'none';
       }
     }
+
+    // --- Viewer Dock Button Visibility Toggles ---
     function loadDockVisibilityPrefs() {
       const prefs = JSON.parse(localStorage.getItem("dockVisibilityPrefs") || "{}");
       document.querySelectorAll('.dock-toggle').forEach(toggle => {
@@ -458,12 +462,14 @@
         });
       });
     }
+
     function updateDockButtonVisibility(dockId, show) {
       const btn = dockId === "customizeToggle"
         ? document.getElementById("customizeToggle")
         : document.querySelector('.dock-btn[data-panel="'+dockId+'"]');
       if (btn) btn.style.display = show ? "" : "none";
     }
+
     function saveDockVisibilityPrefs() {
       const prefs = {};
       document.querySelectorAll('.dock-toggle').forEach(toggle => {
@@ -472,6 +478,8 @@
       });
       localStorage.setItem("dockVisibilityPrefs", JSON.stringify(prefs));
     }
+
+    // --- Initialize dock visibility toggles on page load ---
     window.addEventListener("DOMContentLoaded", loadDockVisibilityPrefs);
 
     // --- GAMING PANEL POPUP LOGIC ---
@@ -487,237 +495,26 @@
       }
     };
 
-    // --- Show Slot Machine (new logic) ---
+    // --- Example: Simple Slots Game Demo ---
+    const slotSymbols = ['🍒', '🍋', '🔔', '⭐', '💎'];
+    function getRandomSymbol() {
+      return slotSymbols[Math.floor(Math.random() * slotSymbols.length)];
+    }
+    function isWin(result) {
+      return result[0] === result[1] && result[1] === result[2];
+    }
     document.getElementById('slotsBtn').onclick = function() {
-      document.getElementById('gamingPanelOverlay').style.display = 'none';
-      document.getElementById('slot-machine').style.display = 'block';
-      if (typeof initSlotMachine === "function") initSlotMachine();
+      const result = [getRandomSymbol(), getRandomSymbol(), getRandomSymbol()];
+      const win = isWin(result);
+      alert(
+        `Slots Result:\n${result.join(' | ')}\n\n${win ? "🎉 You win!" : "😢 Try again!"}`
+      );
+      // TODO: Replace alert with modal/panel, add Bits integration
     };
-    document.getElementById('slot-close').onclick = function() {
-      document.getElementById('slot-machine').style.display = 'none';
-      if (typeof initSlotMachine === "function") initSlotMachine();
-    };
+
+    // TODO: Add logic for Dice Roll, Wheel Spin, Soundboard, etc.
   </script>
-  <script>
-    // ===============================
-    // Neon Slot Machine Full Logic
-    // ===============================
+  <!-- --- END INLINE SCRIPT SECTION --- -->
 
-    // --- Images for Slot Symbols ---
-    const SLOT_SYMBOLS = [
-      { img: 'assets/slots1.png', name: "Ember" },
-      { img: 'assets/slots2.png', name: "Streamer Coin" },
-      { img: 'assets/slots3.png', name: "GG" },
-      { img: 'assets/slots4.png', name: "Streamer Face" },
-      { img: 'assets/slots5.png', name: "Neon Star" },
-      { img: 'assets/slots6.png', name: "Twitch Coin" },
-      { img: 'assets/slots7.png', name: "Arcade" },
-      { img: 'assets/slots8.png', name: "Jackpot" },
-      { img: 'assets/slots9.png', name: "FREE SPIN" }
-    ];
-
-    let slotBalance = 0;
-    let freeSpins = 0;
-    let isSpinning = false;
-
-    // DOM Elements (slot machine)
-    const reels = [0, 1, 2].map(i => document.querySelector(`.slot-reel[data-reel="${i}"]`));
-    const spinBtn = document.getElementById('slot-spin');
-    const autoBtn = document.getElementById('slot-autospin');
-    const msgEl = document.getElementById('slot-message');
-    const fsEl = document.getElementById('slot-freespins');
-    const balEl = document.getElementById('balanceAmount');
-    const winlinesCanvas = document.getElementById('slot-winlines');
-    const ctx = winlinesCanvas.getContext('2d');
-
-    function randSymbol() {
-      return Math.floor(Math.random() * SLOT_SYMBOLS.length);
-    }
-
-    function animateReel(reelIdx, result, duration = 900) {
-      return new Promise(resolve => {
-        const reel = reels[reelIdx];
-        const steps = 18 + Math.floor(Math.random() * 6);
-        let pos = 0;
-        let lastTime = performance.now();
-
-        reel.innerHTML = '';
-        let queue = [];
-        for (let i = 0; i < steps; i++) {
-          const idx = randSymbol();
-          queue.push(idx);
-          const el = document.createElement('div');
-          el.className = 'slot-symbol';
-          el.innerHTML = `<img src="${SLOT_SYMBOLS[idx].img}" alt="">`;
-          reel.appendChild(el);
-        }
-        for (let i = 0; i < 3; i++) {
-          queue.push(result[i]);
-          const el = document.createElement('div');
-          el.className = 'slot-symbol';
-          el.innerHTML = `<img src="${SLOT_SYMBOLS[result[i]].img}" alt="">`;
-          reel.appendChild(el);
-        }
-        let offset = 0;
-        function animate(time) {
-          const dt = Math.min(24, time - lastTime);
-          lastTime = time;
-          offset += dt * (420 / duration);
-          reel.style.transform = `translateY(${-offset}px)`;
-          if (offset < (steps * 140)) {
-            requestAnimationFrame(animate);
-          } else {
-            reel.innerHTML = '';
-            for (let i = 0; i < 3; i++) {
-              const idx = result[i];
-              const el = document.createElement('div');
-              el.className = 'slot-symbol';
-              el.innerHTML = `<img src="${SLOT_SYMBOLS[idx].img}" alt="">`;
-              reel.appendChild(el);
-            }
-            reel.style.transform = 'translateY(0)';
-            resolve();
-          }
-        }
-        requestAnimationFrame(animate);
-      });
-    }
-
-    function getSpinResult() {
-      return [
-        [randSymbol(), randSymbol(), randSymbol()],
-        [randSymbol(), randSymbol(), randSymbol()],
-        [randSymbol(), randSymbol(), randSymbol()]
-      ];
-    }
-
-    function drawWinLines(winLines) {
-      ctx.clearRect(0, 0, winlinesCanvas.width, winlinesCanvas.height);
-      winLines.forEach(line => {
-        ctx.save();
-        ctx.strokeStyle = line.color || "#ff0";
-        ctx.shadowColor = line.color || "#ff0";
-        ctx.shadowBlur = 12;
-        ctx.lineWidth = 8;
-        ctx.beginPath();
-        const cell = (row, col) => [col * 140 + 70, row * 140 + 70];
-        line.pts.forEach((pt, i) => {
-          const [x, y] = cell(pt[0], pt[1]);
-          if (i === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        });
-        ctx.stroke();
-        ctx.restore();
-      });
-    }
-
-    function checkWin(resultGrid) {
-      const rows = [0,1,2].map(r => [resultGrid[0][r], resultGrid[1][r], resultGrid[2][r]]);
-      const cols = resultGrid;
-      const diags = [
-        [resultGrid[0][0], resultGrid[1][1], resultGrid[2][2]],
-        [resultGrid[0][2], resultGrid[1][1], resultGrid[2][0]]
-      ];
-
-      let winLines = [];
-      let bigWin = false;
-      let freeSpinCount = 0;
-      let winSymbols = [];
-
-      for (let i = 0; i < 3; i++) {
-        if (rows[i][0] === rows[i][1] && rows[i][1] === rows[i][2]) {
-          winLines.push({ pts: [[i,0],[i,1],[i,2]], color: "#ff0" });
-          winSymbols.push(SLOT_SYMBOLS[rows[i][0]].name);
-          if (rows[i][0] === 8) bigWin = true;
-        }
-        if (cols[i][0] === cols[i][1] && cols[i][1] === cols[i][2]) {
-          winLines.push({ pts: [[0,i],[1,i],[2,i]], color: "#0ff" });
-          winSymbols.push(SLOT_SYMBOLS[cols[i][0]].name);
-          if (cols[i][0] === 8) bigWin = true;
-        }
-      }
-      if (diags[0][0] === diags[0][1] && diags[0][1] === diags[0][2]) {
-        winLines.push({ pts: [[0,0],[1,1],[2,2]], color: "#ff00ea" });
-        winSymbols.push(SLOT_SYMBOLS[diags[0][0]].name);
-        if (diags[0][0] === 8) bigWin = true;
-      }
-      if (diags[1][0] === diags[1][1] && diags[1][1] === diags[1][2]) {
-        winLines.push({ pts: [[2,0],[1,1],[0,2]], color: "#ffae00" });
-        winSymbols.push(SLOT_SYMBOLS[diags[1][0]].name);
-        if (diags[1][0] === 8) bigWin = true;
-      }
-
-      for (let c = 0; c < 3; c++) for (let r = 0; r < 3; r++) if (resultGrid[c][r] === 8) freeSpinCount++;
-
-      return { winLines, bigWin, freeSpinCount, winSymbols };
-    }
-
-    async function spinSlots(isBonus = false) {
-      if (isSpinning) return;
-      isSpinning = true;
-      spinBtn.disabled = true;
-      autoBtn.disabled = true;
-      msgEl.textContent = '';
-      drawWinLines([]);
-
-      let resultGrid = getSpinResult();
-
-      await Promise.all([0,1,2].map(i => animateReel(i, resultGrid[i])));
-
-      const { winLines, bigWin, freeSpinCount, winSymbols } = checkWin(resultGrid);
-
-      drawWinLines(winLines);
-
-      if (freeSpinCount >= 5) {
-        freeSpins += 10;
-        fsEl.textContent = `FREE SPINS +10!`;
-        msgEl.textContent = "🎉 BONUS! 10 Free Spins Awarded!";
-        // TODO: trigger special animation/sound
-      } else if (winLines.length > 0) {
-        msgEl.textContent = `WIN! ${winSymbols.join(", ")}`;
-        // TODO: trigger win animation/sound
-        if (bigWin) {
-          // TODO: trigger "Big Win" overlay, chat message, badge, leaderboard
-          msgEl.textContent = "🔥 BIG WIN! 🔥";
-        }
-      } else {
-        msgEl.textContent = "No win. Try again!";
-        fsEl.textContent = '';
-      }
-
-      if (freeSpins > 0) {
-        freeSpins--;
-        fsEl.textContent = `Free Spins: ${freeSpins}`;
-        setTimeout(() => spinSlots(false), 1200);
-      } else {
-        fsEl.textContent = '';
-        spinBtn.disabled = false;
-        autoBtn.disabled = false;
-        isSpinning = false;
-      }
-    }
-
-    spinBtn.onclick = async () => {
-      // TODO: Integrate Twitch Bits API, unlock after Bits processed
-      await spinSlots(false);
-    };
-    autoBtn.onclick = async () => {
-      // TODO: Integrate Twitch Bits API (100 bits), unlock after Bits processed
-      await spinSlots(true);
-    };
-
-    function initSlotMachine() {
-      msgEl.textContent = '';
-      fsEl.textContent = '';
-      balEl.textContent = slotBalance;
-      reels.forEach(r => r.innerHTML = '');
-      drawWinLines([]);
-      spinBtn.disabled = false;
-      autoBtn.disabled = false;
-      isSpinning = false;
-    }
-
-    // --- Slot close resets state (already handled above)
-  </script>
 </body>
 </html>
