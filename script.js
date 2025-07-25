@@ -920,5 +920,31 @@ document.getElementById('slotBonusBtn').onclick = function() {
     setTimeout(() => highlightWinCells([]), 1800);
   }, 600);
 };
+function renderStreakLevelTable() {
+  const table = document.getElementById('streakLevelTable');
+  if (!table) return;
+  // Remove old rows
+  table.innerHTML = `
+    <tr>
+      <th>Level</th>
+      <th>Spins Needed</th>
+      <th>Reward (placeholder)</th>
+    </tr>
+  `;
+  for (let lvl = 1; lvl <= 5; lvl++) { // show 5 levels for example
+    const spins = lvl * 10;
+    const reward = `+${lvl*5} Free Spins`; // Placeholder reward
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${lvl}</td><td>${spins}</td><td><input type="text" value="${reward}"/></td>`;
+    table.appendChild(tr);
+  }
+}
+document.addEventListener('DOMContentLoaded', renderStreakLevelTable);
+
+// Show/hide custom day input
+document.getElementById('streakResetType').onchange = function() {
+  document.getElementById('streakCustomDays').style.display =
+    (this.value === 'event') ? 'inline-block' : 'none';
+};
 // Add a way to open the slot test panel for devs, e.g. in console:
 // showSlotTestPanel();
