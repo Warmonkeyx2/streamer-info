@@ -1293,6 +1293,13 @@ function startCrateParticles() {
   }
   draw();
 }
+function playSound(id) {
+  const audio = document.getElementById(id);
+  if (audio) {
+    audio.currentTime = 0;
+    audio.play();
+  }
+}
 
 // Call this when modal shows
 document.getElementById("crateAnimationModal").addEventListener("transitionend", startCrateParticles);
