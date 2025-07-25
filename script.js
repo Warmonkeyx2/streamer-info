@@ -1292,8 +1292,6 @@ function startReelAnimation(finalItem, cb) {
     }
 
     reel.style.transform = `translateX(${offset}px)`;
-    requestAnimationFrame(animate);
-  }
   requestAnimationFrame(animate);
 }
   animate();
