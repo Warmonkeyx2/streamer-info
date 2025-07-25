@@ -1239,7 +1239,7 @@ function startReelAnimation(finalItem, cb) {
       offset -= shift * itemWidth;
       reel.style.transform = `translateX(${offset}px)`;
       stopped = true;
-      playSound('crateWinSound');
+      playSound('crateSpinSound');
       setTimeout(cb, 850);
       return;
     }
