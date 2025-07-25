@@ -707,3 +707,64 @@ body {
 .game-btn.neon-btn:hover {
   box-shadow: 0 0 24px #ff00ea, 0 0 12px #00fff7;
 }
+
+/* ================================
+   Neon Game Panel and Button Styles
+   ================================ */
+
+/* Container for all game panels */
+.game-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Section titles */
+.game-section h3 {
+  color: #fff;
+  margin-bottom: 12px;
+  text-shadow: 0 0 8px #00fff7;
+}
+
+/* Grid layout for panels */
+.game-grid {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* Individual panel styling */
+.game-panel {
+  background: #111;
+  border-radius: 16px;
+  box-shadow: 0 0 12px #00fff7, 0 0 2px #fff inset;
+  padding: 24px 16px;
+  text-align: center;
+  min-width: 200px;
+  min-height: 160px;
+  flex: 1 1 200px;
+  color: #fff;
+}
+
+/* Neon glow border */
+.neon {
+  border: 2px solid #00fff7;
+  box-shadow: 0 0 16px #00fff7, 0 0 6px #ff00ea;
+}
+
+/* Neon button styling */
+.game-btn.neon-btn {
+  background: linear-gradient(90deg, #00fff7 0%, #ff00ea 100%);
+  color: #fff;
+  padding: 12px 32px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  box-shadow: 0 0 8px #00fff7, 0 0 2px #ff00ea;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.game-btn.neon-btn:hover {
+  box-shadow: 0 0 24px #ff00ea, 0 0 12px #00fff7;
