@@ -665,44 +665,48 @@ body {
   box-shadow: 0 0 8px #00fff7;
 }
 
-/* --- Gaming Panel Modal Neon Section --- */
+/* --- Neon Gaming Panel Styles --- */
 .overlay {
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,0.88);
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .game-panel-modal {
-  background: #181820;
-  border-radius: 18px;
-  box-shadow: 0 0 36px #00fff7, 0 0 14px #ff00ea;
-  padding: 42px 32px 48px 32px;
-  max-width: 700px;
-  width: 94vw;
+  background: #191923;
+  border-radius: 22px;
+  box-shadow: 0 0 36px #00fff7, 0 0 24px #ff00ea;
+  padding: 38px 40px 54px 40px;
+  max-width: 650px;
+  width: 95vw;
   min-width: 300px;
-  max-height: 95vh;
+  max-height: 96vh;
   overflow-y: auto;
   position: relative;
 }
 .gaming-panel-title {
   color: #00fff7;
-  text-align: left;
-  margin-bottom: 32px;
-  font-size: 2.2rem;
+  margin-bottom: 34px;
+  font-size: 2.1rem;
   font-weight: 900;
   letter-spacing: 2px;
   text-shadow: 0 0 18px #00fff7, 0 0 4px #ff00ea;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+}
+.panel-icon {
+  font-size: 2.3rem;
+  margin-right: 5px;
+  vertical-align: middle;
 }
 .close-btn {
   position: absolute;
-  top: 24px;
+  top: 22px;
   right: 28px;
   background: none;
   color: #fff;
@@ -712,46 +716,53 @@ body {
   z-index: 2;
   padding: 0 8px;
   transition: color 0.2s;
+  text-shadow: 0 0 12px #ff00ea;
 }
 .close-btn:hover {
   color: #ff00ea;
+  text-shadow: 0 0 24px #ff00ea;
 }
 .games-list {
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 35px;
 }
 .games-section h3 {
-  color: #fff;
-  margin-bottom: 18px;
-  text-shadow: 0 0 10px #00fff7;
-  font-size: 1.25rem;
-  font-weight: 700;
+  color: #d5ffe6;
+  margin-bottom: 16px;
+  text-shadow: 0 0 12px #00fff7, 0 0 6px #ff00ea;
+  font-size: 1.2rem;
+  font-weight: 800;
   letter-spacing: 1.5px;
   display: flex;
   align-items: center;
   gap: 10px;
 }
 .section-emoji {
-  font-size: 1.1em;
+  font-size: 1.2em;
   margin-right: 4px;
+}
+.section-title {
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 1.5px;
 }
 .games-row {
   display: flex;
   flex-wrap: wrap;
   gap: 18px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 .game-list-btn.neon-btn {
-  background: linear-gradient(90deg, #00fff7 0%, #ff00ea 100%);
+  background: linear-gradient(90deg, #0ff 0%, #ff00ea 100%);
   color: #fff;
-  padding: 18px 36px;
+  padding: 16px 27px;
   border-radius: 14px;
   border: none;
-  font-size: 1.32rem;
-  box-shadow: 0 0 12px #00fff7, 0 0 8px #ff00ea;
+  font-size: 1.15rem;
+  box-shadow: 0 0 18px #00fff7, 0 0 8px #ff00ea;
   cursor: pointer;
-  transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
+  transition: box-shadow 0.2s, transform 0.18s, background 0.2s, filter 0.2s;
   font-weight: 700;
   letter-spacing: 2px;
   outline: none;
@@ -759,14 +770,37 @@ body {
   margin-top: 0;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   position: relative;
   border: 2px solid transparent;
+  filter: drop-shadow(0 0 8px #00fff7);
+}
+.game-list-btn .btn-icon {
+  font-size: 1.35em;
+  margin-right: 4px;
+  vertical-align: middle;
+  filter: drop-shadow(0 0 6px #ff00ea);
+}
+.game-list-btn.neon-pink {
+  background: linear-gradient(90deg, #ff00ea 0%, #0ff 100%);
+  box-shadow: 0 0 18px #ff00ea, 0 0 10px #00fff7;
+  filter: drop-shadow(0 0 8px #ff00ea);
+}
+.game-list-btn.neon-cyan {
+  background: linear-gradient(90deg, #00fff7 0%, #191923 100%);
+  box-shadow: 0 0 18px #00fff7, 0 0 10px #ff00ea;
+  filter: drop-shadow(0 0 8px #00fff7);
+}
+.game-list-btn.neon-gradient {
+  background: linear-gradient(90deg, #00fff7 0%, #ff00ea 100%);
+  box-shadow: 0 0 22px #00fff7, 0 0 14px #ff00ea;
+  filter: drop-shadow(0 0 8px #fff);
 }
 .game-list-btn.neon-btn:hover {
-  box-shadow: 0 0 32px #ff00ea, 0 0 16px #00fff7;
-  transform: translateY(-2px) scale(1.06);
-  background: linear-gradient(90deg, #ff00ea 0%, #00fff7 100%);
+  box-shadow: 0 0 36px #ff00ea, 0 0 22px #00fff7;
+  transform: translateY(-3px) scale(1.08);
+  filter: brightness(1.18);
+  background: linear-gradient(90deg, #ff00ea 0%, #0ff 100%);
 }
 .game-list-btn.neon-btn:active {
   outline: 2px solid #fff;
@@ -775,7 +809,6 @@ body {
 .game-list-btn.neon-btn:focus {
   outline: 2px solid #ff00ea;
 }
-
 /* Animate game list entrance */
 @keyframes fadeInGameBtn {
   0% { opacity: 0; transform: translateY(20px);}
@@ -786,9 +819,9 @@ body {
   animation: fadeInGameBtn 0.7s cubic-bezier(.72,.26,.19,1.01) forwards;
 }
 .games-row .game-list-btn.neon-btn:nth-child(1) { animation-delay: 0.05s; }
-.games-row .game-list-btn.neon-btn:nth-child(2) { animation-delay: 0.15s; }
-.games-row .game-list-btn.neon-btn:nth-child(3) { animation-delay: 0.25s; }
-.games-row .game-list-btn.neon-btn:nth-child(4) { animation-delay: 0.35s; }
+.games-row .game-list-btn.neon-btn:nth-child(2) { animation-delay: 0.11s; }
+.games-row .game-list-btn.neon-btn:nth-child(3) { animation-delay: 0.17s; }
+.games-row .game-list-btn.neon-btn:nth-child(4) { animation-delay: 0.23s; }
 
 /* Responsive for mobile */
 @media (max-width: 600px) {
