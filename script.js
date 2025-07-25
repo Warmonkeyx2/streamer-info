@@ -1139,11 +1139,8 @@ document.getElementById("openCrateBtn").onclick = function() {
   crateCount--;
   keyCount--;
   const item = getRandomItem();
-  animateCrateSpinner(item, function() {
-    showCrateResult(item);
-    inventory.push({ ...item, date: new Date().toLocaleTimeString() });
-    renderCrateClashUI();
-  });
+  openCrateWithAnimation(item); // <<-- use the new modal!
+  inventory.push({ ...item, date: new Date().toLocaleTimeString() });
 };
 
 function getRandomItem() {
@@ -1180,6 +1177,85 @@ function showCrateResult(item) {
   const res = document.getElementById("crateResult");
   res.innerHTML = `<div class="crate-item crate-${item.rarity.toLowerCase()}" style="font-size:1.2em;padding:10px;border-radius:8px;box-shadow:0 0 12px #fff4; background:rgba(0,0,0,0.4);margin-bottom:10px;">${item.icon} <b>${item.name}</b> <span>(${item.rarity})</span></div>`;
   setTimeout(() => { res.innerHTML = ""; }, 3000);
+}
+// ===============================
+// --- Crate Clash Cinematic Animation ---
+// ===============================
+function openCrateWithAnimation(finalItem) {
+  // Show modal
+  document.getElementById("crateAnimationModal").style.display = "flex";
+  document.getElementById("crateReveal").innerHTML = "";
+  // Prepare the reel
+  populateReel(finalItem);
+  startReelAnimation(finalItem, function() {
+    // Show final item
+    showCrateFinalReveal(finalItem, function() {
+      // Slide to inventory (optional: animate)
+      setTimeout(() => {
+        document.getElementById("crateAnimationModal").style.display = "none";
+        renderCrateClashUI();
+      }, 1200);
+    });
+  });
+}
+
+// Prepare the reel (fill with random items, with the winner in winning position)
+function populateReel(finalItem) {
+  const reel = document.getElementById("crateReel");
+  reel.innerHTML = "";
+  // Build a sequence: random, random, ..., finalItem, random, random
+  const reelLen = 32, winPos = 16;
+  let items = [];
+  for (let i = 0; i < reelLen; i++) {
+    let item = ITEM_POOL[Math.floor(Math.random() * ITEM_POOL.length)];
+    items.push(item);
+  }
+  items[winPos] = finalItem; // Winner in center
+  // Render
+  for (let i = 0; i < items.length; i++) {
+    const div = document.createElement("div");
+    div.className = `crate-reel-item crate-${items[i].rarity.toLowerCase()}`;
+    div.innerHTML = `<span class="reel-icon">${items[i].icon}</span>`;
+    div.setAttribute("data-name", items[i].name);
+    div.setAttribute("data-rarity", items[i].rarity);
+    reel.appendChild(div);
+  }
+}
+
+// Animate reel to land the winner under the pointer
+function startReelAnimation(finalItem, cb) {
+  const reel = document.getElementById("crateReel");
+  let px = 0, speed = 32, t = 0, decel = 0.12, winIdx = 16;
+  const itemWidth = 64; // px, adjust to match CSS
+
+  function animate() {
+    t++;
+    px -= speed;
+    if (speed > 2) speed -= decel;
+    if (t > 36 && Math.abs(px + winIdx * itemWidth) < 6) {
+      // Stop when winner is under pointer
+      px = -winIdx * itemWidth;
+      reel.style.transform = `translateX(${px}px)`;
+      setTimeout(cb, 600);
+      return;
+    }
+    reel.style.transform = `translateX(${px}px)`;
+    requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+// Show the final item with a flash/sparkle
+function showCrateFinalReveal(item, cb) {
+  const reveal = document.getElementById("crateReveal");
+  reveal.innerHTML = `<div class="crate-reveal-item crate-${item.rarity.toLowerCase()}">
+    <span class="reel-icon" style="font-size:2em;">${item.icon}</span><br>
+    <b>${item.name}</b><br>
+    <span style="font-size:1.1em;">${item.rarity}</span>
+    <div class="crate-reveal-flash"></div>
+  </div>`;
+  // Animate effect (add shimmer, confetti for high rarity)
+  setTimeout(cb, 1200);
 }
 // Add a way to open the slot test panel for devs, e.g. in console:
 // showSlotTestPanel();
