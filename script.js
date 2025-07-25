@@ -275,7 +275,9 @@ function showPanel(panelId) {
   // Render mock info if opening Stream Info panel
   if (panelId === "streamInfoPanel") renderStreamInfo();
   // Render FreeMode Twitch embed if opening FreeMode panel
-  if (panelId === "freeModePanel") renderFreeModePanel();
+  if (panelId === "freeModePanel") {
+    document.getElementById("twitchEmbedPanel").style.display = "none";
+  }
 }
 function hidePanel(panelId) {
   const panel = document.getElementById(panelId);
@@ -676,24 +678,47 @@ window.onload = () => {
 };
 
 // ===============================
-// --- FreeMode (Viewer Customization Mode) ---
+// --- FreeMode Panel Logic (Twitch Embed Toggle) ---
 // ===============================
 // This feature lets viewers activate a mode, open a Twitch embed in a draggable/resizable window, and build out their own layout.
 
-function renderFreeModePanel() {
-  // Only embed Twitch once for performance
-  if (document.getElementById("twitchEmbedPanel").innerHTML) return;
-  document.getElementById("twitchEmbedPanel").innerHTML = `<div id="twitch-embed"></div>`;
-  const script = document.createElement("script");
-  script.src = "https://embed.twitch.tv/embed/v1.js";
-  script.onload = function() {
-    new Twitch.Embed("twitch-embed", {
-      width: 560,
-      height: 315,
-      channel: "warmonkeyx2",
-      layout: "video",
-      autoplay: false
-    });
-  };
-  document.body.appendChild(script);
+// Toggle the Twitch embed panel and load Twitch's embed API only once
+function toggleTwitchEmbed() {
+  const panel = document.getElementById("twitchEmbedPanel");
+  if (!panel) return;
+  if (panel.style.display === "none" || panel.style.display === "") {
+    panel.style.display = "block";
+    if (!panel.innerHTML) {
+      panel.innerHTML = `<div id="twitch-embed"></div>`;
+      // Only load Twitch embed script ONCE
+      if (!document.getElementById("twitch-embed-script")) {
+        const script = document.createElement("script");
+        script.id = "twitch-embed-script";
+        script.src = "https://embed.twitch.tv/embed/v1.js";
+        script.onload = function() {
+          new Twitch.Embed("twitch-embed", {
+            width: 560,
+            height: 315,
+            channel: "warmonkeyx2", // your Twitch channel
+            layout: "video",
+            autoplay: false
+          });
+        };
+        document.body.appendChild(script);
+      } else {
+        // If script already loaded, just create the embed
+        if (window.Twitch && window.Twitch.Embed) {
+          new Twitch.Embed("twitch-embed", {
+            width: 560,
+            height: 315,
+            channel: "warmonkeyx2",
+            layout: "video",
+            autoplay: false
+          });
+        }
+      }
+    }
+  } else {
+    panel.style.display = "none";
+  }
 }
