@@ -741,12 +741,12 @@ body {
   margin-bottom: 16px;
 }
 
-/* === GAMING PANEL OVERLAY (POPUP) === */
+/* Neon overlay and modal */
 .overlay {
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.65);
+  background: rgba(0,0,0,0.85);
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -756,13 +756,25 @@ body {
   background: #181820;
   border-radius: 16px;
   box-shadow: 0 0 36px #00fff7, 0 0 14px #ff00ea;
-  padding: 32px 24px;
-  max-width: 900px;
-  width: 95vw;
-  max-height: 90vh;
+  padding: 32px 24px 40px 24px;
+  max-width: 700px;
+  width: 90vw;
+  min-width: 320px;
+  max-height: 95vh;
   overflow-y: auto;
   position: relative;
 }
+
+/* Neon Title */
+.gaming-panel-title {
+  color: #00fff7;
+  text-align: left;
+  margin-bottom: 24px;
+  font-size: 2rem;
+  text-shadow: 0 0 16px #00fff7, 0 0 4px #ff00ea;
+}
+
+/* Neon close button style */
 .close-btn {
   position: absolute;
   top: 16px;
@@ -778,4 +790,60 @@ body {
 }
 .close-btn:hover {
   color: #ff00ea;
+}
+
+/* Neon list sections */
+.games-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.games-section h3 {
+  color: #fff;
+  margin-bottom: 10px;
+  text-shadow: 0 0 8px #00fff7;
+  font-size: 1.25rem;
+}
+.games-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.game-list-btn.neon-btn {
+  background: linear-gradient(90deg, #00fff7 0%, #ff00ea 100%);
+  color: #fff;
+  padding: 12px 26px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1.1rem;
+  box-shadow: 0 0 8px #00fff7, 0 0 2px #ff00ea;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+  font-weight: 600;
+  letter-spacing: 1px;
+  outline: none;
+}
+.game-list-btn.neon-btn:hover {
+  box-shadow: 0 0 24px #ff00ea, 0 0 12px #00fff7;
+  transform: translateY(-2px) scale(1.05);
+}
+
+/* Responsive for mobile */
+@media (max-width: 600px) {
+  .game-panel-modal {
+    padding: 14px 4px 22px 4px;
+    min-width: 0;
+  }
+  .games-section ul {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .game-list-btn.neon-btn {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 1rem;
+  }
 }
