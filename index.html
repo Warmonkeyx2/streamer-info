@@ -205,30 +205,41 @@
           <li>💡 App Slot 3 - Placeholder</li>
         </ul>
       </div>
+      <div id="gameControlPanel" class="admin-section" style="display: none;">
+        <h3>Slot Machine Game Control</h3>
+        <div class="admin-flex-row">
+          <div>
+            <label>Max Level:</label>
+            <input id="slotLevelMaxInput" type="number" min="1" max="100" value="10" style="width:60px;">
+          </div>
+          <div>
+            <label>XP Reset:</label>
+            <select id="xpResetType">
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="event">Custom Days</option>
+            </select>
+            <input id="xpCustomDays" type="number" style="width:60px;display:none;" min="1" max="365" placeholder="Days"/>
+          </div>
+        </div>
+        <div style="margin-top:18px;">
+          <label>Level Rewards:</label>
+          <table id="levelRewardTable" style="width:100%;">
+            <tr><th>Level</th><th>XP Needed</th><th>Reward</th></tr>
+          </table>
+        </div>
+        <div style="margin-top:25px;">
+          <h4>Leaderboard (Demo)</h4>
+          <table id="leaderboardTable" style="width:100%;">
+            <tr><th>Name</th><th>Spins</th><th>Wins</th><th>Bonus</th><th>XP Level</th></tr>
+            <tr><td>MonkeyKing</td><td>124</td><td>18</td><td>12</td><td>5</td></tr>
+            <tr><td>ChaosGamer</td><td>110</td><td>11</td><td>8</td><td>4</td></tr>
+            <tr><td>NeonQueen</td><td>98</td><td>9</td><td>7</td><td>3</td></tr>
+            <tr><td>FakeUser</td><td>80</td><td>7</td><td>5</td><td>2</td></tr>
+          </table>
+        </div>
+      </div>
     </div>
-    <div id="gameControlPanel" class="admin-section" style="display: none;">
-  <h3>Slot Machine Game Control</h3>
-  <div>
-    <label>Streak Level Rewards:</label>
-    <table id="streakLevelTable">
-      <tr>
-        <th>Level</th>
-        <th>Spins Needed</th>
-        <th>Reward (placeholder)</th>
-      </tr>
-      <!-- JS will fill this in -->
-    </table>
-  </div>
-  <div style="margin-top:20px;">
-    <label>Streak Reset Options:</label>
-    <select id="streakResetType">
-      <option value="daily">Daily</option>
-      <option value="weekly">Weekly</option>
-      <option value="event">Custom Days</option>
-    </select>
-    <input id="streakCustomDays" type="number" style="width:60px;display:none;" min="1" max="365" placeholder="Days"/>
-  </div>
-</div>
   </div>
 
   <!-- RESTORE BUTTON FOR SOLITAIRE -->
@@ -252,51 +263,51 @@
   </div>
 
   <!-- GAMING PANEL OVERLAY (POPUP) -->
- <!-- Neon Gaming Panel Overlay: Final Polished Version -->
-<div id="gamingPanelOverlay" class="overlay" style="display:none;">
-  <div class="game-panel-modal">
-    <button id="closeGamingPanel" class="close-btn">&times;</button>
-    <h2 class="gaming-panel-title"><span class="panel-icon">🎮</span> Select a Game</h2>
-    <div class="games-list">
-      <!-- Mini-Games -->
-      <div class="games-section">
-        <h3><span class="section-emoji">🕹️</span> <span class="section-title">Mini-Games</span></h3>
-        <div class="games-row">
-          <button class="game-list-btn neon-btn neon-pink" id="slotsBtn"><span class="btn-icon">🍒</span> Slots</button>
-          <button class="game-list-btn neon-btn neon-cyan" id="diceBtn"><span class="btn-icon">🎲</span> Dice Roll</button>
-          <button class="game-list-btn neon-btn neon-gradient" id="wheelBtn"><span class="btn-icon">❄️</span> Wheel Spin</button>
+  <div id="gamingPanelOverlay" class="overlay" style="display:none;">
+    <div class="game-panel-modal">
+      <button id="closeGamingPanel" class="close-btn">&times;</button>
+      <h2 class="gaming-panel-title"><span class="panel-icon">🎮</span> Select a Game</h2>
+      <div class="games-list">
+        <!-- Mini-Games -->
+        <div class="games-section">
+          <h3><span class="section-emoji">🕹️</span> <span class="section-title">Mini-Games</span></h3>
+          <div class="games-row">
+            <button class="game-list-btn neon-btn neon-pink" id="slotsBtn"><span class="btn-icon">🍒</span> Slots</button>
+            <button class="game-list-btn neon-btn neon-cyan" id="diceBtn"><span class="btn-icon">🎲</span> Dice Roll</button>
+            <button class="game-list-btn neon-btn neon-gradient" id="wheelBtn"><span class="btn-icon">❄️</span> Wheel Spin</button>
+          </div>
         </div>
-      </div>
-      <!-- Interactions -->
-      <div class="games-section">
-        <h3><span class="section-emoji">🎤</span> <span class="section-title">Interactions</span></h3>
-        <div class="games-row">
-          <button class="game-list-btn neon-btn neon-cyan" id="soundboardBtn"><span class="btn-icon">🎼</span> Soundboard</button>
-          <button class="game-list-btn neon-btn neon-gradient" id="screenAnimBtn"><span class="btn-icon">💥</span> Screen Animations</button>
-          <button class="game-list-btn neon-btn neon-pink" id="pollsBtn"><span class="btn-icon">🗳️</span> Polls</button>
+        <!-- Interactions -->
+        <div class="games-section">
+          <h3><span class="section-emoji">🎤</span> <span class="section-title">Interactions</span></h3>
+          <div class="games-row">
+            <button class="game-list-btn neon-btn neon-cyan" id="soundboardBtn"><span class="btn-icon">🎼</span> Soundboard</button>
+            <button class="game-list-btn neon-btn neon-gradient" id="screenAnimBtn"><span class="btn-icon">💥</span> Screen Animations</button>
+            <button class="game-list-btn neon-btn neon-pink" id="pollsBtn"><span class="btn-icon">🗳️</span> Polls</button>
+          </div>
         </div>
-      </div>
-      <!-- Battle/PvP -->
-      <div class="games-section">
-        <h3><span class="section-emoji">⚔️</span> <span class="section-title">Battle / PvP</span></h3>
-        <div class="games-row">
-          <button class="game-list-btn neon-btn neon-cyan" id="battleRoyaleBtn"><span class="btn-icon">🏆</span> Bits Battle Royale</button>
-          <button class="game-list-btn neon-btn neon-pink" id="bossFightBtn"><span class="btn-icon">👹</span> Boss Fight</button>
+        <!-- Battle/PvP -->
+        <div class="games-section">
+          <h3><span class="section-emoji">⚔️</span> <span class="section-title">Battle / PvP</span></h3>
+          <div class="games-row">
+            <button class="game-list-btn neon-btn neon-cyan" id="battleRoyaleBtn"><span class="btn-icon">🏆</span> Bits Battle Royale</button>
+            <button class="game-list-btn neon-btn neon-pink" id="bossFightBtn"><span class="btn-icon">👹</span> Boss Fight</button>
+          </div>
         </div>
-      </div>
-      <!-- Official Extensions -->
-      <div class="games-section">
-        <h3><span class="section-emoji">💎</span> <span class="section-title">Official Extensions</span></h3>
-        <div class="games-row">
-          <button class="game-list-btn neon-btn neon-cyan" id="crowdControlBtn"><span class="btn-icon">🪄</span> Crowd Control</button>
-          <button class="game-list-btn neon-btn neon-pink" id="soundAlertsBtn"><span class="btn-icon">🔔</span> Sound Alerts</button>
-          <button class="game-list-btn neon-btn neon-gradient" id="bitArcadeBtn"><span class="btn-icon">🕹️</span> Bit Arcade</button>
-          <button class="game-list-btn neon-btn neon-cyan" id="kappaCasinoBtn"><span class="btn-icon">🎰</span> Kappa Casino</button>
+        <!-- Official Extensions -->
+        <div class="games-section">
+          <h3><span class="section-emoji">💎</span> <span class="section-title">Official Extensions</span></h3>
+          <div class="games-row">
+            <button class="game-list-btn neon-btn neon-cyan" id="crowdControlBtn"><span class="btn-icon">🪄</span> Crowd Control</button>
+            <button class="game-list-btn neon-btn neon-pink" id="soundAlertsBtn"><span class="btn-icon">🔔</span> Sound Alerts</button>
+            <button class="game-list-btn neon-btn neon-gradient" id="bitArcadeBtn"><span class="btn-icon">🕹️</span> Bit Arcade</button>
+            <button class="game-list-btn neon-btn neon-cyan" id="kappaCasinoBtn"><span class="btn-icon">🎰</span> Kappa Casino</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+
   <!-- STATS APP WINDOW -->
   <div id="statsWindow" class="app-window" style="display: none; position: absolute; top: 200px; left: 300px;">
     <div class="app-window-header" onmousedown="startDrag(event)">
@@ -384,35 +395,39 @@
       <button class="close-btn" data-panel="slotTestPanel">✖</button>
     </div>
     <div class="panel-body slot-test-body">
+      <!-- New Slot Machine UI -->
       <div class="slot-top-bar">
-  <div class="slot-info-group">
-    <div class="slot-info-label">Bits</div>
-    <div id="slotBitsBalance" class="slot-info-value">1000</div>
-  </div>
-  <div class="slot-info-group">
-    <div class="slot-info-label">Win</div>
-    <div id="slotWinAmount" class="slot-info-value">0</div>
-  </div>
-</div>
-<div class="slot-streak-meter">
-  <span class="slot-label">Streak:</span>
-  <span id="slotStreakCount">0</span>
-  <div class="slot-streak-bar-bg">
-    <div id="slotStreakBar" class="slot-streak-bar"></div>
-  </div>
-</div>
+        <div class="slot-info-group">
+          <div class="slot-info-label">Bits</div>
+          <div id="slotBitsBalance" class="slot-info-value">1000</div>
+        </div>
+        <div class="slot-info-group">
+          <div class="slot-info-label">Win</div>
+          <div id="slotWinAmount" class="slot-info-value">0</div>
+        </div>
+        <div class="slot-level-group">
+          <div class="slot-info-label">Level</div>
+          <div id="slotLevelValue" class="slot-info-value">0</div>
+        </div>
+      </div>
+      <div class="slot-xp-meter">
+        <span class="slot-label">XP:</span>
+        <span id="slotXPCount">0/100</span>
+        <div class="slot-xp-bar-bg">
+          <div id="slotXPBar" class="slot-xp-bar"></div>
+        </div>
       </div>
       <div class="slot-machine-frame">
         <div class="slot-grid" id="slotGrid">
           <!-- 3x3 grid, filled by JS -->
         </div>
-        <div class="slot-buttons">
+        <div class="slot-buttons slot-buttons-layout">
           <button id="slotSpinBtn" class="slot-spin-btn">SPIN</button>
-          <button id="slotBonusBtn" class="slot-bonus-btn">BONUS</button>
           <div class="slot-turbo-toggle">
-  <input type="checkbox" id="slotTurboCheckbox"/>
-  <label for="slotTurboCheckbox" style="color:#0ff;">Turbo Spin</label>
-</div>
+            <input type="checkbox" id="slotTurboCheckbox"/>
+            <label for="slotTurboCheckbox" style="color:#0ff;">Turbo</label>
+          </div>
+          <button id="slotBonusBtn" class="slot-bonus-btn">BONUS</button>
         </div>
       </div>
       <div class="slot-help-link">
@@ -421,82 +436,5 @@
     </div>
   </div>
   <script src="script.js"></script>
-  <!-- --- INLINE SCRIPT SECTION: Streaming Button, Dock Toggle Controls, Gaming Panel Logic --- -->
-  <script>
-    // --- Toggle Apps Visibility Controls when Streaming button is clicked ---
-    function toggleAppsVisibilityControls() {
-      const controls = document.querySelector('.apps-visibility-controls');
-      if (controls) {
-        controls.style.display = (controls.style.display === 'none' || controls.style.display === '') ? 'block' : 'none';
-      }
-    }
-
-    // --- Viewer Dock Button Visibility Toggles ---
-    function loadDockVisibilityPrefs() {
-      const prefs = JSON.parse(localStorage.getItem("dockVisibilityPrefs") || "{}");
-      document.querySelectorAll('.dock-toggle').forEach(toggle => {
-        const dockId = toggle.getAttribute('data-dock');
-        toggle.checked = prefs[dockId] !== false;
-        updateDockButtonVisibility(dockId, toggle.checked);
-        toggle.addEventListener('change', function () {
-          updateDockButtonVisibility(dockId, toggle.checked);
-          saveDockVisibilityPrefs();
-        });
-      });
-    }
-
-    function updateDockButtonVisibility(dockId, show) {
-      const btn = dockId === "customizeToggle"
-        ? document.getElementById("customizeToggle")
-        : document.querySelector('.dock-btn[data-panel="'+dockId+'"]');
-      if (btn) btn.style.display = show ? "" : "none";
-    }
-
-    function saveDockVisibilityPrefs() {
-      const prefs = {};
-      document.querySelectorAll('.dock-toggle').forEach(toggle => {
-        const dockId = toggle.getAttribute('data-dock');
-        prefs[dockId] = toggle.checked;
-      });
-      localStorage.setItem("dockVisibilityPrefs", JSON.stringify(prefs));
-    }
-
-    // --- Initialize dock visibility toggles on page load ---
-    window.addEventListener("DOMContentLoaded", loadDockVisibilityPrefs);
-
-    // --- GAMING PANEL POPUP LOGIC ---
-    document.getElementById('gamingAppIcon').onclick = function() {
-      document.getElementById('gamingPanelOverlay').style.display = 'flex';
-    };
-    document.getElementById('closeGamingPanel').onclick = function() {
-      document.getElementById('gamingPanelOverlay').style.display = 'none';
-    };
-    document.getElementById('gamingPanelOverlay').onclick = function(e) {
-      if (e.target === document.getElementById('gamingPanelOverlay')) {
-        document.getElementById('gamingPanelOverlay').style.display = 'none';
-      }
-    };
-
-    // --- Example: Simple Slots Game Demo ---
-    const slotSymbols = ['🍒', '🍋', '🔔', '⭐', '💎'];
-    function getRandomSymbol() {
-      return slotSymbols[Math.floor(Math.random() * slotSymbols.length)];
-    }
-    function isWin(result) {
-      return result[0] === result[1] && result[1] === result[2];
-    }
-    document.getElementById('slotsBtn').onclick = function() {
-      const result = [getRandomSymbol(), getRandomSymbol(), getRandomSymbol()];
-      const win = isWin(result);
-      alert(
-        `Slots Result:\n${result.join(' | ')}\n\n${win ? "🎉 You win!" : "😢 Try again!"}`
-      );
-      // TODO: Replace alert with modal/panel, add Bits integration
-    };
-
-    // TODO: Add logic for Dice Roll, Wheel Spin, Soundboard, etc.
-  </script>
-  <!-- --- END INLINE SCRIPT SECTION --- -->
-
 </body>
 </html>
