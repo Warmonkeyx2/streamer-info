@@ -39,12 +39,22 @@ Code:
 ~~~
 Respond ONLY with the improved code.
 """
-    res = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[{"role": "user", "content": prompt}]
-    )
 
-    return res.choices[0].message.content.strip()
+    print(f"🚀 Sending request to GPT for: {filename}")
+
+    try:
+        res = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[{"role": "user", "content": prompt}],
+            timeout=30  # ✅ add this
+        )
+        print(f"✅ Response received for: {filename}")
+        return res.choices[0].message.content.strip()
+
+    except Exception as e:
+        print(f"❌ GPT Error for {filename}: {e}")
+        return content  # fallback to original to avoid breaking
+
 
 def process_files():
     for folder in WATCH_DIRS:
