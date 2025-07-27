@@ -1,141 +1,121 @@
-
-
-// solitaire.js
+```js
 function startSolitaireGame() {
   const suits = ['♠', '♥', '♣', '♦'];
   const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
   let deck = [];
 
-  function createDeck() {
-    deck = [];
+  const createDeck = () => {
     suits.forEach(suit => {
       values.forEach(value => {
-        deck.push({
-          suit,
-          value,
-          color: (suit === '♥' || suit === '♦') ? 'red' : 'black'
-        });
+        deck.push({ suit, value, color: (suit === '♥' || suit === '♦') ? 'red' : 'black' });
       });
     });
-  }
+  };
 
-  function shuffleDeck() {
-    for (let i = deck.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [deck[i], deck[j]] = [deck[j], deck[i]];
-    }
-  }
+  const shuffleDeck = () => {
+    deck.sort(() => Math.random() - 0.5);
+  };
 
-  function createCardElement(cardData, faceUp = false) {
+  const createCardElement = ({ suit, value, color }, faceUp = false) => {
     const card = document.createElement('div');
     card.className = 'card';
-    card.innerText = faceUp ? `${cardData.value}${cardData.suit}` : '';
-    card.style.backgroundColor = faceUp ? (cardData.color === 'red' ? '#922' : '#222') : '#000';
-    card.dataset.value = cardData.value;
-    card.dataset.suit = cardData.suit;
+    card.textContent = faceUp ? `${value}${suit}` : '';
+    card.style.backgroundColor = faceUp ? (color === 'red' ? '#922' : '#222') : '#000';
+    card.dataset.value = value;
+    card.dataset.suit = suit;
     card.dataset.faceUp = faceUp;
-
     card.draggable = true;
-    card.addEventListener('dragstart', (e) => {
-      e.dataTransfer.setData('text/plain', JSON.stringify(cardData));
+
+    card.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('text/plain', JSON.stringify({ suit, value, color }));
       card.classList.add('dragging');
     });
+
     card.addEventListener('dragend', () => {
       card.classList.remove('dragging');
     });
 
     return card;
-  }
+  };
 
-  function renderInitialLayout() {
+  const renderInitialLayout = () => {
+    const createSlot = id => {
+      const slot = document.createElement('div');
+      slot.className = 'card-slot';
+      if (id) slot.id = id;
+      return slot;
+    };
+
+    const root = document.getElementById('solitaire-root');
+    root.innerHTML = ''; // Clear previous contents
+
     const board = document.createElement('div');
     board.className = 'solitaire-board';
 
-    const bg = document.createElement('div');
-    bg.className = 'solitaire-background';
-    document.getElementById('solitaire-root').appendChild(bg);
-
     const header = document.createElement('div');
     header.className = 'solitaire-header';
-    header.innerHTML = `<h2>Solitaire</h2> <button onclick="restartSolitaire()">Restart</button>`;
+    header.innerHTML = '<h2>Solitaire</h2> <button id="restart-button">Restart</button>';
 
-    const topRow = document.createElement('div');
-    topRow.className = 'top-row';
-
-    const stock = document.createElement('div');
-    stock.className = 'card-slot';
-    stock.id = 'stock';
-    stock.innerText = '🂠';
+    const stock = createSlot('stock');
+    stock.textContent = '🂠';
     stock.addEventListener('click', drawFromStock);
 
     const foundationGroup = document.createElement('div');
     foundationGroup.className = 'foundation-group';
-    for (let i = 0; i < 4; i++) {
-      const pile = document.createElement('div');
-      pile.className = 'pile';
-      foundationGroup.appendChild(pile);
-    }
+    Array.from({ length: 4 }).forEach(() => foundationGroup.appendChild(createSlot()));
 
-    topRow.appendChild(stock);
-    topRow.appendChild(foundationGroup);
+    const topRow = document.createElement('div');
+    topRow.className = 'top-row';
+    topRow.append(stock, foundationGroup);
 
     const tableau = document.createElement('div');
     tableau.className = 'tableau';
-    for (let i = 0; i < 7; i++) {
-      const column = document.createElement('div');
-      column.className = 'card-slot';
-      column.id = `tableau-${i}`;
-      tableau.appendChild(column);
-    }
+    Array.from({ length: 7 }).forEach((_, i) => tableau.appendChild(createSlot(`tableau-${i}`)));
 
-    board.appendChild(header);
-    board.appendChild(topRow);
-    board.appendChild(tableau);
-
-    const root = document.getElementById('solitaire-root');
-    root.innerHTML = '';
-    root.appendChild(board);
+    board.append(header, topRow, tableau);
+    root.append(board);
 
     dealCards();
 
-    // Rebind drop zones AFTER cards exist
     document.querySelectorAll('.card-slot, .pile').forEach(slot => {
       slot.addEventListener('dragover', e => e.preventDefault());
-      slot.addEventListener('drop', e => {
-        e.preventDefault();
-        const cardData = JSON.parse(e.dataTransfer.getData('text/plain'));
-        const card = createCardElement(cardData, true);
-        slot.appendChild(card);
-      });
+      slot.addEventListener('drop', handleDrop);
     });
-  }
 
-  function dealCards() {
+    document.getElementById('restart-button').onclick = restartSolitaire;
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const cardData = JSON.parse(e.dataTransfer.getData('text/plain'));
+    const card = createCardElement(cardData, true);
+    e.currentTarget.appendChild(card);
+  };
+
+  const dealCards = () => {
     let cardIndex = 0;
     for (let i = 0; i < 7; i++) {
       const column = document.getElementById(`tableau-${i}`);
       for (let j = 0; j <= i; j++) {
-        const card = createCardElement(deck[cardIndex++], j === i);
-        column.appendChild(card);
+        column.appendChild(createCardElement(deck[cardIndex++], j === i));
       }
     }
-  }
+  };
 
-  function drawFromStock() {
+  const drawFromStock = () => {
     if (!deck.length) return;
     const cardData = deck.pop();
     const card = createCardElement(cardData, true);
-    const foundationGroup = document.querySelector('.foundation-group');
-    const lastPile = foundationGroup.lastElementChild;
-    lastPile.appendChild(card);
-  }
+    document.querySelector('.foundation-group').lastElementChild.appendChild(card);
+  };
 
-  window.restartSolitaire = () => {
+  const restartSolitaire = () => {
+    deck = [];
     createDeck();
     shuffleDeck();
     renderInitialLayout();
   };
 
-  // Call only once loaded by wrapper
   restartSolitaire();
 }
+```

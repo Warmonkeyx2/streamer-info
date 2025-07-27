@@ -1,18 +1,28 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Servers</title>
   <link rel="stylesheet" href="style.css" />
   <style>
+    body {
+      background-color: #121212;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
     .internal-nav {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
       margin-top: 12px;
     }
+
     .internal-nav button {
-      background-image: linear-gradient(#121212, #121212), linear-gradient(to right, var(--accent-color), var(--accent-color));
+      background-image: linear-gradient(#121212, #121212),
+        linear-gradient(to right, var(--accent-color), var(--accent-color));
       color: white;
       border: 2px solid transparent;
       border-radius: 8px;
@@ -20,18 +30,22 @@
       font-weight: bold;
       cursor: pointer;
     }
+
     .server-page {
       display: none;
     }
+
     .server-entry {
       margin-top: 10px;
       display: flex;
       align-items: center;
       gap: 10px;
     }
+
     .server-entry img {
       height: 40px;
     }
+
     #serverSettingsPanel {
       margin-top: 20px;
       background-color: #1b1b1b;
@@ -39,12 +53,14 @@
       border-radius: 8px;
       display: none;
     }
+
     .server-config {
       display: flex;
       flex-direction: column;
       gap: 6px;
       margin-bottom: 10px;
     }
+
     .server-config input {
       padding: 6px;
       border-radius: 4px;
@@ -52,82 +68,77 @@
       background-color: #0f0f0f;
       color: white;
     }
+
     .server-config button {
       align-self: flex-start;
       margin-top: 4px;
     }
   </style>
   <script>
-    let customServers = [];
+    document.addEventListener('DOMContentLoaded', () => {
+      const customServers = [];
+      const internalNav = document.querySelector('.internal-nav');
+      const serverSettingsPanel = document.getElementById('serverSettingsPanel');
+      const addServerButton = document.querySelector('.color-button');
+      const customServerList = document.getElementById('customServerList');
+      const newServerNameInput = document.getElementById('newServerName');
+      const newServerURLInput = document.getElementById('newServerURL');
 
-    function showServerPage(id) {
-      document.querySelectorAll('.server-page').forEach(div => div.style.display = 'none');
-      const section = document.getElementById(id);
-      if (section) section.style.display = 'block';
-    }
+      const showServerPage = (id) => {
+        document.querySelectorAll('.server-page').forEach(div => div.style.display = 'none');
+        const section = document.getElementById(id);
+        if (section) section.style.display = 'block';
+      };
 
-    function toggleSettings() {
-      const panel = document.getElementById("serverSettingsPanel");
-      panel.style.display = panel.style.display === "none" ? "block" : "none";
-    }
+      const toggleSettings = () => {
+        serverSettingsPanel.style.display = serverSettingsPanel.style.display === 'none' ? 'block' : 'none';
+      };
 
-    function addServerButton() {
-      const name = document.getElementById("newServerName").value.trim();
-      const url = document.getElementById("newServerURL").value.trim();
-      const pageId = name.toLowerCase().replace(/\s+/g, '') + "Tab";
+      const removeServer = (pageId, btn) => {
+        document.getElementById(pageId)?.remove();
+        Array.from(internalNav.querySelectorAll('button')).forEach(b => {
+          if (b.onclick.toString().includes(pageId)) b.remove();
+        });
+        btn.parentElement?.remove();
+      }
 
-      if (!name || !url) return;
+      const addServer = () => {
+        const name = newServerNameInput.value.trim();
+        const url = newServerURLInput.value.trim();
+        const pageId = name.toLowerCase().replace(/\s+/g, '') + 'Tab';
 
-      const nav = document.querySelector(".internal-nav");
-      const btn = document.createElement("button");
-      btn.textContent = name;
-      btn.onclick = () => showServerPage(pageId);
-      nav.appendChild(btn);
+        if (!name || !url) return;
 
-      const section = document.createElement("div");
-      section.className = "server-page";
-      section.id = pageId;
-      section.innerHTML = `
-        <h3>${name}</h3>
-        <div class="server-entry">
-          <img src="assets/server1-logo.png" alt="${name} Logo" />
-          <a href="${url}" target="_blank">${name}</a>
-        </div>`;
-      document.body.appendChild(section);
+        const btn = document.createElement('button');
+        btn.textContent = name;
+        btn.onclick = () => showServerPage(pageId);
+        internalNav.appendChild(btn);
 
-      const list = document.getElementById("customServerList");
-      const config = document.createElement("div");
-      config.className = "server-config";
-      config.innerHTML = `
-        <input type="text" value="${name}" readonly />
-        <input type="text" value="${url}" readonly />
-        <button onclick="removeServer('${pageId}', this)">Remove</button>`;
-      list.appendChild(config);
+        const section = document.createElement('div');
+        section.className = 'server-page';
+        section.id = pageId;
+        section.innerHTML = `<h3>${name}</h3><div class="server-entry"><img src="assets/server1-logo.png" alt="${name} Logo" /><a href="${url}" target="_blank">${name}</a></div>`;
+        document.body.appendChild(section);
 
-      customServers.push({ name, url, pageId });
-      document.getElementById("newServerName").value = "";
-      document.getElementById("newServerURL").value = "";
-    }
+        const config = document.createElement('div');
+        config.className = 'server-config';
+        config.innerHTML = `<input type="text" value="${name}" readonly /><input type="text" value="${url}" readonly /><button onclick="removeServer('${pageId}', this)">Remove</button>`;
+        customServerList.appendChild(config);
 
-    function removeServer(pageId, btn) {
-      const section = document.getElementById(pageId);
-      if (section) section.remove();
+        customServers.push({ name, url, pageId });
+        newServerNameInput.value = '';
+        newServerURLInput.value = '';
+      }
 
-      const nav = document.querySelector(".internal-nav");
-      const buttons = Array.from(nav.querySelectorAll("button"));
-      buttons.forEach(b => {
-        if (b.onclick.toString().includes(pageId)) b.remove();
-      });
-
-      const row = btn.parentElement;
-      if (row) row.remove();
-    }
-
-    window.onload = () => showServerPage('gtaTab');
+      window.onload = () => showServerPage('gtaTab');
+      addServerButton.onclick = toggleSettings;
+      document.querySelectorAll('#serverSettingsPanel > button')[0].onclick = addServer;
+    });
   </script>
 </head>
+
 <body>
-  <h3 style="color:white;">Select a Server</h3>
+  <h3>Select a Server</h3>
   <div class="internal-nav">
     <button onclick="showServerPage('gtaTab')">GTA RP</button>
     <button onclick="showServerPage('redmTab')">RedM RP</button>
@@ -156,15 +167,16 @@
 
   <!-- Add Custom Server Buttons -->
   <div style="margin-top: 20px;">
-    <button class="color-button" onclick="toggleSettings()">⚙️ Server Button Settings</button>
+    <button class="color-button">⚙️ Server Button Settings</button>
     <div id="serverSettingsPanel">
-      <h4 style="color:white;">Add New Server Button</h4>
+      <h4>Add New Server Button</h4>
       <input type="text" id="newServerName" placeholder="Button Name (e.g. DayZ RP)" />
       <input type="text" id="newServerURL" placeholder="https://yourserver.com" />
-      <button onclick="addServerButton()">+ Add Server</button>
-
+      <button>+ Add Server</button>
       <div id="customServerList" style="margin-top: 20px;"></div>
     </div>
   </div>
 </body>
+
 </html>
+```

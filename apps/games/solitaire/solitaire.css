@@ -1,3 +1,4 @@
+```css
 /* Core Layout */
 #solitaire-root {
   position: relative;
@@ -5,7 +6,7 @@
   height: 100%;
   padding: 16px;
   box-sizing: border-box;
-  color: #ffffff;
+  color: #fff;
   font-family: 'Segoe UI', sans-serif;
   z-index: 10;
 }
@@ -28,14 +29,15 @@
 }
 
 .solitaire-header button {
-  background-color: transparent;
+  background: none;
   color: #0ff;
   border: 1px solid #0ff;
   padding: 5px 12px;
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
+
 .solitaire-header button:hover {
   background-color: #0ff;
   color: #000;
@@ -52,6 +54,7 @@
   z-index: -1;
   animation: pulseBackground 10s infinite alternate;
 }
+
 @keyframes pulseBackground {
   from {
     filter: brightness(1);
@@ -69,10 +72,12 @@
 }
 
 /* Top Row */
-.top-row {
+.top-row,
+.foundation-group,
+.tableau {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  gap: 10px;
 }
 
 .card-slot,
@@ -86,21 +91,11 @@
   margin: 0 6px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
+
 .card-slot:hover,
 .pile:hover {
   border-color: #0ff;
   box-shadow: 0 0 12px #0ff8;
-}
-
-.foundation-group {
-  display: flex;
-  gap: 10px;
-}
-
-.tableau {
-  display: flex;
-  justify-content: space-between;
-  gap: 6px;
 }
 
 /* Cards */
@@ -119,15 +114,16 @@
   user-select: none;
   box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
   z-index: 1;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.2s ease;
 }
+
 .card:hover {
   animation: glitch 0.3s linear 1;
   box-shadow: 0 0 14px #0ff;
 }
 
 @keyframes glitch {
-  0% {
+  0%, 100% {
     transform: translate(0);
   }
   20% {
@@ -141,9 +137,6 @@
   }
   80% {
     transform: translate(1px, -1px);
-  }
-  100% {
-    transform: translate(0);
   }
 }
 
@@ -164,7 +157,7 @@
   margin: 8px;
   opacity: 0;
   transform: translateY(30px);
-  transition: all 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .solitaire-card.animated-in {
@@ -180,16 +173,12 @@
   padding: 20px;
   gap: 10px;
 }
+
 .card-back {
   background: linear-gradient(45deg, #222, #444);
   color: transparent;
   border-style: dashed;
   pointer-events: none;
-}
-.card {
-  transition: transform 0.3s ease, box-shadow 0.2s ease;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
 }
 
 .card.flip {
@@ -204,3 +193,4 @@
     transform: rotateY(0deg);
   }
 }
+```
