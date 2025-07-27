@@ -1,5 +1,8 @@
 name: GPT Frontend Optimizer
 
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:       # allows manual runs
   push:                    # runs on every push to main
