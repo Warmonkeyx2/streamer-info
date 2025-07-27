@@ -74,77 +74,15 @@
       margin-top: 4px;
     }
   </style>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const customServers = [];
-      const internalNav = document.querySelector('.internal-nav');
-      const serverSettingsPanel = document.getElementById('serverSettingsPanel');
-      const addServerButton = document.querySelector('.color-button');
-      const customServerList = document.getElementById('customServerList');
-      const newServerNameInput = document.getElementById('newServerName');
-      const newServerURLInput = document.getElementById('newServerURL');
-
-      const showServerPage = (id) => {
-        document.querySelectorAll('.server-page').forEach(div => div.style.display = 'none');
-        const section = document.getElementById(id);
-        if (section) section.style.display = 'block';
-      };
-
-      const toggleSettings = () => {
-        serverSettingsPanel.style.display = serverSettingsPanel.style.display === 'none' ? 'block' : 'none';
-      };
-
-      const removeServer = (pageId, btn) => {
-        document.getElementById(pageId)?.remove();
-        Array.from(internalNav.querySelectorAll('button')).forEach(b => {
-          if (b.onclick.toString().includes(pageId)) b.remove();
-        });
-        btn.parentElement?.remove();
-      }
-
-      const addServer = () => {
-        const name = newServerNameInput.value.trim();
-        const url = newServerURLInput.value.trim();
-        const pageId = name.toLowerCase().replace(/\s+/g, '') + 'Tab';
-
-        if (!name || !url) return;
-
-        const btn = document.createElement('button');
-        btn.textContent = name;
-        btn.onclick = () => showServerPage(pageId);
-        internalNav.appendChild(btn);
-
-        const section = document.createElement('div');
-        section.className = 'server-page';
-        section.id = pageId;
-        section.innerHTML = `<h3>${name}</h3><div class="server-entry"><img src="assets/server1-logo.png" alt="${name} Logo" /><a href="${url}" target="_blank">${name}</a></div>`;
-        document.body.appendChild(section);
-
-        const config = document.createElement('div');
-        config.className = 'server-config';
-        config.innerHTML = `<input type="text" value="${name}" readonly /><input type="text" value="${url}" readonly /><button onclick="removeServer('${pageId}', this)">Remove</button>`;
-        customServerList.appendChild(config);
-
-        customServers.push({ name, url, pageId });
-        newServerNameInput.value = '';
-        newServerURLInput.value = '';
-      }
-
-      window.onload = () => showServerPage('gtaTab');
-      addServerButton.onclick = toggleSettings;
-      document.querySelectorAll('#serverSettingsPanel > button')[0].onclick = addServer;
-    });
-  </script>
 </head>
 
 <body>
   <h3>Select a Server</h3>
   <div class="internal-nav">
-    <button onclick="showServerPage('gtaTab')">GTA RP</button>
-    <button onclick="showServerPage('redmTab')">RedM RP</button>
+    <button data-page="gtaTab">GTA RP</button>
+    <button data-page="redmTab">RedM RP</button>
   </div>
 
-  <!-- Server Content Tabs -->
   <div class="server-page" id="gtaTab">
     <h3>GTA RP Servers</h3>
     <div class="server-entry">
@@ -157,7 +95,7 @@
     </div>
   </div>
 
-  <div class="server-page" id="redmTab" style="display: none;">
+  <div class="server-page" id="redmTab">
     <h3>RedM RP Servers</h3>
     <div class="server-entry">
       <img src="assets/rserver1-logo.png" alt="Redemption RP Logo" />
@@ -165,17 +103,99 @@
     </div>
   </div>
 
-  <!-- Add Custom Server Buttons -->
   <div style="margin-top: 20px;">
     <button class="color-button">⚙️ Server Button Settings</button>
     <div id="serverSettingsPanel">
       <h4>Add New Server Button</h4>
       <input type="text" id="newServerName" placeholder="Button Name (e.g. DayZ RP)" />
       <input type="text" id="newServerURL" placeholder="https://yourserver.com" />
-      <button>+ Add Server</button>
+      <button id="addServer">+ Add Server</button>
       <div id="customServerList" style="margin-top: 20px;"></div>
     </div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const customServers = [];
+      const internalNav = document.querySelector('.internal-nav');
+      const serverSettingsPanel = document.getElementById('serverSettingsPanel');
+      const addServerButton = document.querySelector('.color-button');
+      const customServerList = document.getElementById('customServerList');
+      const newServerNameInput = document.getElementById('newServerName');
+      const newServerURLInput = document.getElementById('newServerURL');
+      const addServer = document.getElementById('addServer');
+
+      const displayServerPage = pageId => {
+        document.querySelectorAll('.server-page').forEach(page => page.style.display = 'none');
+        const targetPage = document.getElementById(pageId);
+        if (targetPage) targetPage.style.display = 'block';
+      };
+
+      const toggleSettingsDisplay = () => {
+        serverSettingsPanel.style.display = serverSettingsPanel.style.display === 'none' ? 'block' : 'none';
+      };
+
+      const removeServer = (pageId, button) => {
+        const page = document.getElementById(pageId);
+        if (page) {
+          page.remove();
+        }
+        button.parentElement.remove();
+        const navButton = [...internalNav.querySelectorAll('button')].find(btn => btn.getAttribute('data-page') === pageId);
+        if (navButton) {
+          navButton.remove();
+        }
+      };
+
+      const addServerFunction = () => {
+        const name = newServerNameInput.value.trim();
+        const url = newServerURLInput.value.trim();
+        if (!name || !url) return;
+        const pageId = name.toLowerCase().replace(/\s+/g, '') + 'Tab';
+
+        const navButton = document.createElement('button');
+        navButton.textContent = name;
+        navButton.dataset.page = pageId;
+        navButton.addEventListener('click', () => displayServerPage(pageId));
+
+        const serverSection = document.createElement('div');
+        serverSection.className = 'server-page';
+        serverSection.id = pageId;
+        serverSection.innerHTML = `
+          <h3>${name}</h3>
+          <div class="server-entry">
+            <img src="assets/server1-logo.png" alt="${name} Logo" />
+            <a href="${url}" target="_blank">${name}</a>
+          </div>`;
+
+        const serverConfig = document.createElement('div');
+        serverConfig.className = 'server-config';
+        serverConfig.innerHTML = `
+          <input type="text" value="${name}" readonly />
+          <input type="text" value="${url}" readonly />
+          <button>Remove</button>`;
+        serverConfig.querySelector('button').addEventListener('click', event => {
+          removeServer(pageId, event.currentTarget);
+        });
+
+        internalNav.appendChild(navButton);
+        document.body.appendChild(serverSection);
+        customServerList.appendChild(serverConfig);
+        customServers.push({ name, url, pageId });
+        newServerNameInput.value = '';
+        newServerURLInput.value = '';
+      };
+
+      internalNav.querySelectorAll('button').forEach(button =>
+        button.addEventListener('click', () => displayServerPage(button.dataset.page))
+      );
+
+      addServerButton.addEventListener('click', toggleSettingsDisplay);
+      addServer.addEventListener('click', addServerFunction);
+
+      window.onload = () => displayServerPage('gtaTab');
+    });
+  </script>
 </body>
 
 </html>

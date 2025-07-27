@@ -35,7 +35,7 @@
   padding: 5px 12px;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .solitaire-header button:hover {
@@ -89,7 +89,7 @@
   background-color: rgba(255, 255, 255, 0.05);
   position: relative;
   margin: 0 6px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .card-slot:hover,
@@ -114,30 +114,20 @@
   user-select: none;
   box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
   z-index: 1;
-  transition: transform 0.3s ease, box-shadow 0.2s ease;
+  transition: transform 0.3s, box-shadow 0.2s;
 }
 
 .card:hover {
-  animation: glitch 0.3s linear 1;
+  animation: glitch 0.3s linear;
   box-shadow: 0 0 14px #0ff;
 }
 
 @keyframes glitch {
-  0%, 100% {
-    transform: translate(0);
-  }
-  20% {
-    transform: translate(-2px, 2px);
-  }
-  40% {
-    transform: translate(2px, -2px);
-  }
-  60% {
-    transform: translate(-1px, 1px);
-  }
-  80% {
-    transform: translate(1px, -1px);
-  }
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(2px, -2px); }
+  60% { transform: translate(-1px, 1px); }
+  80% { transform: translate(1px, -1px); }
 }
 
 /* Placeholder Card Styling for Animation Demo */
@@ -157,7 +147,7 @@
   margin: 8px;
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
 .solitaire-card.animated-in {
@@ -182,15 +172,11 @@
 }
 
 .card.flip {
-  animation: flipCard 0.3s ease forwards;
+  animation: flipCard 0.3s forwards;
 }
 
 @keyframes flipCard {
-  from {
-    transform: rotateY(180deg);
-  }
-  to {
-    transform: rotateY(0deg);
-  }
+  from { transform: rotateY(180deg); }
+  to { transform: rotateY(0deg); }
 }
 ```

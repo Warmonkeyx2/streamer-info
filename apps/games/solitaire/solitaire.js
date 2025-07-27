@@ -5,15 +5,17 @@ function startSolitaireGame() {
   let deck = [];
 
   const createDeck = () => {
-    suits.forEach(suit => {
-      values.forEach(value => {
-        deck.push({ suit, value, color: (suit === '♥' || suit === '♦') ? 'red' : 'black' });
-      });
-    });
+    deck = suits.flatMap(suit => 
+      values.map(value => ({
+        suit,
+        value,
+        color: (suit === '♥' || suit === '♦') ? 'red' : 'black'
+      }))
+    );
   };
 
   const shuffleDeck = () => {
-    deck.sort(() => Math.random() - 0.5);
+    deck = deck.sort(() => Math.random() - 0.5);
   };
 
   const createCardElement = ({ suit, value, color }, faceUp = false) => {
@@ -26,8 +28,8 @@ function startSolitaireGame() {
     card.dataset.faceUp = faceUp;
     card.draggable = true;
 
-    card.addEventListener('dragstart', e => {
-      e.dataTransfer.setData('text/plain', JSON.stringify({ suit, value, color }));
+    card.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('application/json', JSON.stringify({ suit, value, color }));
       card.classList.add('dragging');
     });
 
@@ -39,13 +41,6 @@ function startSolitaireGame() {
   };
 
   const renderInitialLayout = () => {
-    const createSlot = id => {
-      const slot = document.createElement('div');
-      slot.className = 'card-slot';
-      if (id) slot.id = id;
-      return slot;
-    };
-
     const root = document.getElementById('solitaire-root');
     root.innerHTML = ''; // Clear previous contents
 
@@ -54,7 +49,14 @@ function startSolitaireGame() {
 
     const header = document.createElement('div');
     header.className = 'solitaire-header';
-    header.innerHTML = '<h2>Solitaire</h2> <button id="restart-button">Restart</button>';
+    header.innerHTML = '<h2>Solitaire</h2><button id="restart-button">Restart</button>';
+
+    const createSlot = (id = '') => {
+      const slot = document.createElement('div');
+      slot.className = 'card-slot';
+      if (id) slot.id = id;
+      return slot;
+    };
 
     const stock = createSlot('stock');
     stock.textContent = '🂠';
@@ -78,7 +80,7 @@ function startSolitaireGame() {
     dealCards();
 
     document.querySelectorAll('.card-slot, .pile').forEach(slot => {
-      slot.addEventListener('dragover', e => e.preventDefault());
+      slot.addEventListener('dragover', (e) => e.preventDefault());
       slot.addEventListener('drop', handleDrop);
     });
 
@@ -87,7 +89,7 @@ function startSolitaireGame() {
 
   const handleDrop = (e) => {
     e.preventDefault();
-    const cardData = JSON.parse(e.dataTransfer.getData('text/plain'));
+    const cardData = JSON.parse(e.dataTransfer.getData('application/json'));
     const card = createCardElement(cardData, true);
     e.currentTarget.appendChild(card);
   };
@@ -97,20 +99,20 @@ function startSolitaireGame() {
     for (let i = 0; i < 7; i++) {
       const column = document.getElementById(`tableau-${i}`);
       for (let j = 0; j <= i; j++) {
-        column.appendChild(createCardElement(deck[cardIndex++], j === i));
+        const faceUp = j === i;
+        column.appendChild(createCardElement(deck[cardIndex++], faceUp));
       }
     }
   };
 
   const drawFromStock = () => {
-    if (!deck.length) return;
+    if (deck.length === 0) return;
     const cardData = deck.pop();
     const card = createCardElement(cardData, true);
     document.querySelector('.foundation-group').lastElementChild.appendChild(card);
   };
 
   const restartSolitaire = () => {
-    deck = [];
     createDeck();
     shuffleDeck();
     renderInitialLayout();
