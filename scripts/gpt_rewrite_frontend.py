@@ -1,5 +1,5 @@
 import os
-import openai
+from openai import OpenAI
 from dotenv import load_dotenv
 from datetime import datetime
 
@@ -8,7 +8,8 @@ VALID_EXTS = ['.html', '.css', '.js']
 CHANGE_LOG = []
 
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def should_process(path):
     return any(path.endswith(ext) for ext in VALID_EXTS)
@@ -38,11 +39,11 @@ Code:
 ~~~
 Respond ONLY with the improved code.
 """
-    res = openai.ChatCompletion.create(
-        model="gpt-4o",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.2
+    res = client.chat.completions.create(
+        model="gpt-4",
+        messages=[{"role": "user", "content": prompt}]
     )
+
     return res.choices[0].message.content.strip()
 
 def process_files():
