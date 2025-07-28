@@ -134,13 +134,21 @@ function viewerCustomizationAllowed() {
   return toggle ? toggle.checked : true;
 }
 
-// Load the theme and editor if allowed
+// Load and apply theme based on current mode
 window.addEventListener('DOMContentLoaded', () => {
-  if (viewerCustomizationAllowed()) {
+  const modeSelect = document.getElementById('userMode');
+  const currentMode = modeSelect ? modeSelect.value : 'streamer';
+
+  const isStreamerMode = currentMode === 'streamer';
+
+  if (isStreamerMode) {
     createThemeEditor('homeSettings');
     loadSavedTheme();
   } else {
-    loadSavedTheme(); // Load theme without showing controls
+    if (viewerCustomizationAllowed()) {
+      createThemeEditor('homeSettings');
+    }
+    loadSavedTheme();
   }
 });
 
