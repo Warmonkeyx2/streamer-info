@@ -22,9 +22,11 @@ GOALS = [
     "Streamer-only Admin Portal using Twitch auth"
 ]
 
+# 🔐 Load environment secrets
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+# 📂 Load existing codebase snapshot
 def get_existing_code():
     codebase = {}
     for folder in WATCH_DIRS:
@@ -37,8 +39,9 @@ def get_existing_code():
                         codebase[rel_path] = f.read()
     return codebase
 
+# 🤖 Ask GPT to generate ideas
 def ask_gpt_for_ideas(codebase):
-    files = list(codebase.keys())[:3]  # ⛏ Limit for token size
+    files = list(codebase.keys())[:3]  # ⛏ Limit input size for GPT
     joined_code = "\n\n".join(f"# {f}\n{codebase[f]}" for f in files)
     goal_str = "\n- ".join(GOALS)
 
@@ -53,15 +56,21 @@ Here is a snapshot of the codebase:
 
 Think of 3 useful, unique, Twitch-safe improvements or features that align with the vision.
 Respond only with JSON like:
+
 [
-  {"title": "Idea Title", "description": "What it is", "actionable_code": "Starter logic (HTML/CSS/JS) or file path suggestions"},
-  ...
+  {{
+    "title": "Idea Title",
+    "description": "What it is",
+    "actionable_code": "Starter logic (HTML/CSS/JS) or file path suggestions"
+  }}
 ]
 """
+
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[{"role": "user", "content": prompt}]
     )
+
     try:
         ideas = json.loads(response.choices[0].message.content)
         return ideas
@@ -69,6 +78,7 @@ Respond only with JSON like:
         print("❌ Failed to parse GPT response:", e)
         return []
 
+# 📝 Save the output to log file
 def save_ideas(ideas):
     date = datetime.utcnow().strftime('%Y-%m-%d')
     with open("gpt_think_log.json", 'a', encoding='utf-8') as log:
@@ -77,6 +87,7 @@ def save_ideas(ideas):
     for idea in ideas:
         IDEA_LOG.append(f"💡 {idea['title']} → {idea['description']}")
 
+# 🚀 Main trigger
 def main():
     codebase = get_existing_code()
     ideas = ask_gpt_for_ideas(codebase)
@@ -88,5 +99,6 @@ def main():
     else:
         print("⚠️ No new ideas generated.")
 
+# 🧩 Entry point
 if __name__ == "__main__":
     main()
