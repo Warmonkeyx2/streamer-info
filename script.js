@@ -5,26 +5,26 @@ document.addEventListener('DOMContentLoaded', () => {
     updateServerButtons();
     updateStreamerLinks();
     updateMainStreamerLinks();
-
     if (window.mockTwitch) renderStreamInfo();
     loadDockVisibilityPrefs();
   };
 
-  const toggleVisibility = elementId => {
+  const toggleVisibility = (elementId) => {
     const element = document.getElementById(elementId);
     if (element) element.style.display = element.style.display === 'block' ? 'none' : 'block';
   };
 
-  const showTab = tabId => {
+  const showTab = (tabId) => {
     document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
     document.getElementById(tabId)?.style.display = 'block';
   };
 
-  const showAdminSection = sectionId => {
+  const showAdminSection = (sectionId) => {
     document.querySelectorAll('.admin-section').forEach(sec => sec.style.display = 'none');
     document.getElementById(sectionId)?.style.display = 'block';
-
-    document.querySelectorAll('.admin-tab').forEach(tab => tab.classList.toggle('active', tab.dataset.section === sectionId));
+    document.querySelectorAll('.admin-tab').forEach(tab => {
+      tab.classList.toggle('active', tab.dataset.section === sectionId);
+    });
   };
 
   const updateStreamerInfo = () => {
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (bio) document.querySelector('#homeTab p').textContent = bio;
   };
 
-  const updateProfileImage = event => {
+  const updateProfileImage = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  const updateThemeColor = hexColor => {
+  const updateThemeColor = (hexColor) => {
     const root = document.documentElement;
     root.style.setProperty('--accent-color', hexColor);
     document.querySelectorAll('.streamer-links a, .internal-nav a, .internal-nav button, .server-entry a, .color-button').forEach(btn => {
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  const handleStatsFormSubmit = e => {
+  const handleStatsFormSubmit = (e) => {
     e.preventDefault();
     saveStatsPreferences();
     closeCustomStats();
@@ -93,19 +93,19 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.panel').forEach(panel => {
       const pos = localStorage.getItem(`panel_${panel.id}`);
       if (pos) {
-        Object.entries(JSON.parse(pos)).forEach(([prop, value]) => panel.style[prop] = value);
+        Object.entries(JSON.parse(pos)).forEach(([prop, value]) => {
+          panel.style[prop] = value;
+        });
       }
     });
   };
 
   const loadDockVisibilityPrefs = () => {
-    const prefs = JSON.parse(localStorage.getItem("dockVisibilityPrefs") || "{}");
+    const prefs = JSON.parse(localStorage.getItem('dockVisibilityPrefs') || '{}');
     document.querySelectorAll('.dock-toggle').forEach(toggle => {
       toggle.checked = prefs[toggle.dataset.dock] || false;
     });
   };
-
-  const toggleAppsVisibilityControls = () => toggleVisibility('appsVisibilityControls');
 
   const setDisplayById = (id, display) => {
     const el = document.getElementById(id);
@@ -118,11 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.addEventListener('click', () => showTab(btn.dataset.tab));
     });
     document.getElementById('adminToggle')?.addEventListener('click', () => toggleVisibility('adminPanel'));
-
     document.querySelectorAll('.admin-tab').forEach(tab => {
       tab.addEventListener('click', () => showAdminSection(tab.dataset.section));
     });
-
     document.getElementById('updateStreamerBtn')?.addEventListener('click', updateStreamerInfo);
     document.getElementById('profileImageInput')?.addEventListener('change', updateProfileImage);
     document.getElementById('colorPicker')?.addEventListener('input', e => updateThemeColor(e.target.value));
@@ -140,21 +138,26 @@ document.addEventListener('DOMContentLoaded', () => {
       'solitaireMinimizeBtn': 'none',
       'solitaireRestoreBtn': 'flex'
     };
-    for (const [id, display] of Object.entries(solitaireWindowButtons)) {
+
+    Object.entries(solitaireWindowButtons).forEach(([id, display]) => {
       document.getElementById(id)?.addEventListener('click', () => setDisplayById('solitaireWindow', display));
-    }
+    });
 
     const statsWindowButtons = {
       'launchStatsBtn': 'flex',
       'closeStatsBtn': 'none',
       'minimizeStatsBtn': ''
     };
-    for (const [id, display] of Object.entries(statsWindowButtons)) {
-      document.getElementById(id)?.addEventListener(display === '' ? 'click' : 'click', () => {
-        step = () => display === '' ? toggleVisibility('statsWindow') : setDisplayById('statsWindow', display);
-        step();
+
+    Object.entries(statsWindowButtons).forEach(([id, display]) => {
+      document.getElementById(id)?.addEventListener('click', () => {
+        if (display === '') {
+          toggleVisibility('statsWindow');
+        } else {
+          setDisplayById('statsWindow', display);
+        }
       });
-    }
+    });
 
     document.getElementById('customStatsOpenBtn')?.addEventListener('click', () => toggleVisibility('customStatsPanel'));
     document.getElementById('customStatsCloseBtn')?.addEventListener('click', () => toggleVisibility('customStatsPanel'));

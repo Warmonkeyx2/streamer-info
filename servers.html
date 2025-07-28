@@ -10,7 +10,7 @@
   <style>
     body {
       background-color: #121212;
-      color: white;
+      color: #FFF;
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 16px;
@@ -24,7 +24,7 @@
 
     .internal-nav button {
       background: linear-gradient(#121212, #121212), linear-gradient(to right, var(--accent-color), var(--accent-color));
-      color: white;
+      color: #FFF;
       border: 2px solid transparent;
       border-radius: 8px;
       padding: 8px 12px;
@@ -67,7 +67,7 @@
       border-radius: 4px;
       border: 1px solid #333;
       background-color: #0f0f0f;
-      color: white;
+      color: #FFF;
     }
 
     .server-config button {
@@ -108,8 +108,8 @@
     <button class="color-button">⚙️ Server Button Settings</button>
     <div id="serverSettingsPanel">
       <h4>Add New Server Button</h4>
-      <input type="text" id="newServerName" placeholder="Button Name (e.g. DayZ RP)">
-      <input type="text" id="newServerURL" placeholder="https://yourserver.com">
+      <input type="text" id="newServerName" placeholder="Button Name (e.g. DayZ RP)" />
+      <input type="text" id="newServerURL" placeholder="https://yourserver.com" />
       <button id="addServer">+ Add Server</button>
       <div id="customServerList" style="margin-top: 20px;"></div>
     </div>
@@ -125,12 +125,16 @@
       const newServerURLInput = document.getElementById('newServerURL');
       const addServer = document.getElementById('addServer');
 
-      internalNav.querySelectorAll('button').forEach(button => {
-        button.addEventListener('click', () => {
-          document.querySelectorAll('.server-page').forEach(page => page.style.display = 'none');
-          const targetPage = document.getElementById(button.dataset.page);
-          if (targetPage) targetPage.style.display = 'block';
-        });
+      const togglePageVisibility = (pageId) => {
+        document.querySelectorAll('.server-page').forEach(page => page.style.display = 'none');
+        const targetPage = document.getElementById(pageId);
+        if (targetPage) targetPage.style.display = 'block';
+      };
+
+      internalNav.addEventListener('click', (event) => {
+        if (event.target.tagName === 'BUTTON') {
+          togglePageVisibility(event.target.dataset.page);
+        }
       });
 
       addServerButton.addEventListener('click', () => {
@@ -147,10 +151,7 @@
         const navButton = document.createElement('button');
         navButton.textContent = name;
         navButton.dataset.page = pageId;
-        navButton.addEventListener('click', () => {
-          document.querySelectorAll('.server-page').forEach(page => page.style.display = 'none');
-          document.getElementById(pageId).style.display = 'block';
-        });
+        navButton.addEventListener('click', () => togglePageVisibility(pageId));
 
         const serverSection = document.createElement('div');
         serverSection.className = 'server-page';
@@ -181,7 +182,7 @@
         newServerURLInput.value = '';
       });
 
-      document.getElementById('gtaTab').style.display = 'block';
+      togglePageVisibility('gtaTab');
     });
   </script>
 </body>

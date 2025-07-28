@@ -5,7 +5,9 @@ function startSolitaireGame() {
   let deck = [];
 
   const createDeck = () => {
-    deck = suits.flatMap(suit => values.map(value => ({ suit, value, color: (suit === '♠' || suit === '♣') ? 'black' : 'red' })));
+    deck = suits.flatMap(suit => values.map(value => ({
+      suit, value, color: (suit === '♠' || suit === '♣') ? 'black' : 'red'
+    })));
   };
 
   const shuffleDeck = () => {
@@ -18,7 +20,7 @@ function startSolitaireGame() {
   const createCardElement = ({ suit, value, color }, faceUp = false) => {
     const card = document.createElement('div');
     card.className = 'card';
-    card.style.backgroundColor = faceUp ? (color === 'red' ? '#922' : '#222') : '#000';
+    card.style.cssText = `background-color: ${faceUp ? (color === 'red' ? '#922' : '#222') : '#000'};`;
     card.textContent = faceUp ? `${value}${suit}` : '';
     card.dataset.value = value;
     card.dataset.suit = suit;
@@ -61,9 +63,7 @@ function startSolitaireGame() {
 
     const foundationGroup = document.createElement('div');
     foundationGroup.className = 'foundation-group';
-    for (let i = 0; i < 4; i++) {
-      foundationGroup.appendChild(createSlot());
-    }
+    Array.from({ length: 4 }).forEach(() => foundationGroup.appendChild(createSlot()));
 
     const topRow = document.createElement('div');
     topRow.className = 'top-row';
@@ -71,9 +71,7 @@ function startSolitaireGame() {
 
     const tableau = document.createElement('div');
     tableau.className = 'tableau';
-    for (let i = 0; i < 7; i++) {
-      tableau.appendChild(createSlot(`tableau-${i}`));
-    }
+    Array.from({ length: 7 }, (_, i) => tableau.appendChild(createSlot(`tableau-${i}`)));
 
     board.append(header, topRow, tableau);
     root.appendChild(board);
@@ -100,7 +98,7 @@ function startSolitaireGame() {
   };
 
   const drawFromStock = () => {
-    if (deck.length) {
+    if (deck.length > 0) {
       const card = createCardElement(deck.pop(), true);
       document.querySelector('.foundation-group').lastElementChild.appendChild(card);
     }
