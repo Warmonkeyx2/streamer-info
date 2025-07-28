@@ -146,17 +146,18 @@ function applyUserMode() {
 
 window.addEventListener('DOMContentLoaded', () => {
   if (viewerCustomizationAllowed()) {
-    createThemeEditor('homeSettings');
-    loadSavedTheme();
-  } else {
-    loadSavedTheme();
-  }
+  createThemeEditor('homeSettings');
+  loadSavedTheme();
+} else {
+  loadSavedTheme();
+}
 
-  const userModeDropdown = document.getElementById('userMode');
-  if (userModeDropdown) {
-    userModeDropdown.value = 'streamer';
-    applyUserMode();
-  }
+const userModeDropdown = document.getElementById('userMode');
+if (userModeDropdown) {
+  userModeDropdown.value = 'streamer';
+  applyUserMode();
+}
+
 });
 // --- Admin Panel Section Switching ---
 function showAdminSection(sectionId) {
