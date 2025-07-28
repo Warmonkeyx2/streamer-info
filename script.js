@@ -39,11 +39,10 @@ function applyUserMode() {
   }
   loadSavedTheme();
 }
-// 🔧 CONFIGURABLE THEME SETTINGS
-// These variables will be injected or toggled across all panels
+// === THEME SETTINGS ===
 const defaultTheme = {
-  primaryColor: '#00ffcc',  // Buttons, borders
-  secondaryColor: '#ff00cc', // Accents, shadows
+  primaryColor: '#00ffcc',
+  secondaryColor: '#ff00cc',
   backgroundColor: '#000000',
   fontFamily: 'Orbitron, sans-serif',
   fontSize: '14px',
@@ -78,8 +77,6 @@ function saveTheme(theme) {
   applyTheme(currentTheme);
 }
 
-
-// 🎨 Inject a slick Admin UI Editor dynamically (called from Admin Panel load)
 function createThemeEditor(containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
@@ -128,31 +125,39 @@ function createThemeEditor(containerId) {
   document.getElementById('save-theme').addEventListener('click', () => saveTheme(currentTheme));
 }
 
-// 🔒 Check if viewer customization is allowed
 function viewerCustomizationAllowed() {
   const toggle = document.getElementById('unlock-viewer-theme');
   return toggle ? toggle.checked : true;
 }
 
-// Load and apply theme based on current mode
+function applyUserMode() {
+  const mode = document.getElementById('userMode')?.value || 'streamer';
+  const isViewer = mode === 'viewer';
+
+  const adminPanels = document.querySelectorAll('.admin-panel, #settingsIcon, #adminNav, #adminContainer');
+  adminPanels.forEach(el => el.style.display = isViewer ? 'none' : '');
+
+  const homeGearIcon = document.getElementById('homeSettingsGear');
+  if (homeGearIcon) homeGearIcon.style.display = isViewer ? 'none' : 'block';
+
+  const panels = document.querySelectorAll('.tab-content');
+  panels.forEach(p => p.style.display = p.id === 'homeTab' || !isViewer ? '' : 'none');
+}
+
 window.addEventListener('DOMContentLoaded', () => {
-  const modeSelect = document.getElementById('userMode');
-  const currentMode = modeSelect ? modeSelect.value : 'streamer';
-
-  const isStreamerMode = currentMode === 'streamer';
-
-  if (isStreamerMode) {
+  if (viewerCustomizationAllowed()) {
     createThemeEditor('homeSettings');
     loadSavedTheme();
   } else {
-    if (viewerCustomizationAllowed()) {
-      createThemeEditor('homeSettings');
-    }
     loadSavedTheme();
   }
+
+  const userModeDropdown = document.getElementById('userMode');
+  if (userModeDropdown) {
+    userModeDropdown.value = 'streamer';
+    applyUserMode();
+  }
 });
-
-
 // --- Admin Panel Section Switching ---
 function showAdminSection(sectionId) {
   document.querySelectorAll('.admin-section').forEach(sec => {
