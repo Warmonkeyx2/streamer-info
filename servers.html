@@ -125,32 +125,32 @@
       const newServerURLInput = document.getElementById('newServerURL');
       const addServer = document.getElementById('addServer');
 
-      const displayServerPage = (pageId) => {
-        document.querySelectorAll('.server-page').forEach(page => page.style.display = 'none');
-        const targetPage = document.getElementById(pageId);
-        if (targetPage) targetPage.style.display = 'block';
-      };
+      internalNav.querySelectorAll('button').forEach(button => {
+        button.addEventListener('click', () => {
+          document.querySelectorAll('.server-page').forEach(page => page.style.display = 'none');
+          const targetPage = document.getElementById(button.dataset.page);
+          if (targetPage) targetPage.style.display = 'block';
+        });
+      });
 
-      const toggleSettingsDisplay = () => {
+      addServerButton.addEventListener('click', () => {
         serverSettingsPanel.style.display = serverSettingsPanel.style.display === 'none' ? 'block' : 'none';
-      };
+      });
 
-      const removeServer = (pageId, button) => {
-        document.getElementById(pageId)?.remove();
-        button.parentElement.remove();
-        internalNav.querySelector(`button[data-page="${pageId}"]`)?.remove();
-      };
-
-      const addServerFunction = () => {
+      addServer.addEventListener('click', () => {
         const name = newServerNameInput.value.trim();
         const url = newServerURLInput.value.trim();
         if (!name || !url) return;
+
         const pageId = `${name.toLowerCase().replace(/\s+/g, '')}Tab`;
 
         const navButton = document.createElement('button');
         navButton.textContent = name;
         navButton.dataset.page = pageId;
-        navButton.addEventListener('click', () => displayServerPage(pageId));
+        navButton.addEventListener('click', () => {
+          document.querySelectorAll('.server-page').forEach(page => page.style.display = 'none');
+          document.getElementById(pageId).style.display = 'block';
+        });
 
         const serverSection = document.createElement('div');
         serverSection.className = 'server-page';
@@ -168,8 +168,10 @@
           <input type="text" value="${name}" readonly>
           <input type="text" value="${url}" readonly>
           <button>Remove</button>`;
-        serverConfig.querySelector('button').addEventListener('click', event => {
-          removeServer(pageId, event.currentTarget);
+        serverConfig.querySelector('button').addEventListener('click', () => {
+          serverSection.remove();
+          serverConfig.remove();
+          navButton.remove();
         });
 
         internalNav.appendChild(navButton);
@@ -177,16 +179,9 @@
         customServerList.appendChild(serverConfig);
         newServerNameInput.value = '';
         newServerURLInput.value = '';
-      };
+      });
 
-      internalNav.querySelectorAll('button').forEach(button =>
-        button.addEventListener('click', () => displayServerPage(button.dataset.page))
-      );
-
-      addServerButton.addEventListener('click', toggleSettingsDisplay);
-      addServer.addEventListener('click', addServerFunction);
-
-      displayServerPage('gtaTab');
+      document.getElementById('gtaTab').style.display = 'block';
     });
   </script>
 </body>

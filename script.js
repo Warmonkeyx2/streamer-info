@@ -1,18 +1,18 @@
 ```js
 document.addEventListener('DOMContentLoaded', () => {
-  // Ensure all init functions are called on page load
   const initializeApp = () => {
     restorePanelPositions();
     updateServerButtons();
     updateStreamerLinks();
     updateMainStreamerLinks();
+
     if (window.mockTwitch) renderStreamInfo();
     loadDockVisibilityPrefs();
   };
 
   const toggleVisibility = elementId => {
     const element = document.getElementById(elementId);
-    if (element) element.style.display = (element.style.display === 'block' ? 'none' : 'block');
+    if (element) element.style.display = element.style.display === 'block' ? 'none' : 'block';
   };
 
   const showTab = tabId => {
@@ -24,8 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.admin-section').forEach(sec => sec.style.display = 'none');
     document.getElementById(sectionId)?.style.display = 'block';
 
-    document.querySelectorAll('.admin-tab').forEach(tab => tab.classList.remove('active'));
-    document.querySelector(`.admin-tab[data-section="${sectionId}"]`)?.classList.add('active');
+    document.querySelectorAll('.admin-tab').forEach(tab => tab.classList.toggle('active', tab.dataset.section === sectionId));
   };
 
   const updateStreamerInfo = () => {
@@ -129,21 +128,33 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('colorPicker')?.addEventListener('input', e => updateThemeColor(e.target.value));
 
     ['mainStreamerLinks', 'popoutLinksList'].forEach(id => {
-      const container = document.getElementById(id);
-      container?.addEventListener('input', updateStreamerLinks);
+      document.getElementById(id)?.addEventListener('input', updateStreamerLinks);
     });
 
     document.getElementById('updateServerBtn')?.addEventListener('click', updateServerButtons);
     document.getElementById('dockVisibilityToggle')?.addEventListener('click', toggleAppsVisibilityControls);
 
-    document.getElementById('launchSolitaireBtn')?.addEventListener('click', () => setDisplayById('solitaireWindow', 'flex'));
-    document.getElementById('solitaireCloseBtn')?.addEventListener('click', () => toggleVisibility('solitaireWindow'));
-    document.getElementById('solitaireMinimizeBtn')?.addEventListener('click', () => toggleVisibility('solitaireWindow'));
-    document.getElementById('solitaireRestoreBtn')?.addEventListener('click', () => setDisplayById('solitaireWindow', 'flex'));
+    const solitaireWindowButtons = {
+      'launchSolitaireBtn': 'flex',
+      'solitaireCloseBtn': 'none',
+      'solitaireMinimizeBtn': 'none',
+      'solitaireRestoreBtn': 'flex'
+    };
+    for (const [id, display] of Object.entries(solitaireWindowButtons)) {
+      document.getElementById(id)?.addEventListener('click', () => setDisplayById('solitaireWindow', display));
+    }
 
-    document.getElementById('launchStatsBtn')?.addEventListener('click', () => setDisplayById('statsWindow', 'flex'));
-    document.getElementById('closeStatsBtn')?.addEventListener('click', () => setDisplayById('statsWindow', 'none'));
-    document.getElementById('minimizeStatsBtn')?.addEventListener('click', () => toggleVisibility('statsWindow'));
+    const statsWindowButtons = {
+      'launchStatsBtn': 'flex',
+      'closeStatsBtn': 'none',
+      'minimizeStatsBtn': ''
+    };
+    for (const [id, display] of Object.entries(statsWindowButtons)) {
+      document.getElementById(id)?.addEventListener(display === '' ? 'click' : 'click', () => {
+        step = () => display === '' ? toggleVisibility('statsWindow') : setDisplayById('statsWindow', display);
+        step();
+      });
+    }
 
     document.getElementById('customStatsOpenBtn')?.addEventListener('click', () => toggleVisibility('customStatsPanel'));
     document.getElementById('customStatsCloseBtn')?.addEventListener('click', () => toggleVisibility('customStatsPanel'));

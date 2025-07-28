@@ -5,32 +5,31 @@ function startSolitaireGame() {
   let deck = [];
 
   const createDeck = () => {
-    deck = suits.flatMap(suit =>
-      values.map(value => ({
-        suit,
-        value,
-        color: suit === '♠' || suit === '♣' ? 'black' : 'red'
-      }))
-    );
+    deck = suits.flatMap(suit => values.map(value => ({ suit, value, color: (suit === '♠' || suit === '♣') ? 'black' : 'red' })));
   };
 
   const shuffleDeck = () => {
-    deck = deck.sort(() => Math.random() - 0.5);
+    for (let i = deck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
   };
 
-  const createCardElement = (cardData, faceUp = false) => {
-    const { suit, value, color } = cardData;
+  const createCardElement = ({ suit, value, color }, faceUp = false) => {
     const card = document.createElement('div');
     card.className = 'card';
     card.style.backgroundColor = faceUp ? (color === 'red' ? '#922' : '#222') : '#000';
     card.textContent = faceUp ? `${value}${suit}` : '';
-    Object.assign(card.dataset, { value, suit, faceUp });
+    card.dataset.value = value;
+    card.dataset.suit = suit;
+    card.dataset.faceUp = faceUp;
     card.draggable = faceUp;
 
     card.addEventListener('dragstart', e => {
-      e.dataTransfer.setData('application/json', JSON.stringify(cardData));
+      e.dataTransfer.setData('application/json', JSON.stringify({ suit, value, color }));
       card.classList.add('dragging');
     });
+
     card.addEventListener('dragend', () => card.classList.remove('dragging'));
 
     return card;
@@ -62,7 +61,9 @@ function startSolitaireGame() {
 
     const foundationGroup = document.createElement('div');
     foundationGroup.className = 'foundation-group';
-    foundationGroup.append(...Array.from({ length: 4 }, createSlot));
+    for (let i = 0; i < 4; i++) {
+      foundationGroup.appendChild(createSlot());
+    }
 
     const topRow = document.createElement('div');
     topRow.className = 'top-row';
@@ -70,10 +71,12 @@ function startSolitaireGame() {
 
     const tableau = document.createElement('div');
     tableau.className = 'tableau';
-    tableau.append(...Array.from({ length: 7 }, (_, i) => createSlot(`tableau-${i}`)));
+    for (let i = 0; i < 7; i++) {
+      tableau.appendChild(createSlot(`tableau-${i}`));
+    }
 
     board.append(header, topRow, tableau);
-    root.append(board);
+    root.appendChild(board);
 
     dealCards();
 
