@@ -1487,3 +1487,20 @@ window.showSlotTestPanel = function() {
     renderSlotGrid && renderSlotGrid();
   }
 };
+
+function applyUserMode() {
+  const mode = document.getElementById('userMode').value;
+  const adminPanel = document.querySelector('.admin-panel');
+  const gearIcon = document.getElementById('settingsIcon'); // adjust this ID if needed
+
+  const isStreamer = mode === 'streamer';
+
+  if (adminPanel) adminPanel.style.display = isStreamer ? 'block' : 'none';
+  if (gearIcon) gearIcon.style.display = isStreamer ? 'block' : 'none';
+
+  if (isStreamer || viewerCustomizationAllowed()) {
+    createThemeEditor('homeSettings');
+  }
+
+  loadSavedTheme();
+}
