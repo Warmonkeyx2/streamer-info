@@ -16,6 +16,18 @@ body {
   min-height: 100vh;
 }
 
+button {
+  background-color: var(--primary-color);
+  border: 2px solid var(--secondary-color);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  border-radius: var(--border-radius);
+}
+
+body {
+  background-color: var(--background-color);
+}
+
 /* === INFO BUBBLE === */
 .info-bubble {
   position: fixed;
