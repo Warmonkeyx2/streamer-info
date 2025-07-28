@@ -105,8 +105,21 @@ function createThemeEditor(containerId) {
   document.getElementById('save-theme').addEventListener('click', () => saveTheme(currentTheme));
 }
 
-// Load the theme when page loads
-window.addEventListener('DOMContentLoaded', loadSavedTheme);
+// 🔒 Check if viewer customization is allowed
+function viewerCustomizationAllowed() {
+  const toggle = document.getElementById('unlock-viewer-theme');
+  return toggle ? toggle.checked : true;
+}
+
+// Load the theme and editor if allowed
+window.addEventListener('DOMContentLoaded', () => {
+  if (viewerCustomizationAllowed()) {
+    createThemeEditor('homeSettings');
+    loadSavedTheme();
+  } else {
+    loadSavedTheme(); // Load theme without showing controls
+  }
+});
 
 
 // --- Admin Panel Section Switching ---
