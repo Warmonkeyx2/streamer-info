@@ -382,6 +382,13 @@
     <button class="dock-btn" data-panel="linksPanel" title="Links">🔗</button>
     <button class="dock-btn" data-panel="freeModePanel" id="freeModeDockBtn" title="FreeMode">🖥️</button>
     <button id="customizeToggle" title="Customize Layout">🛠️</button>
+<div id="modeSwitcher" style="text-align:center; margin-top: 15px;">
+  <label for="userMode">🔁 Preview As:</label>
+  <select id="userMode" onchange="applyUserMode()">
+    <option value="streamer">🎥 Streamer Mode</option>
+    <option value="viewer">👀 Viewer Mode</option>
+  </select>
+</div>
     <button onclick="showSlotTestPanel()" style="position:fixed;bottom:100px;right:20px;z-index:9999;">Test Slot Panel</button>
   </div>
 
