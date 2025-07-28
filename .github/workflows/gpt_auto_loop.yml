@@ -51,4 +51,4 @@ jobs:
       - name: 🧠 Run gpt_think.py
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: python scripts/gpt_think.py
+        run: python gpt_think.py
