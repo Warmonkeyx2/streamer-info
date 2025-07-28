@@ -18,8 +18,8 @@
   margin-bottom: 12px;
   padding: 10px 16px;
   border-radius: 8px;
-  backdrop-filter: blur(6px);
   background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
 }
 
 .solitaire-header h2 {
@@ -124,14 +124,24 @@
 }
 
 @keyframes glitch {
-  0%, 100% { transform: translate(0); }
-  20% { transform: translate(-2px, 2px); }
-  40% { transform: translate(2px, -2px); }
-  60% { transform: translate(-1px, 1px); }
-  80% { transform: translate(1px, -1px); }
+  0%,
+  100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(2px, -2px);
+  }
+  60% {
+    transform: translate(-1px, 1px);
+  }
+  80% {
+    transform: translate(1px, -1px);
+  }
 }
 
-/* Placeholder Card Styling for Animation Demo */
 .solitaire-card {
   width: 80px;
   height: 120px;
@@ -177,7 +187,11 @@
 }
 
 @keyframes flipCard {
-  from { transform: rotateY(180deg); }
-  to { transform: rotateY(0deg); }
+  from {
+    transform: rotateY(180deg);
+  }
+  to {
+    transform: rotateY(0deg);
+  }
 }
 ```

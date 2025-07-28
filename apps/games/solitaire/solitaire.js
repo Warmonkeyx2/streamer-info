@@ -5,11 +5,11 @@ function startSolitaireGame() {
   let deck = [];
 
   const createDeck = () => {
-    deck = suits.flatMap(suit => 
+    deck = suits.flatMap(suit =>
       values.map(value => ({
         suit,
         value,
-        color: (suit === '♥' || suit === '♦') ? 'red' : 'black'
+        color: ['♠', '♣'].includes(suit) ? 'black' : 'red'
       }))
     );
   };
@@ -24,18 +24,12 @@ function startSolitaireGame() {
   const createCardElement = ({ suit, value, color }, faceUp = false) => {
     const card = document.createElement('div');
     card.className = 'card';
-    if (faceUp) {
-      card.textContent = `${value}${suit}`;
-      card.style.backgroundColor = color === 'red' ? '#922' : '#222';
-    } else {
-      card.style.backgroundColor = '#000';
-    }
-    card.dataset.value = value;
-    card.dataset.suit = suit;
-    card.dataset.faceUp = faceUp;
+    card.style.backgroundColor = faceUp ? (color === 'red' ? '#922' : '#222') : '#000';
+    card.textContent = faceUp ? `${value}${suit}` : '';
+    Object.assign(card.dataset, { value, suit, faceUp });
     card.draggable = faceUp;
 
-    card.addEventListener('dragstart', (e) => {
+    card.addEventListener('dragstart', e => {
       e.dataTransfer.setData('application/json', JSON.stringify({ suit, value, color }));
       card.classList.add('dragging');
     });
@@ -49,7 +43,7 @@ function startSolitaireGame() {
 
   const renderInitialLayout = () => {
     const root = document.getElementById('solitaire-root');
-    root.innerHTML = ''; 
+    root.innerHTML = '';
 
     const board = document.createElement('div');
     board.className = 'solitaire-board';
@@ -58,7 +52,7 @@ function startSolitaireGame() {
     header.className = 'solitaire-header';
     header.innerHTML = '<h2>Solitaire</h2><button id="restart-button">Restart</button>';
 
-    const createSlot = (id = '') => {
+    const createSlot = id => {
       const slot = document.createElement('div');
       slot.className = 'card-slot';
       if (id) slot.id = id;
@@ -87,7 +81,7 @@ function startSolitaireGame() {
     dealCards();
 
     document.querySelectorAll('.card-slot').forEach(slot => {
-      slot.addEventListener('dragover', (e) => e.preventDefault());
+      slot.addEventListener('dragover', e => e.preventDefault());
       slot.addEventListener('drop', handleDrop);
     });
 
@@ -97,8 +91,8 @@ function startSolitaireGame() {
   const handleDrop = (e) => {
     e.preventDefault();
     const cardData = JSON.parse(e.dataTransfer.getData('application/json'));
-    const card = createCardElement(cardData, true);
-    e.currentTarget.appendChild(card);
+    const cardElement = createCardElement(cardData, true);
+    e.currentTarget.appendChild(cardElement);
   };
 
   const dealCards = () => {
@@ -114,8 +108,7 @@ function startSolitaireGame() {
 
   const drawFromStock = () => {
     if (!deck.length) return;
-    const cardData = deck.pop();
-    const card = createCardElement(cardData, true);
+    const card = createCardElement(deck.pop(), true);
     document.querySelector('.foundation-group').lastElementChild.appendChild(card);
   };
 
