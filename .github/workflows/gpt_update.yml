@@ -1,40 +1,46 @@
-name: GPT Frontend Optimizer
+name: GPT Frontend + Think Auto Loop
 
 permissions:
   contents: write
 
 on:
-  workflow_dispatch:       # allows manual runs
-  push:                    # runs on every push to main
+  workflow_dispatch:       # manual trigger
+  push:                    # on push to main
     branches: [main]
-  schedule:                # runs daily at midnight UTC
+  schedule:                # daily at midnight UTC
     - cron: '0 0 * * *'
 
 jobs:
-  optimize-frontend:
+  optimize-and-think:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: 📥 Checkout repo
         uses: actions/checkout@v3
 
-      - name: Set up Python
+      - name: 📦 Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
+      - name: 🧪 Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install openai python-dotenv
 
-      - name: Run GPT Rewrite Script
+      - name: 🤖 Run GPT Rewrite Script
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           python scripts/gpt_rewrite_frontend.py
 
-      - name: Commit and push changes
+      - name: 🧠 Run GPT Think Script
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python scripts/gpt_think.py
+
+      - name: ✅ Commit and Push Changes
         if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GPT_AUTOMATION_TOKEN }}
@@ -42,5 +48,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
-          git diff --quiet && git diff --staged --quiet || git commit -m "🤖 GPT optimization updates"
+          git diff --quiet && git diff --staged --quiet || git commit -m "🤖 GPT rewrite & think automation"
           git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git HEAD:main
