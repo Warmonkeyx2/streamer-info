@@ -22,6 +22,8 @@ let isStreamerMode = true;
 function applyUserMode() {
   const mode = document.getElementById('userMode').value;
   isStreamerMode = mode === 'streamer';
+  document.body.classList.toggle('viewer-mode', isViewer);
+
 
   // Toggle Admin Panel
   const adminPanel = document.querySelector('.admin-panel');
