@@ -196,6 +196,12 @@ body {
 }
 
 /* === SETTINGS PANEL === */
+body.viewer-mode #settingsIcon,
+body.viewer-mode .admin-panel,
+body.viewer-mode #adminNav,
+body.viewer-mode #adminContainer {
+  display: none !important;
+}
 .settings-panel {
   display: none;
   flex-direction: column;
