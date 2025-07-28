@@ -110,6 +110,8 @@
         <button class="admin-tab" onclick="showAdminSection('serverSettingsPanel')">SERVERS</button>
         <button class="admin-tab" onclick="showAdminSection('appsSettingsPanel')">APPS</button>
         <button class="admin-tab" onclick="showAdminSection('gameControlPanel')">GAME CONTROL</button>
+        <button class="admin-tab" onclick="showAdminSection('unlocksSettingsPanel')">UNLOCKS</button>
+
       </div>
     </div>
     <div class="admin-content">
@@ -245,6 +247,21 @@
           </table>
         </div>
       </div>
+      <div id="unlocksSettingsPanel" class="admin-section" style="display: none;">
+  <h3>🔓 Unlocks</h3>
+  <p>Enable or disable custom features for your stream or viewers.</p>
+  
+  <div class="unlock-setting">
+    <h4>🎨 Viewer Customization</h4>
+    <p>Allow viewers to personalize the layout, colors, and fonts while watching your stream.</p>
+    <label class="switch">
+      <input type="checkbox" id="unlock-viewer-theme">
+      <span class="slider round"></span>
+    </label>
+  </div>
+
+  <!-- Future Unlocks can go here -->
+</div>
     </div>
   </div>
 
