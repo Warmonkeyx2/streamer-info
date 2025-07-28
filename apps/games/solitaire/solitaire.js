@@ -15,18 +15,25 @@ function startSolitaireGame() {
   };
 
   const shuffleDeck = () => {
-    deck = deck.sort(() => Math.random() - 0.5);
+    for (let i = deck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
   };
 
   const createCardElement = ({ suit, value, color }, faceUp = false) => {
     const card = document.createElement('div');
     card.className = 'card';
-    card.textContent = faceUp ? `${value}${suit}` : '';
-    card.style.backgroundColor = faceUp ? (color === 'red' ? '#922' : '#222') : '#000';
+    if (faceUp) {
+      card.textContent = `${value}${suit}`;
+      card.style.backgroundColor = color === 'red' ? '#922' : '#222';
+    } else {
+      card.style.backgroundColor = '#000';
+    }
     card.dataset.value = value;
     card.dataset.suit = suit;
     card.dataset.faceUp = faceUp;
-    card.draggable = true;
+    card.draggable = faceUp;
 
     card.addEventListener('dragstart', (e) => {
       e.dataTransfer.setData('application/json', JSON.stringify({ suit, value, color }));
@@ -42,7 +49,7 @@ function startSolitaireGame() {
 
   const renderInitialLayout = () => {
     const root = document.getElementById('solitaire-root');
-    root.innerHTML = ''; // Clear previous contents
+    root.innerHTML = ''; 
 
     const board = document.createElement('div');
     board.className = 'solitaire-board';
@@ -79,12 +86,12 @@ function startSolitaireGame() {
 
     dealCards();
 
-    document.querySelectorAll('.card-slot, .pile').forEach(slot => {
+    document.querySelectorAll('.card-slot').forEach(slot => {
       slot.addEventListener('dragover', (e) => e.preventDefault());
       slot.addEventListener('drop', handleDrop);
     });
 
-    document.getElementById('restart-button').onclick = restartSolitaire;
+    document.getElementById('restart-button').addEventListener('click', restartSolitaire);
   };
 
   const handleDrop = (e) => {
@@ -106,7 +113,7 @@ function startSolitaireGame() {
   };
 
   const drawFromStock = () => {
-    if (deck.length === 0) return;
+    if (!deck.length) return;
     const cardData = deck.pop();
     const card = createCardElement(cardData, true);
     document.querySelector('.foundation-group').lastElementChild.appendChild(card);

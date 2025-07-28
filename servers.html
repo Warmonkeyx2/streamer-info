@@ -3,9 +3,9 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Servers</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
   <style>
     body {
       background-color: #121212;
@@ -21,8 +21,7 @@
     }
 
     .internal-nav button {
-      background-image: linear-gradient(#121212, #121212),
-        linear-gradient(to right, var(--accent-color), var(--accent-color));
+      background: linear-gradient(#121212, #121212), linear-gradient(to right, var(--accent-color), var(--accent-color));
       color: white;
       border: 2px solid transparent;
       border-radius: 8px;
@@ -86,20 +85,20 @@
   <div class="server-page" id="gtaTab">
     <h3>GTA RP Servers</h3>
     <div class="server-entry">
-      <img src="assets/server1-logo.png" alt="PRODIGY RP Logo" />
-      <a href="https://prodigyrp.net/" target="_blank">PRODIGY RP</a>
+      <img src="assets/server1-logo.png" alt="PRODIGY RP Logo">
+      <a href="https://prodigyrp.net/" target="_blank" rel="noopener noreferrer">PRODIGY RP</a>
     </div>
     <div class="server-entry">
-      <img src="assets/server2-logo.png" alt="FREE2 RP Logo" />
-      <a href="https://free2rp.com/" target="_blank">FREE2 RP</a>
+      <img src="assets/server2-logo.png" alt="FREE2 RP Logo">
+      <a href="https://free2rp.com/" target="_blank" rel="noopener noreferrer">FREE2 RP</a>
     </div>
   </div>
 
   <div class="server-page" id="redmTab">
     <h3>RedM RP Servers</h3>
     <div class="server-entry">
-      <img src="assets/rserver1-logo.png" alt="Redemption RP Logo" />
-      <a href="https://discord.gg/2BaubsMfX4" target="_blank">Redemption RP</a>
+      <img src="assets/rserver1-logo.png" alt="Redemption RP Logo">
+      <a href="https://discord.gg/2BaubsMfX4" target="_blank" rel="noopener noreferrer">Redemption RP</a>
     </div>
   </div>
 
@@ -107,8 +106,8 @@
     <button class="color-button">⚙️ Server Button Settings</button>
     <div id="serverSettingsPanel">
       <h4>Add New Server Button</h4>
-      <input type="text" id="newServerName" placeholder="Button Name (e.g. DayZ RP)" />
-      <input type="text" id="newServerURL" placeholder="https://yourserver.com" />
+      <input type="text" id="newServerName" placeholder="Button Name (e.g. DayZ RP)">
+      <input type="text" id="newServerURL" placeholder="https://yourserver.com">
       <button id="addServer">+ Add Server</button>
       <div id="customServerList" style="margin-top: 20px;"></div>
     </div>
@@ -116,7 +115,6 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const customServers = [];
       const internalNav = document.querySelector('.internal-nav');
       const serverSettingsPanel = document.getElementById('serverSettingsPanel');
       const addServerButton = document.querySelector('.color-button');
@@ -125,7 +123,7 @@
       const newServerURLInput = document.getElementById('newServerURL');
       const addServer = document.getElementById('addServer');
 
-      const displayServerPage = pageId => {
+      const displayServerPage = (pageId) => {
         document.querySelectorAll('.server-page').forEach(page => page.style.display = 'none');
         const targetPage = document.getElementById(pageId);
         if (targetPage) targetPage.style.display = 'block';
@@ -136,22 +134,16 @@
       };
 
       const removeServer = (pageId, button) => {
-        const page = document.getElementById(pageId);
-        if (page) {
-          page.remove();
-        }
+        document.getElementById(pageId)?.remove();
         button.parentElement.remove();
-        const navButton = [...internalNav.querySelectorAll('button')].find(btn => btn.getAttribute('data-page') === pageId);
-        if (navButton) {
-          navButton.remove();
-        }
+        internalNav.querySelector(`button[data-page="${pageId}"]`)?.remove();
       };
 
       const addServerFunction = () => {
         const name = newServerNameInput.value.trim();
         const url = newServerURLInput.value.trim();
         if (!name || !url) return;
-        const pageId = name.toLowerCase().replace(/\s+/g, '') + 'Tab';
+        const pageId = `${name.toLowerCase().replace(/\s+/g, '')}Tab`;
 
         const navButton = document.createElement('button');
         navButton.textContent = name;
@@ -164,15 +156,15 @@
         serverSection.innerHTML = `
           <h3>${name}</h3>
           <div class="server-entry">
-            <img src="assets/server1-logo.png" alt="${name} Logo" />
-            <a href="${url}" target="_blank">${name}</a>
+            <img src="assets/server1-logo.png" alt="${name} Logo">
+            <a href="${url}" target="_blank" rel="noopener noreferrer">${name}</a>
           </div>`;
 
         const serverConfig = document.createElement('div');
         serverConfig.className = 'server-config';
         serverConfig.innerHTML = `
-          <input type="text" value="${name}" readonly />
-          <input type="text" value="${url}" readonly />
+          <input type="text" value="${name}" readonly>
+          <input type="text" value="${url}" readonly>
           <button>Remove</button>`;
         serverConfig.querySelector('button').addEventListener('click', event => {
           removeServer(pageId, event.currentTarget);
@@ -181,12 +173,11 @@
         internalNav.appendChild(navButton);
         document.body.appendChild(serverSection);
         customServerList.appendChild(serverConfig);
-        customServers.push({ name, url, pageId });
         newServerNameInput.value = '';
         newServerURLInput.value = '';
       };
 
-      internalNav.querySelectorAll('button').forEach(button =>
+      internalNav.querySelectorAll('button').forEach(button => 
         button.addEventListener('click', () => displayServerPage(button.dataset.page))
       );
 
