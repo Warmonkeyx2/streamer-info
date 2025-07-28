@@ -17,6 +17,28 @@ function showTab(tabId) {
 }
 window.showTab = showTab;
 
+let isStreamerMode = true;
+
+function applyUserMode() {
+  const mode = document.getElementById('userMode').value;
+  isStreamerMode = mode === 'streamer';
+
+  // Toggle Admin Panel
+  const adminPanel = document.querySelector('.admin-panel');
+  const gearIcon = document.getElementById('settingsIcon'); // Adjust to your actual gear icon ID
+  if (isStreamerMode) {
+    if (adminPanel) adminPanel.style.display = 'block';
+    if (gearIcon) gearIcon.style.display = 'block';
+    createThemeEditor('homeSettings'); // Only allow editor in streamer mode
+  } else {
+    if (adminPanel) adminPanel.style.display = 'none';
+    if (gearIcon) gearIcon.style.display = 'none';
+    if (viewerCustomizationAllowed()) {
+      createThemeEditor('homeSettings');
+    }
+  }
+  loadSavedTheme();
+}
 // 🔧 CONFIGURABLE THEME SETTINGS
 // These variables will be injected or toggled across all panels
 const defaultTheme = {
@@ -55,6 +77,7 @@ function saveTheme(theme) {
   localStorage.setItem('customTheme', JSON.stringify(currentTheme));
   applyTheme(currentTheme);
 }
+
 
 // 🎨 Inject a slick Admin UI Editor dynamically (called from Admin Panel load)
 function createThemeEditor(containerId) {
