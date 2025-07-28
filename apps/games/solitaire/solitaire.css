@@ -56,10 +56,10 @@
 }
 
 @keyframes pulseBackground {
-  from {
+  0% {
     filter: brightness(1);
   }
-  to {
+  100% {
     filter: brightness(1.1);
   }
 }
@@ -124,8 +124,7 @@
 }
 
 @keyframes glitch {
-  0%,
-  100% {
+  0%, 100% {
     transform: translate(0);
   }
   20% {
@@ -187,10 +186,10 @@
 }
 
 @keyframes flipCard {
-  from {
+  0% {
     transform: rotateY(180deg);
   }
-  to {
+  100% {
     transform: rotateY(0deg);
   }
 }

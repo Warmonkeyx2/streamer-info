@@ -9,19 +9,17 @@ function startSolitaireGame() {
       values.map(value => ({
         suit,
         value,
-        color: ['♠', '♣'].includes(suit) ? 'black' : 'red'
+        color: suit === '♠' || suit === '♣' ? 'black' : 'red'
       }))
     );
   };
 
   const shuffleDeck = () => {
-    for (let i = deck.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [deck[i], deck[j]] = [deck[j], deck[i]];
-    }
+    deck = deck.sort(() => Math.random() - 0.5);
   };
 
-  const createCardElement = ({ suit, value, color }, faceUp = false) => {
+  const createCardElement = (cardData, faceUp = false) => {
+    const { suit, value, color } = cardData;
     const card = document.createElement('div');
     card.className = 'card';
     card.style.backgroundColor = faceUp ? (color === 'red' ? '#922' : '#222') : '#000';
@@ -30,13 +28,10 @@ function startSolitaireGame() {
     card.draggable = faceUp;
 
     card.addEventListener('dragstart', e => {
-      e.dataTransfer.setData('application/json', JSON.stringify({ suit, value, color }));
+      e.dataTransfer.setData('application/json', JSON.stringify(cardData));
       card.classList.add('dragging');
     });
-
-    card.addEventListener('dragend', () => {
-      card.classList.remove('dragging');
-    });
+    card.addEventListener('dragend', () => card.classList.remove('dragging'));
 
     return card;
   };
@@ -52,10 +47,12 @@ function startSolitaireGame() {
     header.className = 'solitaire-header';
     header.innerHTML = '<h2>Solitaire</h2><button id="restart-button">Restart</button>';
 
-    const createSlot = id => {
+    const createSlot = (id = '') => {
       const slot = document.createElement('div');
       slot.className = 'card-slot';
       if (id) slot.id = id;
+      slot.addEventListener('dragover', e => e.preventDefault());
+      slot.addEventListener('drop', handleDrop);
       return slot;
     };
 
@@ -65,7 +62,7 @@ function startSolitaireGame() {
 
     const foundationGroup = document.createElement('div');
     foundationGroup.className = 'foundation-group';
-    Array.from({ length: 4 }).forEach(() => foundationGroup.appendChild(createSlot()));
+    foundationGroup.append(...Array.from({ length: 4 }, createSlot));
 
     const topRow = document.createElement('div');
     topRow.className = 'top-row';
@@ -73,26 +70,20 @@ function startSolitaireGame() {
 
     const tableau = document.createElement('div');
     tableau.className = 'tableau';
-    Array.from({ length: 7 }).forEach((_, i) => tableau.appendChild(createSlot(`tableau-${i}`)));
+    tableau.append(...Array.from({ length: 7 }, (_, i) => createSlot(`tableau-${i}`)));
 
     board.append(header, topRow, tableau);
     root.append(board);
 
     dealCards();
 
-    document.querySelectorAll('.card-slot').forEach(slot => {
-      slot.addEventListener('dragover', e => e.preventDefault());
-      slot.addEventListener('drop', handleDrop);
-    });
-
     document.getElementById('restart-button').addEventListener('click', restartSolitaire);
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = e => {
     e.preventDefault();
     const cardData = JSON.parse(e.dataTransfer.getData('application/json'));
-    const cardElement = createCardElement(cardData, true);
-    e.currentTarget.appendChild(cardElement);
+    e.currentTarget.appendChild(createCardElement(cardData, true));
   };
 
   const dealCards = () => {
@@ -100,16 +91,16 @@ function startSolitaireGame() {
     for (let i = 0; i < 7; i++) {
       const column = document.getElementById(`tableau-${i}`);
       for (let j = 0; j <= i; j++) {
-        const faceUp = j === i;
-        column.appendChild(createCardElement(deck[cardIndex++], faceUp));
+        column.appendChild(createCardElement(deck[cardIndex++], j === i));
       }
     }
   };
 
   const drawFromStock = () => {
-    if (!deck.length) return;
-    const card = createCardElement(deck.pop(), true);
-    document.querySelector('.foundation-group').lastElementChild.appendChild(card);
+    if (deck.length) {
+      const card = createCardElement(deck.pop(), true);
+      document.querySelector('.foundation-group').lastElementChild.appendChild(card);
+    }
   };
 
   const restartSolitaire = () => {

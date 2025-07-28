@@ -4,6 +4,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Servers</title>
   <link rel="stylesheet" href="style.css">
   <style>
@@ -11,11 +12,12 @@
       background-color: #121212;
       color: white;
       font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 16px;
     }
 
     .internal-nav {
       display: flex;
-      flex-wrap: wrap;
       gap: 8px;
       margin-top: 12px;
     }
@@ -177,7 +179,7 @@
         newServerURLInput.value = '';
       };
 
-      internalNav.querySelectorAll('button').forEach(button => 
+      internalNav.querySelectorAll('button').forEach(button =>
         button.addEventListener('click', () => displayServerPage(button.dataset.page))
       );
 

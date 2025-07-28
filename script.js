@@ -1,7 +1,7 @@
 ```js
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialization
-  window.onload = () => {
+  // Ensure all init functions are called on page load
+  const initializeApp = () => {
     restorePanelPositions();
     updateServerButtons();
     updateStreamerLinks();
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const toggleVisibility = elementId => {
     const element = document.getElementById(elementId);
-    if (element) element.style.display = element.style.display === 'block' ? 'none' : 'block';
+    if (element) element.style.display = (element.style.display === 'block' ? 'none' : 'block');
   };
 
   const showTab = tabId => {
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const showAdminSection = sectionId => {
     document.querySelectorAll('.admin-section').forEach(sec => sec.style.display = 'none');
     document.getElementById(sectionId)?.style.display = 'block';
-    
+
     document.querySelectorAll('.admin-tab').forEach(tab => tab.classList.remove('active'));
     document.querySelector(`.admin-tab[data-section="${sectionId}"]`)?.classList.add('active');
   };
@@ -31,13 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const updateStreamerInfo = () => {
     const name = document.getElementById('streamerNameInput')?.value.trim();
     const bio = document.getElementById('streamerBioInput')?.value.trim();
-
-    if (name) document.querySelector('#homeTab h3')?.textContent = name;
-    if (bio) document.querySelector('#homeTab p')?.textContent = bio;
+    if (name) document.querySelector('#homeTab h3').textContent = name;
+    if (bio) document.querySelector('#homeTab p').textContent = bio;
   };
 
   const updateProfileImage = event => {
-    const [file] = event.target.files;
+    const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = e => document.querySelector('#homeTab img').src = e.target.result;
@@ -48,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const updateThemeColor = hexColor => {
     const root = document.documentElement;
     root.style.setProperty('--accent-color', hexColor);
-
     document.querySelectorAll('.streamer-links a, .internal-nav a, .internal-nav button, .server-entry a, .color-button').forEach(btn => {
       btn.style.backgroundImage = `linear-gradient(#121212, #121212), linear-gradient(to right, ${hexColor}, ${hexColor})`;
     });
@@ -57,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const updateServerButtons = () => {
     const navContainer = document.getElementById('serverTypeButtons');
     navContainer.innerHTML = '';
-
     document.querySelectorAll('.server-type-card').forEach((card, i) => {
       const labelInput = card.querySelector('.server-type-label')?.value.trim();
       const checkbox = card.querySelector('.server-type-visible');
@@ -89,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const showBasicStats = () => {
     const prefs = JSON.parse(localStorage.getItem('statsPrefs') || '{}');
-    const lines = availableStats.filter(stat => prefs[stat.key] ?? true).map(stat => stat.line);
+    const lines = availableStats.filter(stat => prefs[stat.key]).map(stat => stat.line);
     typeLines(lines, 0, 'cmdTerminal');
   };
 
@@ -97,9 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.panel').forEach(panel => {
       const pos = localStorage.getItem(`panel_${panel.id}`);
       if (pos) {
-        Object.entries(JSON.parse(pos)).forEach(([prop, value]) => {
-          panel.style[prop] = value;
-        });
+        Object.entries(JSON.parse(pos)).forEach(([prop, value]) => panel.style[prop] = value);
       }
     });
   };
@@ -119,52 +114,43 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const addEventListeners = () => {
-    // General UI interactions
-    document.querySelector('#infoCardToggleBtn')?.addEventListener('click', () => toggleVisibility('infoCard'));
+    document.getElementById('infoCardToggleBtn')?.addEventListener('click', () => toggleVisibility('infoCard'));
     document.querySelectorAll('.tab-button').forEach(btn => {
       btn.addEventListener('click', () => showTab(btn.dataset.tab));
     });
     document.getElementById('adminToggle')?.addEventListener('click', () => toggleVisibility('adminPanel'));
 
-    // Admin Panel
     document.querySelectorAll('.admin-tab').forEach(tab => {
       tab.addEventListener('click', () => showAdminSection(tab.dataset.section));
     });
 
-    // Streamer Info
     document.getElementById('updateStreamerBtn')?.addEventListener('click', updateStreamerInfo);
     document.getElementById('profileImageInput')?.addEventListener('change', updateProfileImage);
     document.getElementById('colorPicker')?.addEventListener('input', e => updateThemeColor(e.target.value));
 
-    // Streamer Links
     ['mainStreamerLinks', 'popoutLinksList'].forEach(id => {
       const container = document.getElementById(id);
       container?.addEventListener('input', updateStreamerLinks);
     });
 
-    // Server Buttons
     document.getElementById('updateServerBtn')?.addEventListener('click', updateServerButtons);
-
-    // Dock Visibility
     document.getElementById('dockVisibilityToggle')?.addEventListener('click', toggleAppsVisibilityControls);
 
-    // Solitaire App Logic
     document.getElementById('launchSolitaireBtn')?.addEventListener('click', () => setDisplayById('solitaireWindow', 'flex'));
     document.getElementById('solitaireCloseBtn')?.addEventListener('click', () => toggleVisibility('solitaireWindow'));
     document.getElementById('solitaireMinimizeBtn')?.addEventListener('click', () => toggleVisibility('solitaireWindow'));
     document.getElementById('solitaireRestoreBtn')?.addEventListener('click', () => setDisplayById('solitaireWindow', 'flex'));
 
-    // Stats App Logic
     document.getElementById('launchStatsBtn')?.addEventListener('click', () => setDisplayById('statsWindow', 'flex'));
     document.getElementById('closeStatsBtn')?.addEventListener('click', () => setDisplayById('statsWindow', 'none'));
     document.getElementById('minimizeStatsBtn')?.addEventListener('click', () => toggleVisibility('statsWindow'));
 
-    // Custom Stats Panel
     document.getElementById('customStatsOpenBtn')?.addEventListener('click', () => toggleVisibility('customStatsPanel'));
     document.getElementById('customStatsCloseBtn')?.addEventListener('click', () => toggleVisibility('customStatsPanel'));
     document.getElementById('statsPrefsForm')?.addEventListener('submit', handleStatsFormSubmit);
   };
 
+  window.onload = initializeApp;
   addEventListeners();
 });
 ```
