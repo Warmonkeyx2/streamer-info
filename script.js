@@ -56,8 +56,54 @@ function saveTheme(theme) {
   applyTheme(currentTheme);
 }
 
-// Example usage:
-// saveTheme({ ...currentTheme, primaryColor: '#ff9900' });
+// 🎨 Inject a slick Admin UI Editor dynamically (called from Admin Panel load)
+function createThemeEditor(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'theme-editor';
+  wrap.innerHTML = `
+    <h2 style="font-family: var(--font-family); color: var(--primary-color);">🎨 Customize Theme</h2>
+    <label>Primary Color: <input type="color" value="${currentTheme.primaryColor}" id="theme-primary" /></label>
+    <label>Secondary Color: <input type="color" value="${currentTheme.secondaryColor}" id="theme-secondary" /></label>
+    <label>Background Color: <input type="color" value="${currentTheme.backgroundColor}" id="theme-background" /></label>
+    <label>Font Family:
+      <select id="theme-font">
+        <option value="Orbitron, sans-serif">Orbitron</option>
+        <option value="Poppins, sans-serif">Poppins</option>
+        <option value="Press Start 2P, cursive">8-bit Retro</option>
+        <option value="Arial, sans-serif">Arial</option>
+      </select>
+    </label>
+    <label>Font Size:
+      <input type="range" min="10" max="20" value="${parseInt(currentTheme.fontSize)}" id="theme-fontsize" />
+      <span id="font-size-display">${currentTheme.fontSize}</span>
+    </label>
+    <label>Border Radius:
+      <input type="range" min="0" max="30" value="${parseInt(currentTheme.borderRadius)}" id="theme-radius" />
+      <span id="radius-display">${currentTheme.borderRadius}</span>
+    </label>
+    <button id="save-theme">💾 Save Theme</button>
+  `;
+
+  container.appendChild(wrap);
+
+  document.getElementById('theme-primary').addEventListener('input', e => currentTheme.primaryColor = e.target.value);
+  document.getElementById('theme-secondary').addEventListener('input', e => currentTheme.secondaryColor = e.target.value);
+  document.getElementById('theme-background').addEventListener('input', e => currentTheme.backgroundColor = e.target.value);
+  document.getElementById('theme-font').addEventListener('change', e => currentTheme.fontFamily = e.target.value);
+  document.getElementById('theme-fontsize').addEventListener('input', e => {
+    currentTheme.fontSize = `${e.target.value}px`;
+    document.getElementById('font-size-display').textContent = currentTheme.fontSize;
+  });
+  document.getElementById('theme-radius').addEventListener('input', e => {
+    currentTheme.borderRadius = `${e.target.value}px`;
+    document.getElementById('radius-display').textContent = currentTheme.borderRadius;
+  });
+
+  document.getElementById('save-theme').addEventListener('click', () => saveTheme(currentTheme));
+}
 
 // Load the theme when page loads
 window.addEventListener('DOMContentLoaded', loadSavedTheme);
