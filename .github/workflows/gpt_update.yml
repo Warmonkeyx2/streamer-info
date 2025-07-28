@@ -38,7 +38,7 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          python scripts/gpt_think.py
+          python gpt_think.py
 
       - name: ✅ Commit and Push Changes
         if: success()
