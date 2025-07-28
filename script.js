@@ -17,6 +17,52 @@ function showTab(tabId) {
 }
 window.showTab = showTab;
 
+// 🔧 CONFIGURABLE THEME SETTINGS
+// These variables will be injected or toggled across all panels
+const defaultTheme = {
+  primaryColor: '#00ffcc',  // Buttons, borders
+  secondaryColor: '#ff00cc', // Accents, shadows
+  backgroundColor: '#000000',
+  fontFamily: 'Orbitron, sans-serif',
+  fontSize: '14px',
+  borderRadius: '12px'
+};
+
+let currentTheme = { ...defaultTheme };
+
+function applyTheme(theme) {
+  const root = document.documentElement;
+  root.style.setProperty('--primary-color', theme.primaryColor);
+  root.style.setProperty('--secondary-color', theme.secondaryColor);
+  root.style.setProperty('--background-color', theme.backgroundColor);
+  root.style.setProperty('--font-family', theme.fontFamily);
+  root.style.setProperty('--font-size', theme.fontSize);
+  root.style.setProperty('--border-radius', theme.borderRadius);
+}
+
+function loadSavedTheme() {
+  const saved = localStorage.getItem('customTheme');
+  if (saved) {
+    currentTheme = JSON.parse(saved);
+    applyTheme(currentTheme);
+  } else {
+    applyTheme(defaultTheme);
+  }
+}
+
+function saveTheme(theme) {
+  currentTheme = { ...theme };
+  localStorage.setItem('customTheme', JSON.stringify(currentTheme));
+  applyTheme(currentTheme);
+}
+
+// Example usage:
+// saveTheme({ ...currentTheme, primaryColor: '#ff9900' });
+
+// Load the theme when page loads
+window.addEventListener('DOMContentLoaded', loadSavedTheme);
+
+
 // --- Admin Panel Section Switching ---
 function showAdminSection(sectionId) {
   document.querySelectorAll('.admin-section').forEach(sec => {
